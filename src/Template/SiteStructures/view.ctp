@@ -8,13 +8,17 @@
     </ul>
 </div>
 <div class="siteStructures view large-10 medium-9 columns">
-    <h2><?= h($siteStructure->id) ?></h2>
+    <h2><?= h($siteStructure->label) ?></h2>
     <div class="row">
         <div class="large-2 columns numbers end">
             <h6 class="subheader"><?= __('Id') ?></h6>
             <p><?= $this->Number->format($siteStructure->id) ?></p>
             <h6 class="subheader"><?= __('Model') ?></h6>
             <p><?= $this->Number->format($siteStructure->model) ?></p>
+            <h6 class="subheader"><?= __('Label') ?></h6>
+            <p><?= $siteStructure->label ?></p>
         </div>
     </div>
 </div>
+			<pre><?= var_export($siteStructure->child_site_structures) ?></pre>
+

@@ -22,7 +22,7 @@ class SiteStructuresTable extends Table
     public function initialize(array $config)
     {
         $this->table('site_structures');
-        $this->displayField('id');
+        $this->displayField('label');
         $this->primaryKey('id');
         $this->belongsToMany('ChildSiteStructures', [
             'through' => 'ChildSiteStructuresSiteStructures',

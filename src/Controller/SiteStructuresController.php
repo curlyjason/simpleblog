@@ -32,7 +32,7 @@ class SiteStructuresController extends AppController
     public function view($id = null)
     {
         $siteStructure = $this->SiteStructures->get($id, [
-            'contain' => []
+            'contain' => ['ChildSiteStructures']
         ]);
         $this->set('siteStructure', $siteStructure);
         $this->set('_serialize', ['siteStructure']);
