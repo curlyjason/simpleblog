@@ -24,6 +24,9 @@ class BlocksTable extends Table
         $this->table('blocks');
         $this->displayField('id');
         $this->primaryKey('id');
+		$this->belongsToMany('ChildBlocks', [
+			'through' => 'ChildBlocksBlocks'
+		]);
     }
 
     /**
