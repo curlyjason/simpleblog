@@ -1,7 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\ChildSiteStructure;
+use App\Model\Entity\Structure;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
 /**
  * SiteStructures Model
  */
-class ChildSiteStructuresTable extends Table
+class StructuresTable extends Table
 {
 
     /**
@@ -22,12 +22,12 @@ class ChildSiteStructuresTable extends Table
     public function initialize(array $config)
     {
         $this->table('site_structures');
-        $this->displayField('id');
+        $this->displayField('label');
         $this->primaryKey('id');
-        $this->belongsToMany('SiteStructures', [
-            'through' => 'ChildSiteStructuresSiteStructures',
+        $this->belongsToMany('ChildStructures', [
+            'through' => 'ChildStructuresStructures',
         ]);
-	}
+    }
 
     /**
      * Default validation rules.

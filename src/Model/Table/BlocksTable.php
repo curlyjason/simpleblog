@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\SiteStructure;
+use App\Model\Entity\Block;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * SiteStructures Model
+ * Blocks Model
  */
-class SiteStructuresTable extends Table
+class BlocksTable extends Table
 {
 
     /**
@@ -21,12 +21,9 @@ class SiteStructuresTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('site_structures');
-        $this->displayField('label');
+        $this->table('blocks');
+        $this->displayField('id');
         $this->primaryKey('id');
-        $this->belongsToMany('ChildSiteStructures', [
-            'through' => 'ChildSiteStructuresSiteStructures',
-        ]);
     }
 
     /**
@@ -42,8 +39,22 @@ class SiteStructuresTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->add('model', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('model');
+            
+        $validator
+            ->allowEmpty('label');
+            
+        $validator
+            ->allowEmpty('controller');
+            
+        $validator
+            ->allowEmpty('action');
+            
+        $validator
+            ->allowEmpty('query');
+            
+        $validator
+            ->allowEmpty('hash');
 
         return $validator;
     }

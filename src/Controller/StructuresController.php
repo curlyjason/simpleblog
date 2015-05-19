@@ -4,11 +4,11 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * SiteStructures Controller
+ * Structures Controller
  *
- * @property \App\Model\Table\SiteStructuresTable $SiteStructures
+ * @property \App\Model\Table\StructuresTable $Structures
  */
-class SiteStructuresController extends AppController
+class StructuresController extends AppController
 {
 
     /**
@@ -18,7 +18,7 @@ class SiteStructuresController extends AppController
      */
     public function index()
     {
-        $this->set('siteStructures', $this->paginate($this->SiteStructures));
+        $this->set('siteStructures', $this->paginate($this->Structures));
         $this->set('_serialize', ['siteStructures']);
     }
 
@@ -31,8 +31,8 @@ class SiteStructuresController extends AppController
      */
     public function view($id = null)
     {
-        $siteStructure = $this->SiteStructures->get($id, [
-            'contain' => ['ChildSiteStructures']
+        $siteStructure = $this->Structures->get($id, [
+            'contain' => ['ChildStructures']
         ]);
         $this->set('siteStructure', $siteStructure);
         $this->set('_serialize', ['siteStructure']);
@@ -45,10 +45,10 @@ class SiteStructuresController extends AppController
      */
     public function add()
     {
-        $siteStructure = $this->SiteStructures->newEntity();
+        $siteStructure = $this->Structures->newEntity();
         if ($this->request->is('post')) {
-            $siteStructure = $this->SiteStructures->patchEntity($siteStructure, $this->request->data);
-            if ($this->SiteStructures->save($siteStructure)) {
+            $siteStructure = $this->Structures->patchEntity($siteStructure, $this->request->data);
+            if ($this->Structures->save($siteStructure)) {
                 $this->Flash->success('The site structure has been saved.');
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -68,12 +68,12 @@ class SiteStructuresController extends AppController
      */
     public function edit($id = null)
     {
-        $siteStructure = $this->SiteStructures->get($id, [
+        $siteStructure = $this->Structures->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $siteStructure = $this->SiteStructures->patchEntity($siteStructure, $this->request->data);
-            if ($this->SiteStructures->save($siteStructure)) {
+            $siteStructure = $this->Structures->patchEntity($siteStructure, $this->request->data);
+            if ($this->Structures->save($siteStructure)) {
                 $this->Flash->success('The site structure has been saved.');
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -94,8 +94,8 @@ class SiteStructuresController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $siteStructure = $this->SiteStructures->get($id);
-        if ($this->SiteStructures->delete($siteStructure)) {
+        $siteStructure = $this->Structures->get($id);
+        if ($this->Structures->delete($siteStructure)) {
             $this->Flash->success('The site structure has been deleted.');
         } else {
             $this->Flash->error('The site structure could not be deleted. Please, try again.');

@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * SiteStructure Entity.
+ * Block Entity.
  */
-class SiteStructure extends Entity
+class Block extends Entity
 {
 
     /**
@@ -16,5 +16,10 @@ class SiteStructure extends Entity
      */
     protected $_accessible = [
         'model' => true,
+        'label' => true,
+        'controller' => true,
+        'action' => true,
+        'query' => true,
+        'hash' => true,
     ];
 }

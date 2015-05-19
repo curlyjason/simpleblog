@@ -1,7 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\ChildSiteStructuresSiteStructure;
+use App\Model\Entity\ChildStructuresStructure;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
 /**
  * ChildSiteStructuresSiteStructures Model
  */
-class ChildSiteStructuresSiteStructuresTable extends Table
+class ChildStructuresStructuresTable extends Table
 {
 
     /**
@@ -25,10 +25,10 @@ class ChildSiteStructuresSiteStructuresTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('SiteStructures', [
+        $this->belongsTo('Structures', [
             'foreignKey' => 'site_structure_id'
         ]);
-        $this->belongsTo('ChildSiteStructures', [
+        $this->belongsTo('ChildStructures', [
             'foreignKey' => 'child_site_structure_id'
         ]);
     }
@@ -70,8 +70,8 @@ class ChildSiteStructuresSiteStructuresTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['site_structure_id'], 'SiteStructures'));
-        $rules->add($rules->existsIn(['child_site_structure_id'], 'ChildSiteStructures'));
+        $rules->add($rules->existsIn(['site_structure_id'], 'Structures'));
+        $rules->add($rules->existsIn(['child_site_structure_id'], 'ChildStructures'));
         return $rules;
     }
 }

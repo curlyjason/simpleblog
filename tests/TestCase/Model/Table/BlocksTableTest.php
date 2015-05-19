@@ -1,14 +1,14 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\StructuresTable;
+use App\Model\Table\BlocksTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\SiteStructuresTable Test Case
+ * App\Model\Table\BlocksTable Test Case
  */
-class SiteStructuresTableTest extends TestCase
+class BlocksTableTest extends TestCase
 {
 
     /**
@@ -17,7 +17,7 @@ class SiteStructuresTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.site_structures'
+        'app.blocks'
     ];
 
     /**
@@ -28,8 +28,8 @@ class SiteStructuresTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('SiteStructures') ? [] : ['className' => 'App\Model\Table\SiteStructuresTable'];
-        $this->SiteStructures = TableRegistry::get('SiteStructures', $config);
+        $config = TableRegistry::exists('Blocks') ? [] : ['className' => 'App\Model\Table\BlocksTable'];
+        $this->Blocks = TableRegistry::get('Blocks', $config);
     }
 
     /**
@@ -39,7 +39,7 @@ class SiteStructuresTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->SiteStructures);
+        unset($this->Blocks);
 
         parent::tearDown();
     }

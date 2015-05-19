@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * ChildSiteStructuresSiteStructure Entity.
  */
-class ChildSiteStructuresSiteStructure extends Entity
+class ChildStructuresStructure extends Entity
 {
 
     /**

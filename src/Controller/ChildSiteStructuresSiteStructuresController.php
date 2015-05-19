@@ -6,7 +6,7 @@ use App\Controller\AppController;
 /**
  * ChildSiteStructuresSiteStructures Controller
  *
- * @property \App\Model\Table\ChildSiteStructuresSiteStructuresTable $ChildSiteStructuresSiteStructures
+ * @property \App\Model\Table\ChildStructuresStructuresTable $ChildSiteStructuresSiteStructures
  */
 class ChildSiteStructuresSiteStructuresController extends AppController
 {
