@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * ChildMenusMenu Entity.
+ * ChildBlocksBlock Entity.
  */
-class ChildMenusMenu extends Entity
+class ChildBlocksBlock extends Entity
 {
 
     /**
@@ -15,9 +15,13 @@ class ChildMenusMenu extends Entity
      * @var array
      */
     protected $_accessible = [
-        'menu_id' => true,
-        'child_menu_id' => true,
-        'menu' => true,
-        'child_menu' => true,
+        'block_id' => true,
+        'child_block_id' => true,
+        'search_keys' => true,
+        'render_style' => true,
+        'filter' => true,
+        'query_limit' => true,
+        'block' => true,
+        'child_block' => true,
     ];
 }

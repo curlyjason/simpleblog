@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\ChildMenusMenu;
+use App\Model\Entity\ChildBlocksBlock;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * ChildMenusMenus Model
+ * ChildBlocksBlocks Model
  */
-class ChildMenusMenusTable extends Table
+class ChildBlocksBlocksTable extends Table
 {
 
     /**
@@ -21,14 +21,15 @@ class ChildMenusMenusTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('child_menus_menus');
+        $this->table('child_blocks_blocks');
         $this->displayField('id');
         $this->primaryKey('id');
-        $this->belongsTo('Menus', [
-            'foreignKey' => 'menu_id'
+        $this->addBehavior('Timestamp');
+        $this->belongsTo('Blocks', [
+            'foreignKey' => 'block_id'
         ]);
-        $this->belongsTo('ChildMenus', [
-            'foreignKey' => 'child_menu_id'
+        $this->belongsTo('ChildBlocks', [
+            'foreignKey' => 'child_block_id'
         ]);
     }
 
@@ -43,6 +44,19 @@ class ChildMenusMenusTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
+            
+        $validator
+            ->allowEmpty('search_keys');
+            
+        $validator
+            ->allowEmpty('render_style');
+            
+        $validator
+            ->allowEmpty('filter');
+            
+        $validator
+            ->add('query_limit', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('query_limit');
 
         return $validator;
     }
@@ -56,8 +70,8 @@ class ChildMenusMenusTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['menu_id'], 'Menus'));
-        $rules->add($rules->existsIn(['child_menu_id'], 'ChildMenus'));
+        $rules->add($rules->existsIn(['block_id'], 'Blocks'));
+        $rules->add($rules->existsIn(['child_block_id'], 'ChildBlocks'));
         return $rules;
     }
 }
