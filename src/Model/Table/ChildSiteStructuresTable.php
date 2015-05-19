@@ -24,7 +24,10 @@ class ChildSiteStructuresTable extends Table
         $this->table('site_structures');
         $this->displayField('id');
         $this->primaryKey('id');
-    }
+        $this->belongsToMany('SiteStructures', [
+            'through' => 'ChildSiteStructuresSiteStructures',
+        ]);
+	}
 
     /**
      * Default validation rules.

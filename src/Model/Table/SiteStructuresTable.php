@@ -24,6 +24,9 @@ class SiteStructuresTable extends Table
         $this->table('site_structures');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->belongsToMany('ChildSiteStructures', [
+            'through' => 'ChildSiteStructuresSiteStructures',
+        ]);
     }
 
     /**
