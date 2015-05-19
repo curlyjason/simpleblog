@@ -3,17 +3,17 @@
     <ul class="side-nav">
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $block->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $block->id)]
+                ['action' => 'delete', $menu->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $menu->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List Blocks'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Menus'), ['action' => 'index']) ?></li>
     </ul>
 </div>
-<div class="blocks form large-10 medium-9 columns">
-    <?= $this->Form->create($block); ?>
+<div class="menus form large-10 medium-9 columns">
+    <?= $this->Form->create($menu); ?>
     <fieldset>
-        <legend><?= __('Edit Block') ?></legend>
+        <legend><?= __('Edit Menu') ?></legend>
         <?php
             echo $this->Form->input('model');
             echo $this->Form->input('label');

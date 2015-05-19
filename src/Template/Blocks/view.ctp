@@ -8,7 +8,7 @@
     </ul>
 </div>
 <div class="blocks view large-10 medium-9 columns">
-    <h2><?= h($block->id) ?></h2>
+    <h2><?= h($block->label) ?></h2>
     <div class="row">
         <div class="large-5 columns strings">
             <h6 class="subheader"><?= __('Model') ?></h6>
@@ -30,3 +30,4 @@
         </div>
     </div>
 </div>
+<pre><?= debug($block); ?></pre>

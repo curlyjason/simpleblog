@@ -4,11 +4,11 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * Blocks Controller
+ * Menus Controller
  *
- * @property \App\Model\Table\BlocksTable $Blocks
+ * @property \App\Model\Table\MenusTable $Menus
  */
-class BlocksController extends AppController
+class MenusController extends AppController
 {
 
     /**
@@ -18,24 +18,24 @@ class BlocksController extends AppController
      */
     public function index()
     {
-        $this->set('blocks', $this->paginate($this->Blocks));
-        $this->set('_serialize', ['blocks']);
+        $this->set('menus', $this->paginate($this->Menus));
+        $this->set('_serialize', ['menus']);
     }
 
     /**
      * View method
      *
-     * @param string|null $id Block id.
+     * @param string|null $id Menu id.
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $block = $this->Blocks->get($id, [
-            'contain' => []
+        $menu = $this->Menus->get($id, [
+            'contain' => ['ChildMenus']
         ]);
-        $this->set('block', $block);
-        $this->set('_serialize', ['block']);
+        $this->set('menu', $menu);
+        $this->set('_serialize', ['menu']);
     }
 
     /**
@@ -45,60 +45,60 @@ class BlocksController extends AppController
      */
     public function add()
     {
-        $block = $this->Blocks->newEntity();
+        $menu = $this->Menus->newEntity();
         if ($this->request->is('post')) {
-            $block = $this->Blocks->patchEntity($block, $this->request->data);
-            if ($this->Blocks->save($block)) {
-                $this->Flash->success('The block has been saved.');
+            $menu = $this->Menus->patchEntity($menu, $this->request->data);
+            if ($this->Menus->save($menu)) {
+                $this->Flash->success('The menu has been saved.');
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('The block could not be saved. Please, try again.');
+                $this->Flash->error('The menu could not be saved. Please, try again.');
             }
         }
-        $this->set(compact('block'));
-        $this->set('_serialize', ['block']);
+        $this->set(compact('menu'));
+        $this->set('_serialize', ['menu']);
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Block id.
+     * @param string|null $id Menu id.
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $block = $this->Blocks->get($id, [
+        $menu = $this->Menus->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $block = $this->Blocks->patchEntity($block, $this->request->data);
-            if ($this->Blocks->save($block)) {
-                $this->Flash->success('The block has been saved.');
+            $menu = $this->Menus->patchEntity($menu, $this->request->data);
+            if ($this->Menus->save($menu)) {
+                $this->Flash->success('The menu has been saved.');
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('The block could not be saved. Please, try again.');
+                $this->Flash->error('The menu could not be saved. Please, try again.');
             }
         }
-        $this->set(compact('block'));
-        $this->set('_serialize', ['block']);
+        $this->set(compact('menu'));
+        $this->set('_serialize', ['menu']);
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Block id.
+     * @param string|null $id Menu id.
      * @return void Redirects to index.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $block = $this->Blocks->get($id);
-        if ($this->Blocks->delete($block)) {
-            $this->Flash->success('The block has been deleted.');
+        $menu = $this->Menus->get($id);
+        if ($this->Menus->delete($menu)) {
+            $this->Flash->success('The menu has been deleted.');
         } else {
-            $this->Flash->error('The block could not be deleted. Please, try again.');
+            $this->Flash->error('The menu could not be deleted. Please, try again.');
         }
         return $this->redirect(['action' => 'index']);
     }

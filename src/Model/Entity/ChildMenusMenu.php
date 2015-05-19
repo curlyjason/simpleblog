@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * ChildBlocksBlock Entity.
+ * ChildMenusMenu Entity.
  */
-class ChildBlocksBlock extends Entity
+class ChildMenusMenu extends Entity
 {
 
     /**

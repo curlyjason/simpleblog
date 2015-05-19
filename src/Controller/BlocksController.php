@@ -32,7 +32,7 @@ class BlocksController extends AppController
     public function view($id = null)
     {
         $block = $this->Blocks->get($id, [
-            'contain' => []
+            'contain' => ['ChildBlocks']
         ]);
         $this->set('block', $block);
         $this->set('_serialize', ['block']);

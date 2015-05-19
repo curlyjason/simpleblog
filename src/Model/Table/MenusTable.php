@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Block;
+use App\Model\Entity\Menu;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Blocks Model
+ * Menus Model
  */
-class BlocksTable extends Table
+class MenusTable extends Table
 {
 
     /**
@@ -24,8 +24,8 @@ class BlocksTable extends Table
         $this->table('blocks');
         $this->displayField('id');
         $this->primaryKey('id');
-		$this->belongsToMany('ChildBlocks', [
-			'through' => 'ChildBlocksBlocks'
+		$this->belongsToMany('ChildMenus', [
+			'through' => 'ChildMenusMenus'
 		]);
     }
 

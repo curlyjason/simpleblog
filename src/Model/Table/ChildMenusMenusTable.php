@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\ChildBlocksBlock;
+use App\Model\Entity\ChildMenusMenu;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * ChildBlocksBlocks Model
+ * ChildMenusMenus Model
  */
-class ChildBlocksBlocksTable extends Table
+class ChildMenusMenusTable extends Table
 {
 
     /**
@@ -21,15 +21,15 @@ class ChildBlocksBlocksTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('child_blocks_blocks');
+        $this->table('child_menus_menus');
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Blocks', [
-            'foreignKey' => 'block_id'
+        $this->belongsTo('Menus', [
+            'foreignKey' => 'menu_id'
         ]);
-        $this->belongsTo('ChildBlocks', [
-            'foreignKey' => 'child_block_id'
+        $this->belongsTo('ChildMenus', [
+            'foreignKey' => 'child_menu_id'
         ]);
     }
 
@@ -70,8 +70,8 @@ class ChildBlocksBlocksTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['block_id'], 'Blocks'));
-        $rules->add($rules->existsIn(['child_block_id'], 'ChildBlocks'));
+        $rules->add($rules->existsIn(['block_id'], 'Menus'));
+        $rules->add($rules->existsIn(['child_block_id'], 'ChildMenus'));
         return $rules;
     }
 }

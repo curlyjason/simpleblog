@@ -1,10 +1,10 @@
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
-        <li><?= $this->Html->link(__('New Block'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Menu'), ['action' => 'add']) ?></li>
     </ul>
 </div>
-<div class="blocks index large-10 medium-9 columns">
+<div class="menus index large-10 medium-9 columns">
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
@@ -19,19 +19,19 @@
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($blocks as $block): ?>
+    <?php foreach ($menus as $menu): ?>
         <tr>
-            <td><?= $this->Number->format($block->id) ?></td>
-            <td><?= h($block->model) ?></td>
-            <td><?= h($block->label) ?></td>
-            <td><?= h($block->controller) ?></td>
-            <td><?= h($block->action) ?></td>
-            <td><?= h($block->query) ?></td>
-            <td><?= h($block->hash) ?></td>
+            <td><?= $this->Number->format($menu->id) ?></td>
+            <td><?= h($menu->model) ?></td>
+            <td><?= h($menu->label) ?></td>
+            <td><?= h($menu->controller) ?></td>
+            <td><?= h($menu->action) ?></td>
+            <td><?= h($menu->query) ?></td>
+            <td><?= h($menu->hash) ?></td>
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $block->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $block->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $block->id], ['confirm' => __('Are you sure you want to delete # {0}?', $block->id)]) ?>
+                <?= $this->Html->link(__('View'), ['action' => 'view', $menu->id]) ?>
+                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $menu->id]) ?>
+                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $menu->id], ['confirm' => __('Are you sure you want to delete # {0}?', $menu->id)]) ?>
             </td>
         </tr>
 

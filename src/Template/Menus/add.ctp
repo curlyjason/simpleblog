@@ -1,13 +1,13 @@
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
-        <li><?= $this->Html->link(__('List Blocks'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Menus'), ['action' => 'index']) ?></li>
     </ul>
 </div>
-<div class="blocks form large-10 medium-9 columns">
-    <?= $this->Form->create($block); ?>
+<div class="menus form large-10 medium-9 columns">
+    <?= $this->Form->create($menu); ?>
     <fieldset>
-        <legend><?= __('Add Block') ?></legend>
+        <legend><?= __('Add Menu') ?></legend>
         <?php
             echo $this->Form->input('model');
             echo $this->Form->input('label');
