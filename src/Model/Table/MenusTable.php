@@ -25,10 +25,9 @@ class MenusTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 		$this->belongsToMany('ChildMenus', [
-			'through' => 'ChildMenusMenus'
-		]);
-		$this->hasMany('ChildMenusMenus', [
-			'foreignKey' => 'menu_id'
+			'through' => 'ChildMenusMenus',
+			'foreignKey' => 'menu_id',
+			'targetForeignKey' => 'child_menu_id'
 		]);
     }
 

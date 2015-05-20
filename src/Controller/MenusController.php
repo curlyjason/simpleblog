@@ -32,7 +32,8 @@ class MenusController extends AppController
     public function view($id = null)
     {
         $menu = $this->Menus->get($id, [
-            'contain' => ['ChildMenusMenus' => ['ChildMenus']]
+//            'contain' => ['ChildMenusMenus' => ['ChildMenus']]
+            'contain' => ['ChildMenus']
         ]);
         $this->set('menu', $menu);
         $this->set('_serialize', ['menu']);
