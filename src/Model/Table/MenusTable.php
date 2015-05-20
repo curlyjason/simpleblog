@@ -27,6 +27,9 @@ class MenusTable extends Table
 		$this->belongsToMany('ChildMenus', [
 			'through' => 'ChildMenusMenus'
 		]);
+		$this->hasMany('ChildMenusMenus', [
+			'foreignKey' => 'menu_id'
+		]);
     }
 
     /**
