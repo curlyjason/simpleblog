@@ -22,4 +22,9 @@ class Menu extends Entity
         'query' => true,
         'hash' => true,
     ];
+	
+	public function __construct(array $properties = array(), array $options = array()) {
+		$properties = array_merge(['model' => 'Menus'], $properties);
+		parent::__construct($properties, $options);
+	}
 }
