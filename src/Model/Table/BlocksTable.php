@@ -61,4 +61,12 @@ class BlocksTable extends Table
 
         return $validator;
     }
+	
+	public function findBlocks(Query $query, array $options) {
+		$query->where([
+			'Blocks.model' => 'Blocks'
+		]);
+		return $query;
+	}
+
 }

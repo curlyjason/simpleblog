@@ -18,7 +18,7 @@ class BlocksController extends AppController
      */
     public function index()
     {
-        $this->set('blocks', $this->paginate($this->Blocks));
+        $this->set('blocks', $this->paginate($this->Blocks->find('blocks')));
         $this->set('_serialize', ['blocks']);
     }
 
