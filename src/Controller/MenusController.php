@@ -10,6 +10,8 @@ use App\Controller\AppController;
  */
 class MenusController extends AppController
 {
+	
+	protected $_associations = NULL;
 
     /**
      * Index method
@@ -61,9 +63,23 @@ class MenusController extends AppController
                 $this->Flash->error('The menu could not be saved. Please, try again.');
             }
         }
+		$this->Menus->whitelist = ['label', 'controller', 'action'];
+		$foreignKeys = $this->Menus->foreignKeys();
+		$this->_belongsToManyOptions();
+		$associations = $this->_associations;
+		$columns = $this->Menus->columns();
+		$this->set(compact('foreignKeys', 'columns', 'associations'));
         $this->set(compact('menu'));
-        $this->set('_serialize', ['menu']);
+		$this->render('/CRUD/add');
     }
+	
+	protected function _belongsToManyOptions(){
+		$this->_associations = $this->Menus->filteredAssociations($this->Menus);
+		foreach (array_keys($this->_associations['BelongsToMany']) as $alias) {
+			${$this->_associations['BelongsToMany'][$alias]['variable']} = $this->Menus->$alias->find('list');
+			$this->set($this->_associations['BelongsToMany'][$alias]['variable'], ${$this->_associations['BelongsToMany'][$alias]['variable']});
+		}
+	}
 
     /**
      * Edit method
@@ -86,8 +102,16 @@ class MenusController extends AppController
                 $this->Flash->error('The menu could not be saved. Please, try again.');
             }
         }
+		$this->Menus->whitelist = ['label', 'controller', 'action'];
+		$foreignKeys = $this->Menus->foreignKeys();
+		$this->_belongsToManyOptions();
+		$associations = $this->_associations;
+		$columns = $this->Menus->columns();
+		$this->set(compact('foreignKeys', 'columns', 'associations'));
         $this->set(compact('menu'));
+//        $this->set(compact('menu'));
         $this->set('_serialize', ['menu']);
+		$this->render('/CRUD/add');
     }
 
     /**

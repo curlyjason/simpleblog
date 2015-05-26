@@ -21,7 +21,7 @@ class ChildMenusTable extends MenusTable
     public function initialize(array $config)
     {
         $this->table('blocks');
-        $this->displayField('id');
+        $this->displayField('label');
         $this->primaryKey('id');
 		$this->belongsToMany('Menus', [
 			'through' => 'ChildMenusMenus'

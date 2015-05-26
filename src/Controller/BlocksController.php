@@ -81,7 +81,7 @@ class BlocksController extends AppController
             }
         }
         $this->set(compact('block'));
-        $this->set('_serialize', ['block']);
+//        $this->set('_serialize', ['block']);
     }
 
     /**

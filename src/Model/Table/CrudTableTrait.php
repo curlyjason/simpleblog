@@ -16,6 +16,7 @@
  */
 
 namespace App\Model\Table;
+use Bake\Utility\Model\AssociationFilter;
 
 /**
  * CakePHP CrudTableTrait
@@ -105,6 +106,13 @@ trait CrudTableTrait {
 	protected $_columns;
 
 	/**
+     * AssociationFilter utility
+     *
+     * @var AssociationFilter
+     */
+    protected $_associationFilter = null;
+
+	/**
 	 * Get an array of the foreign keys in this table and inormation about the associations
 	 * 
 	 * @return array
@@ -187,6 +195,21 @@ trait CrudTableTrait {
 //		debug($this->_columns);
 		return $this->_columns;
 	}
+	
+    /**
+     * Get filtered associations
+     * To be mocked...
+     *
+     * @param \Cake\ORM\Table $model Table
+     * @return array associations
+     */
+    public function filteredAssociations($model)
+    {
+        if (is_null($this->_associationFilter)) {
+            $this->_associationFilter = new AssociationFilter();
+        }
+        return $this->_associationFilter->filterAssociations($model);
+    }
 }
 
 
