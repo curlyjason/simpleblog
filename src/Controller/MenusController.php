@@ -18,8 +18,13 @@ class MenusController extends AppController
      */
     public function index()
     {
-        $this->set('menus', $this->paginate($this->Menus));
+        $this->set('menus', $this->paginate($this->Menus->find('menus')));
         $this->set('_serialize', ['menus']);
+		$this->Menus->whitelist = ['id', 'label', 'controller', 'action'];
+		$foreignKeys = $this->Menus->foreignKeys();
+		$columns = $this->Menus->columns();
+		$this->set(compact('foreignKeys', 'columns'));
+		$this->render('/CRUD/index');
     }
 
     /**
