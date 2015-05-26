@@ -3,3 +3,5 @@
 /tmp/*
 /logs/*
 nbproject/private/private.xml
+project.properties
+config.properties
