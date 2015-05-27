@@ -36,6 +36,11 @@ class MenusTable extends Table {
 			'foreignKey' => 'child_menu_id',
 			'targetForeignKey' => 'menu_id'
 		]);
+		$this->hasMany('MenuSupplements', [
+			'foreignKey' => 'child_menu_id',
+			'finder' => 'supplements'
+		]);
+//		debug($this->associations());
 	}
 
 	/**
