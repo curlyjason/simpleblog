@@ -13,8 +13,6 @@ use Cake\Validation\Validator;
  */
 class MenusTable extends Table {
 
-	use CrudTableTrait;
-
 	/**
 	 * Initialize method
 	 *

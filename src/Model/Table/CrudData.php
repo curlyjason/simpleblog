@@ -22,7 +22,7 @@ use Bake\Utility\Model\AssociationFilter;
  * CakePHP CrudTableTrait
  * @author dondrake
  */
-trait CrudTableTrait {
+class CrudData {
 	
 	/**
 	 * This is just for reference. 
@@ -85,7 +85,7 @@ trait CrudTableTrait {
 	 *
 	 * @var array
 	 */
-	public $whitelist;
+	protected $_whitelist;
 	
 	/**
 	 * fields to exclude from the columns list
@@ -94,9 +94,9 @@ trait CrudTableTrait {
 	 *
 	 * @var array
 	 */
-	public $blacklist;
+	protected $_blacklist;
 	
-	public $type_override;
+	protected $_override;
 
 	/**
 	 * 
@@ -110,55 +110,116 @@ trait CrudTableTrait {
      *
      * @var AssociationFilter
      */
-    protected $_associationFilter = null;
-
+    protected $_associationFilter;
+	
+	protected $_table;
+	
 	/**
-	 * Get an array of the foreign keys in this table and inormation about the associations
+	 * Create a fully populated information object for guiding abstracted output of table data
 	 * 
-	 * @return array
+	 * allowed options keys
+	 * 'whitelist' -- array of desired fields
+	 * 'blacklist' -- array of fields to exclude
+	 * 'override' -- hash of fieldnames and types. To force columns to a special type.
+	 * whitelist will win if both are present
+	 * 
+	 * @param \Cake\ORM\Table $table
+	 * @param array $options
 	 */
-	public function foreignKeys() {
-		if (!$this->_foreign_keys) {
-			$this->_foreign_keys = [];
-			$keys = $this->associationCollection()->keys();
-			foreach ($keys as $assoc_name) {
-				$association = $this->AssociationCollection->get($assoc_name);
-				$this->_foreign_keys[$association->foreignKey()] = [
-					'owner' => $association->isOwningSide($this),
-					'association_type' => $association->type(),
-					'name' => $association->name(), 
-					'property' => $association->property()
-				];
+	public function __construct(\Cake\ORM\Table $table, $options = []) {
+		if (!empty($options)) {
+			if (isset($options['blacklist'])) {
+				$this->_blacklist = $options['blacklist'];
+			}
+			if (isset($options['whitelist'])) {
+				$this->_whitelist = $options['whitelist'];
+			}
+			if (isset($options['override'])) {
+				$this->_override = $options['override'];
 			}
 		}
-//		debug($this->foreign_keys);
-		return $this->_foreign_keys;
+		$this->_table = $table;
+		$this->update();
 	}
 	
-	/**
-	 * Get an array of the BelongsTo associations for this model
-	 * 
-	 * @return array
-	 */
-//	public function belongsTo() {
-//		$belongsTo = $this->associationCollection()->type('BelongsTo');
-////		debug(($belongsTo));
-////		debug(count($belongsTo));
-//		return $belongsTo;
-//	}
+	public function update() {
+		$this->AssociationCollection = $this->_associationCollection($this->_table);
+		$this->_foreignKeys = $this->_foreignKeys();
+		$this->_columns = $this->_columns();
+		$this->_associationFilter = $this->_filteredAssociations();
+	}
 	
+	public function whitelist($allow = FALSE) {
+		if ($allow !== FALSE) {
+			$this->_whitelist = $allow;
+			$this->update();
+		}
+		return $this->_whitelist;
+	}
+
+	public function blacklist($deny = FALSE) {
+		if ($deny !== FALSE) {
+			$this->_blacklist = $deny;
+			$this->update();
+		}
+		return $this->_blacklist;
+	}
+
+	public function override($types = FALSE) {
+		if ($types !== FALSE) {
+			$this->_override = $types;
+			$this->update();
+		}
+		return $this->_override;
+	}
+	
+	public function foreignKeys() {
+		return $this->_foreignKeys;
+	}
+
+	public function columns() {
+		return $this->_columns;
+	}
+
+	public function filteredAssociations() {
+		return $this->_associationFilter;
+	}
+
 	/**
 	 * Get the AssociationCollection for this Model
 	 * 
 	 * @return object
 	 */
-	protected function associationCollection() {
+	protected function _associationCollection() {
 		if (!$this->AssociationCollection) {
-			$this->AssociationCollection = $this->associations();
+			$this->AssociationCollection = $this->_table->associations();
 		}
 		return $this->AssociationCollection;
 	}
 	
+	/**
+	 * Get an array of the foreign keys in this table and inormation about the associations
+	 * 
+	 * @return array
+	 */
+	protected function _foreignKeys() {
+		if (!$this->_foreign_keys) {
+			$this->_foreign_keys = [];
+			$keys = $this->AssociationCollection->keys();
+			foreach ($keys as $assoc_name) {
+				$association = $this->AssociationCollection->get($assoc_name);
+				$this->_foreign_keys[$association->foreignKey()] = [
+					'owner' => $association->isOwningSide($this->_table),
+					'class' => get_class($association),
+					'association_type' => $association->type(), // oneToOne, oneToMany, manyToMany, manyToOne
+					'name' => $association->name(), 
+					'property' => $association->property()
+				];
+			}
+		}
+		return $this->_foreign_keys;
+	}
+
 	/**
 	 * Get an array of the columns and information about them for this Models table
 	 * 
@@ -170,19 +231,19 @@ trait CrudTableTrait {
 	 * 
 	 * @return array 
 	 */
-	public function columns() {
+	protected function _columns() {
 		if (!$this->_columns) {
 			$this->_columns = [];
 			$foreign_keys = array_keys($this->foreignKeys());
-			$schema = $this->schema();
+			$schema = $this->_table->schema();
 			$columns = $schema->columns();
 			foreach ($columns as $name) {
-				if ($this->whitelist) {
-					if (!in_array($name, $this->whitelist)) {
+				if ($this->_whitelist) {
+					if (!in_array($name, $this->_whitelist)) {
 						continue;
 					}
-				} elseif ($this->blacklist) {
-					if (in_array($name, $this->blacklist)) {
+				} elseif ($this->_blacklist) {
+					if (in_array($name, $this->_blacklist)) {
 						continue;
 					}
 				}
@@ -200,22 +261,14 @@ trait CrudTableTrait {
      * Get filtered associations
      * To be mocked...
      *
-     * @param \Cake\ORM\Table $model Table
+     * @param \Cake\ORM\Table $table Table
      * @return array associations
      */
-    public function filteredAssociations($model)
+    protected function _filteredAssociations()
     {
         if (is_null($this->_associationFilter)) {
             $this->_associationFilter = new AssociationFilter();
         }
-        return $this->_associationFilter->filterAssociations($model);
+        return $this->_associationFilter->filterAssociations($this->_table);
     }
-}
-
-
-class CrudData {
-	
-	public function __construct($columns, $associations) {
-		
-	}
 }

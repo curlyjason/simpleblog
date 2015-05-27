@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use \App\Model\Table\CrudData;
 /**
  * Menus Controller
  *
@@ -22,10 +22,15 @@ class MenusController extends AppController
     {
         $this->set('menus', $this->paginate($this->Menus->find('menus')));
         $this->set('_serialize', ['menus']);
-		$this->Menus->whitelist = ['id', 'label', 'controller', 'action'];
-		$foreignKeys = $this->Menus->foreignKeys();
-		$columns = $this->Menus->columns();
-		$this->set(compact('foreignKeys', 'columns'));
+
+		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'label', 'controller', 'action']]);
+//		$foreignKeys = $this->>Menus->filteredAssociations($this->Menus);
+		$this->set(compact('crud_data'));
+		debug($crud_data->foreignKeys());
+		debug($crud_data->filteredAssociations());
+		debug($crud_data->columns());
+		die;
+//		debug($this->Menus->find('supplements')->execute());
 		$this->render('/CRUD/index');
     }
 
