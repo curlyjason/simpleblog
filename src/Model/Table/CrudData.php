@@ -16,6 +16,9 @@
  */
 
 namespace App\Model\Table;
+
+use Cake\Core\ConventionsTrait;
+use App\Lib\NameConventions;
 use Bake\Utility\Model\AssociationFilter;
 
 /**
@@ -24,6 +27,8 @@ use Bake\Utility\Model\AssociationFilter;
  */
 class CrudData {
 	
+use ConventionsTrait;
+
 	/**
 	 * This is just for reference. 
 	 * 
@@ -142,6 +147,10 @@ class CrudData {
 		$this->update();
 	}
 	
+	public function alias() {
+		return new NameConventions($this->_table->alias());
+	}
+	
 	public function update() {
 		$this->AssociationCollection = $this->_associationCollection($this->_table);
 		$this->_foreignKeys = $this->_foreignKeys();
@@ -181,9 +190,21 @@ class CrudData {
 		return $this->_columns;
 	}
 
+	public function columnType($field) {
+		if (isset($this->_columns[$field])) {
+			return $this->_columns[$field]['type'];
+		} else {
+			return NULL;
+		}
+	}
 	public function filteredAssociations() {
 		return $this->_associationFilter;
 	}
+	
+//	public function entityName($name = NULL) {
+//		if 
+//		return $this->_entityName($this->alias());
+//	}
 
 	/**
 	 * Get the AssociationCollection for this Model
@@ -212,9 +233,24 @@ class CrudData {
 					'owner' => $association->isOwningSide($this->_table),
 					'class' => get_class($association),
 					'association_type' => $association->type(), // oneToOne, oneToMany, manyToMany, manyToOne
-					'name' => $association->name(), 
+					'name' => new NameConventions($association->name()), 
 					'property' => $association->property()
+					// _camelize(), _entityName(), _fixtureName(), _modelKey(), _modelNameFromKey(), _pluginNamespace(), _pluginPath(), _pluralHumanName(), _singularHumanName(), _singularName(), _variableName()
 				];
+//				echo '<pre>';
+//				echo get_class($association) . "\n";
+////				debug(get_class_methods($association));
+//				echo '_camelize :: ' . $this->_camelize($association->name()) . "\n";
+//				echo '_entityName :: ' . $this->_entityName($association->name()) . "\n";
+//				echo '_fixtureName :: ' . $this->_fixtureName($association->name()) . "\n";
+//				echo '_modelKey :: ' . $this->_modelKey($association->name()) . "\n";
+//				echo '_modelNameFromKey :: ' . $this->_modelNameFromKey($this->_modelKey($association->name())) . "\n";
+//				echo '_singularName :: ' . $this->_singularName($association->name()) . "\n";
+//				echo '_variableName :: ' . $this->_variableName($association->name()) . "\n";
+//				echo '_singularHumanName :: ' . $this->_singularHumanName($association->name()) . "\n";
+//				echo '_pluralHumanName :: ' . $this->_pluralHumanName($association->name()) . "\n";
+//				echo 'alias :: ' . $this->alias() . "\n";
+//				echo '</pre>';
 			}
 		}
 		return $this->_foreign_keys;

@@ -24,13 +24,7 @@ class MenusController extends AppController
         $this->set('_serialize', ['menus']);
 
 		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'label', 'controller', 'action']]);
-//		$foreignKeys = $this->>Menus->filteredAssociations($this->Menus);
 		$this->set(compact('crud_data'));
-		debug($crud_data->foreignKeys());
-		debug($crud_data->filteredAssociations());
-		debug($crud_data->columns());
-		die;
-//		debug($this->Menus->find('supplements')->execute());
 		$this->render('/CRUD/index');
     }
 
@@ -68,13 +62,11 @@ class MenusController extends AppController
                 $this->Flash->error('The menu could not be saved. Please, try again.');
             }
         }
-		$this->Menus->whitelist = ['label', 'controller', 'action'];
-		$foreignKeys = $this->Menus->foreignKeys();
 		$this->_belongsToManyOptions();
-		$associations = $this->_associations;
-		$columns = $this->Menus->columns();
-		$this->set(compact('foreignKeys', 'columns', 'associations'));
         $this->set(compact('menu'));
+		
+		$crud_data = new CrudData($this->Menus, ['whitelist' => ['label', 'controller', 'action']]);
+		$this->set(compact('crud_data'));
 		$this->render('/CRUD/add');
     }
 	
@@ -108,14 +100,12 @@ class MenusController extends AppController
             }
         }
 		$this->Menus->whitelist = ['label', 'controller', 'action'];
-		$foreignKeys = $this->Menus->foreignKeys();
 		$this->_belongsToManyOptions();
-		$associations = $this->_associations;
-		$columns = $this->Menus->columns();
-		$this->set(compact('foreignKeys', 'columns', 'associations'));
         $this->set(compact('menu'));
-//        $this->set(compact('menu'));
         $this->set('_serialize', ['menu']);
+
+		$crud_data = new CrudData($this->Menus, ['whitelist' => ['label', 'controller', 'action']]);
+		$this->set(compact('crud_data'));
 		$this->render('/CRUD/add');
     }
 

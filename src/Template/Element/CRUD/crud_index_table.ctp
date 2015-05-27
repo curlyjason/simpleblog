@@ -1,13 +1,12 @@
 <?php
-$collection_name = strtolower($this->request->controller);
-$entity_name = Cake\Utility\Inflector::singularize($collection_name);
+$foreignKeys = $crud_data->foreignKeys();
 ?>
 
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
 			<?php
-			foreach ($columns as $column_name => $column_specs) {
+			foreach ($crud_data->columns() as $column_name => $column_specs) {
 				echo '<th>' . $this->Paginator->sort($column_name) . '</th>';
 			}
 			?>
@@ -15,10 +14,10 @@ $entity_name = Cake\Utility\Inflector::singularize($collection_name);
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($$collection_name as $entity): ?>
+	<?php foreach (${$crud_data->alias()->variableName} as $entity): ?>
         <tr class="record">
 			<?php
-			foreach ($columns as $field => $specs) :
+			foreach ($crud_data->columns() as $field => $specs) :
 				if (isset($foreignKeys[$field]) && !$foreignKeys[$field]['owner'] && $foreignKeys[$field]['association_type'] === 'manyToOne') :
 					?>
 			            <td class="first">
@@ -29,7 +28,7 @@ $entity_name = Cake\Utility\Inflector::singularize($collection_name);
 							?>
 						</td>
 					<?php
-				elseif (!in_array($columns[$field]['type'], ['integer', 'biginteger', 'decimal', 'float'])) :
+				elseif (!in_array($crud_data->columnType($field), ['integer', 'biginteger', 'decimal', 'float'])) :
 					echo '<td class="other">' . h($entity->$field) . '</td>';
 				else :
 					echo '<td class="number">' . $this->Number->format($entity->$field) . '</td>';

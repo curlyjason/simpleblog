@@ -1,13 +1,13 @@
-<?php $ent = strtolower(Cake\Utility\Inflector::singularize($this->request->controller)); debug($$ent); debug($ent); ?>
+<?php $ent = strtolower(Cake\Utility\Inflector::singularize($this->request->controller)); //debug($$ent); debug($ent); ?>
 <?php
 $label = ucwords($this->request->action . ' ' . Cake\Utility\Inflector::singularize($this->request->controller));
      echo $this->Form->create(strtolower($label)); 
-	 debug($this->viewVars);
+//	 debug($this->viewVars);
 ?>
     <fieldset>
         <legend><?= __("$label") ?></legend>
         <?php
-			foreach ($columns as $field => $type) :
+			foreach ($crud_data->columns() as $field => $type) :
 				echo $this->Form->input($field, ['value' => (isset($$ent) ? $$ent->$field : '')]);
 			endforeach;
         if (!empty($associations['BelongsToMany'])) {
