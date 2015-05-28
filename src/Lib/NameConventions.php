@@ -60,7 +60,7 @@ class NameConventions {
 			];
 			$methods = get_class_methods($this);
 			foreach ($methods as $method) {
-				if (stristr($method, '__') || $method === '_name') {
+				if (stristr($method, '__')) {
 					continue;
 				}
 				$label = str_replace('_', '', $method);

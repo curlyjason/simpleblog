@@ -1,5 +1,5 @@
 <?php // $this->set('entity', $crud_data->_entityName($crud_data->alias())) 
-debug($crud_data->alias())?>
+//debug($crud_data->alias())?>
 <?php
 if ($this->request->action != 'add'):
 	$this->start('newDeleteActions');
