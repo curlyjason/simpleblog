@@ -11,6 +11,8 @@ use \App\Model\Table\CrudData;
 class MenusController extends AppController
 {
 	
+	public $helpers = ['Crud'];
+	
 	protected $_associations = NULL;
 
     /**
@@ -24,6 +26,7 @@ class MenusController extends AppController
         $this->set('_serialize', ['menus']);
 
 		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'label', 'controller', 'action']]);
+		$this->helpers['Crud'][] = $crud_data;
 		$this->set(compact('crud_data'));
 		$this->render('/CRUD/index');
     }
