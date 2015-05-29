@@ -5,9 +5,9 @@ use Cake\Core\ConventionsTrait;
 use Cake\Utility\Inflector;
 
 /**
- * Description of NameConventions
+ * NameConventions
  *
- * @author dondrake
+ * @author Don Drake
  */
 class NameConventions {
 	
