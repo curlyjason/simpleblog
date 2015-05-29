@@ -1,4 +1,7 @@
 <?php
+//debug($this->Crud);
+$this->Crud->useCrudData('Menus');
+debug($this->Crud);
 $foreignKeys = $crud_data->foreignKeys();
 ?>
 
@@ -14,26 +17,11 @@ $foreignKeys = $crud_data->foreignKeys();
         </tr>
     </thead>
     <tbody>
-	<?php foreach (${$crud_data->alias()->variableName} as $entity): ?>
+	<?php foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;?>
         <tr class="record">
 			<?php
 			foreach ($crud_data->columns() as $field => $specs) :
-				if (isset($foreignKeys[$field]) && !$foreignKeys[$field]['owner'] && $foreignKeys[$field]['association_type'] === 'manyToOne') :
-					?>
-			            <td class="first">
-							<?= 
-								$entity->has($foreignKeys[$field]['property']) ? 
-								$this->Html->link($entity->user->id, ['controller' => $foreignKeys[$field]['name'], 'action' => 'view', $entity->user->id]) : 
-								'' 
-							?>
-						</td>
-					<?php
-				elseif (!in_array($crud_data->columnType($field), ['integer', 'biginteger', 'decimal', 'float'])) :
-					echo '<td class="other">' . h($entity->$field) . '</td>';
-				else :
-					echo '<td class="number">' . $this->Number->format($entity->$field) . '</td>';
-				endif;
-				
+				echo "\t\t\t\t" . $this->Crud->field('index', $field) . "\n";
 			endforeach;
 			?>
             <td class="actions">
