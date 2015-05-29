@@ -21,10 +21,8 @@ class Menu extends Entity
         'action' => true,
         'query' => true,
         'hash' => true,
+        'child_menus' => true,
+        'parent_menus' => true,
+        'menu_supplements' => true,
     ];
-	
-	public function __construct(array $properties = array(), array $options = array()) {
-		$properties = array_merge(['model' => 'Menus'], $properties);
-		parent::__construct($properties, $options);
-	}
 }
