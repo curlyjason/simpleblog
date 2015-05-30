@@ -61,19 +61,19 @@ class CrudFields implements FieldOutputInterface {
 	}
 	
 	protected function integer($field, $options = []) { 
-		$this->Number->format($this->helper->entity->$field); 
+		return $this->Number->format($this->helper->entity->$field); 
 	}
 	
 	protected function biginteger($field, $options = []) {
-		$this->Number->format($this->helper->entity->$field);
+		return $this->Number->format($this->helper->entity->$field);
 	}
 	
 	protected function decimal($field, $options = []) {
-		$this->Number->format($this->helper->entity->$field);
+		return $this->Number->format($this->helper->entity->$field);
 	}
 	
 	protected function float($field, $options = []) {
-		$this->Number->format($this->helper->entity->$field);
+		return $this->Number->format($this->helper->entity->$field);
 	}
 	
 	protected function date($field, $options = []) {
