@@ -132,41 +132,6 @@ class CrudHelper extends Helper
 		return $this->Field->output($field);
 	}
 	
-//	public function indexField($field) {
-//		if ($this->fieldIsKey($field, 'manyToOne')) {
-//			return '<td>' .
-//					( $this->entity->has($this->CrudData->foreignKeys()[$field]['property']) ? 
-//					$this->Html->link(
-//							$this->entity->user->id, 
-//							[
-//								'controller' => $this->CrudData->foreignKeys()[$field]['name'], 
-//								'action' => 'view', $this->entity->user->id
-//							]
-//					) : 
-//					'' ) .
-//					'</td>';
-//		}
-//		switch ($field) {
-//			case 'integer':
-//			case 'biginteger':
-//			case 'decimal' :
-//			case 'float' :
-//				return '<td>' . $this->Number->format($this->entity->$field) . '</td>';
-//				break;
-//			default :
-//				return '<td>' . h($this->entity->$field) . '</td>';
-//		}
-//	}
-	
-//	protected function fieldIsKey($field, $association) {	
-//
-//		return (
-//				isset($this->CrudData->foreignKeys()[$field]) && 
-//				!$this->CrudData->foreignKeys()[$field]['owner'] && 
-//				$this->CrudData->foreignKeys()[$field]['association_type'] === $association
-//		);
-//	}
-
 
 	/**
 	 * var_dump output
