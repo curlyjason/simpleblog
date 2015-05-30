@@ -1,8 +1,7 @@
 <?php
 //debug($this->Crud);
 $this->Crud->useCrudData('Menus');
-debug($this->Crud);
-$foreignKeys = $crud_data->foreignKeys();
+
 ?>
 
     <table cellpadding="0" cellspacing="0">

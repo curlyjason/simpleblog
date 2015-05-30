@@ -47,6 +47,16 @@ class CrudHelper extends Helper
 	 */
 	public $CrudData;
 	
+	/**
+	 * Instance of some CrudField sub-type to do field-vlaue output
+	 * 
+	 * CrudField will do default 'view' output for all the standard field types 
+	 * and EditField will do default 'input' generation for all the types
+	 *
+	 * @var CrudField
+	 */
+	public $Field;
+	
 	public $entity;
 	
 	/**
@@ -103,57 +113,59 @@ class CrudHelper extends Helper
 	public function field($action, $field) {
 		switch ($action) {
 			case 'index':
-				return $this->indexField($field);
+//				$this->Field = new CRUD\Decorator\TableCellDecorator(new CRUD\Decorator\BelongsToDecorator(new CRUD\CrudFields($this)));
+				$this->Field = new CRUD\Decorator\TableCellDecorator(new CRUD\CrudFields($this));
 				break;
 			case 'view':
-				return $this->viewField($field);
+				$this->Field = new CRUD\CrudFields($this);
 				break;
 			case 'edit':
-				return $this->editField($field);
-				break;
 			case 'add':
-				return $this->addField($field);
+				$this->Field = new CRUD\EditFields($this);
 				break;
 
 			default:
-				return '';
+				$flavor = 'CRUD\\' . ucfirst($action) . 'Fields';
+				$this->Field = new $flavor($this);
 				break;
 		}
+		return $this->Field->output($field);
 	}
 	
-	public function indexField($field) {
-		if ($this->fieldIsKey($field, 'manyToOne')) {
-			return '<td>' .
-					( $this->entity->has($this->CrudData->foreignKeys()[$field]['property']) ? 
-					$this->Html->link(
-							$this->entity->user->id, 
-							[
-								'controller' => $this->CrudData->foreignKeys()[$field]['name'], 
-								'action' => 'view', $this->entity->user->id
-							]
-					) : 
-					'' ) .
-					'</td>';
-		}
-		switch ($field) {
-			case 'integer':
-			case 'biginteger':
-			case 'decimal' :
-			case 'float' :
-				return '<td>' . $this->Number->format($this->entity->$field) . '</td>';
-				break;
-			default :
-				return '<td>' . h($this->entity->$field) . '</td>';
-		}
-	}
+//	public function indexField($field) {
+//		if ($this->fieldIsKey($field, 'manyToOne')) {
+//			return '<td>' .
+//					( $this->entity->has($this->CrudData->foreignKeys()[$field]['property']) ? 
+//					$this->Html->link(
+//							$this->entity->user->id, 
+//							[
+//								'controller' => $this->CrudData->foreignKeys()[$field]['name'], 
+//								'action' => 'view', $this->entity->user->id
+//							]
+//					) : 
+//					'' ) .
+//					'</td>';
+//		}
+//		switch ($field) {
+//			case 'integer':
+//			case 'biginteger':
+//			case 'decimal' :
+//			case 'float' :
+//				return '<td>' . $this->Number->format($this->entity->$field) . '</td>';
+//				break;
+//			default :
+//				return '<td>' . h($this->entity->$field) . '</td>';
+//		}
+//	}
 	
-	protected function fieldIsKey($field, $association) {
-		return (
-				isset($this->CrudData->foreignKeys()[$field]) && 
-				!$this->CrudData->foreignKeys()[$field]['owner'] && 
-				$this->CrudData->foreignKeys()[$field]['association_type'] === $association
-		);
-	}
+//	protected function fieldIsKey($field, $association) {	
+//
+//		return (
+//				isset($this->CrudData->foreignKeys()[$field]) && 
+//				!$this->CrudData->foreignKeys()[$field]['owner'] && 
+//				$this->CrudData->foreignKeys()[$field]['association_type'] === $association
+//		);
+//	}
 
 
 	/**
