@@ -112,6 +112,21 @@ class CrudHelper extends Helper
 		}
 	}
 	
+	/**
+	 * The call to get product for you page. Will also do default setup if it's not done yet
+	 * 
+	 * The $field had better be one of the indexes in CrudData->column() or 
+	 * your going to burn to the ground.
+	 * 
+	 * Also needs to have CrudData set to one of the _CrudData objects. But if it's not 
+	 * the object matching the current controller name will be used.
+	 * 
+	 * And needs a Field strategy to be selected. But if it's not, the one associated 
+	 * with the current CrudData object will be used.
+	 * 
+	 * @param string $field the field name/column name
+	 * @return mixed probably a string
+	 */
 	public function output($field) {
 		if (!$this->CrudData) {
 			$this->useCrudData(ucfirst($this->request->controller));
@@ -122,12 +137,46 @@ class CrudHelper extends Helper
 		return $this->Field->output($field);
 	}
 	
+	/**
+	 * Put a field output strategy in place
+	 * 
+	 * There are two base flavors of output strategy for fields, 
+	 * 'view' and 'edit'. Each establishes one default output product for 
+	 * every field type. Once a strategy is in place (and CrudData is in place 
+	 * to provide the columns data) we can send a field name to the output() 
+	 * method and the product for that field type will be returned.
+	 * 
+	 * Custom setups can be created in two ways. 
+	 * 
+	 * First the output strategies can be decorated. The decorator may add to the 
+	 * output by adding DOM tags to every field (see TableCellDecorator), it may 
+	 * perform logic and modify some fields, leaving other untouched (see BelongsToManyDecorator), 
+	 * or it may perform other logic and interventions like substituting new content 
+	 * in place of, or near some fields.
+	 * Decorators should all extend FieldDecorator class.
+	 * 
+	 * Secondly, non-standard field types can be defined and set on the columns property 
+	 * of CrudData through the override() method and property. New sub classes of CrudField 
+	 * or EditField can be made that add processing for the new type. The type 'image' is a  
+	 * possible example. Normally a field with an image name in it would output as a string. 
+	 * An 'image' extension for CrudField would render an image tag. The EditField extension 
+	 * would render a file type input. 
+	 * 
+	 * The cake-standard crud patterns are pre-defined. Methods can be added to the class 
+	 * for custom set-ups and the name of the method can be passed in as $action. If the 
+	 * requested method isn't found, LabelDecorator/CrudFields will be returned. It will 
+	 * output <p><span>Field Name: </span>field-value</p>
+	 * 
+	 * @param string $action name of the output construction process to use
+	 */
 	public function setFieldHandler($action) {
 		switch ($action) {
+			// the four cake-standard crud setups
 			case 'index':
 				$this->Field = new CRUD\Decorator\TableCellDecorator(
 					new CRUD\Decorator\BelongsToDecorator(
-							new CRUD\CrudFields($this)));
+						new CRUD\CrudFields($this)
+					));
 				break;
 			case 'view':
 				$this->Field = new CRUD\CrudFields($this);
@@ -137,6 +186,7 @@ class CrudHelper extends Helper
 				$this->Field = new CRUD\EditFields($this);
 				break;
 
+			// your custom setups or the default result if your's isn't found
 			default:
 				if (method_exists($this, $action)) {
 					$this->Field = $this->$action();
@@ -144,7 +194,6 @@ class CrudHelper extends Helper
 					$this->Field = new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
 				}
 		}
-//		return $this->Field->output($field);
 	}
 	
 
