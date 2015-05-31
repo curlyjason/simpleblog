@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use \App\Model\Table\CrudData;
+use App\Model\Table\CrudData;
 
 /**
  * Menus Controller
@@ -31,6 +31,7 @@ class MenusController extends AppController {
 		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'user_id', 'name', 'controller', 'action']]);
 		$this->helpers['Crud'][] = $crud_data;
 		$this->set(compact('crud_data'));
+//		debug($crud_data->AssociationCollection);die;
 		$this->render('/CRUD/index');
 	}
 
@@ -43,7 +44,7 @@ class MenusController extends AppController {
 	 */
 	public function view($id = null) {
 		$menu = $this->Menus->get($id, [
-			'contain' => ['ChildMenus', 'ParentMenus', 'MenuSupplements']
+//			'contain' => ['ChildMenus', 'ParentMenus', 'MenuSupplements']
 		]);
 		$this->set('menu', $menu);
 		$this->set('_serialize', ['menu']);

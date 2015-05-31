@@ -1,6 +1,6 @@
 <?php
 //debug($this->Crud);
-$this->Crud->useCrudData('Menus');
+//$this->Crud->useCrudData(ucfirst($this->request->controller));
 
 ?>
 
@@ -20,13 +20,18 @@ $this->Crud->useCrudData('Menus');
         <tr class="record">
 			<?php
 			foreach ($crud_data->columns() as $field => $specs) :
-				echo "\t\t\t\t" . $this->Crud->field('index', $field) . "\n";
+				echo "\t\t\t\t" . $this->Crud->output($field) . "\n";
 			endforeach;
 			?>
             <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $entity->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $entity->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $entity->id], ['confirm' => __('Are you sure you want to delete # {0}?', $entity->id)]) ?>
+				<?php
+				$tools = $this->Crud->actionPattern('record', $this->request->action);
+				foreach ($tools->tools as $tool) {
+					echo $this->Crud->RecordAction->output($tools, $tool, $entity);
+//					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
+				}
+				?> <!-- 
+                 -->
             </td>
         </tr>
 
