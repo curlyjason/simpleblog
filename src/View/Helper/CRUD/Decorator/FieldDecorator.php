@@ -14,6 +14,9 @@ class FieldDecorator implements FieldOutputInterface {
 	
 	public function __construct($object) {
 		$this->base = $object;
+		if (!$this->helper) {
+			$this->helper = $this->base->helper;
+		}
 	}
 	
 	public function output($field, $options = array()) {

@@ -6,6 +6,8 @@ use Cake\View\Helper;
 class CrudHelper extends Helper
 {
 	
+	public $helpers = ['Html', 'Form'];
+
 	protected $_nativeModelActionPatterns = [
 		'index' => [['new' => 'add']],
 		'add' => [['list' => 'index']],
@@ -110,11 +112,22 @@ class CrudHelper extends Helper
 		}
 	}
 	
-	public function field($action, $field) {
+	public function output($field) {
+		if (!$this->CrudData) {
+			$this->useCrudData(ucfirst($this->request->controller));
+		}
+		if (!$this->Field) {
+			$this->setFieldHandler($this->request->action);
+		}
+		return $this->Field->output($field);
+	}
+	
+	public function setFieldHandler($action) {
 		switch ($action) {
 			case 'index':
-//				$this->Field = new CRUD\Decorator\TableCellDecorator(new CRUD\Decorator\BelongsToDecorator(new CRUD\CrudFields($this)));
-				$this->Field = new CRUD\Decorator\TableCellDecorator(new CRUD\CrudFields($this));
+				$this->Field = new CRUD\Decorator\TableCellDecorator(
+					new CRUD\Decorator\BelongsToDecorator(
+							new CRUD\CrudFields($this)));
 				break;
 			case 'view':
 				$this->Field = new CRUD\CrudFields($this);
@@ -125,11 +138,13 @@ class CrudHelper extends Helper
 				break;
 
 			default:
-				$flavor = 'CRUD\\' . ucfirst($action) . 'Fields';
-				$this->Field = new $flavor($this);
-				break;
+				if (method_exists($this, $action)) {
+					$this->Field = $this->$action();
+				} else {
+					$this->Field = new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
+				}
 		}
-		return $this->Field->output($field);
+//		return $this->Field->output($field);
 	}
 	
 

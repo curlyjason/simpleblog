@@ -13,7 +13,8 @@ use \App\Model\Table\CrudData;
 class MenusController extends AppController {
 
 	public $helpers = ['Crud'];
-	protected $_associations = NULL;
+	
+//	protected $_associations = NULL;
 
 	/**
 	 * Index method
@@ -21,13 +22,13 @@ class MenusController extends AppController {
 	 * @return void
 	 */
 	public function index() {
-		$this->set('menus', $this->paginate($this->Menus
-								->find('threaded')
-								->order(['lft' => 'ASC'])
+		$this->set('menus', $this->paginate($this->Menus->find()->contain('Users')
+//								->find('threaded')
+//								->order(['lft' => 'ASC'])
 		));
 		$this->set('_serialize', ['menus']);
 
-		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'label', 'controller', 'action']]);
+		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'user_id', 'name', 'controller', 'action']]);
 		$this->helpers['Crud'][] = $crud_data;
 		$this->set(compact('crud_data'));
 		$this->render('/CRUD/index');
