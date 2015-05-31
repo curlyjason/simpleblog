@@ -28,6 +28,7 @@ class MenusTable extends Table
 		$this->addBehavior('Tree', [
             'scope' => ['type' => 'main']
         ]);
+		$this->belongsTo('Users');
     }
 
     /**
