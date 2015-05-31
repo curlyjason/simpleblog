@@ -65,6 +65,6 @@ class RecordActionHelper extends Helper {
 	 * @return type
 	 */
 	public function example($tools, $tool, $entity){
-		return '<form>' . $this->Form->input('example') . '<button>Click</button></form>';
+		return '<form>' . $this->Form->input('example', ['label' => $tools->label($tool)]) . '<button>Click</button></form>';
 	}
 }

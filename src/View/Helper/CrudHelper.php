@@ -24,8 +24,8 @@ class CrudHelper extends Helper
 	];
 
 	protected $_recordActionPatterns = [
-//		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
-		'index' => ['edit', 'view', 'delete'],
+		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
+//		'index' => ['edit', 'view', 'delete'],
 		'add' => ['cancel', 'save'],
 		'edit' => ['cancel', 'save', 'delete'],
 		'view' => ['edit', 'delete']
