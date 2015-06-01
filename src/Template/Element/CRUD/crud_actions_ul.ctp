@@ -1,29 +1,27 @@
-<?php // $this->set('entity', $crud_data->_entityName($crud_data->alias())) 
-//debug($crud_data->alias())?>
 <?php
-if ($this->request->action != 'add'):
-	$this->start('newDeleteActions');
-	?>
-	<li><?= $this->Html->link(__("New {$this->request->controller}"), ['action' => 'add']) ?></li>
-		<?php if ($this->request->action != 'index'): ?>
-		<li><?=
-			$this->Form->postLink(
-					__('Delete'), 
-					['action' => 'delete', ${$crud_data->alias()->entityName}->id], 
-					['confirm' => __('Are you sure you want to delete # {0}?', ${$crud_data->alias()->entityName}->id)]
-			)
-			?></li>
-	<?php endif; ?>
-	<?php $this->end(); ?>
-<?php endif; ?>
+	$modelActions = $this->Crud->actionPattern('model', $this->request->action);
+	$assocActions = $this->Crud->actionPattern('associate', $this->request->action);
+?>
 <ul class="side-nav">
-	<?php
-	echo $this->fetch('newDeleteActions');
-	foreach ($crud_data->foreignKeys() as $key) :
-		?>
-		<li><?= $this->Html->link(__("List {$key['name']->singularHumanName}"), ['controller' => $key['name'], 'action' => 'index']) ?> </li>
-		<li><?= $this->Html->link(__("New {$key['name']->singularHumanName}"), ['controller' => $key['name'], 'action' => 'add']) ?> </li>
-		<?php
+
+<?php  
+// Loop for the primary models actions 
+foreach ($modelActions->tools as $tool) : 
+?>
+	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $crud_data->alias()) ?> </li>
+<?php 
+endforeach; 
+// done with the primary model
+
+// loop for the associated models
+foreach ($crud_data->foreignKeys() as $key => $value) :
+	// now loop the actions for this model
+	foreach ($assocActions->tools as $tool) :
+?>
+	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $value['name']) ?> </li>
+<?php
 	endforeach;
-	?>
+endforeach;	
+// done with the associated models and thier actions
+?>
 </ul>

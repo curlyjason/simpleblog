@@ -141,6 +141,7 @@ class CrudHelper extends Helper
 		}
 		
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
+		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 	}
 		
 	/**
