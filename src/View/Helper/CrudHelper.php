@@ -3,6 +3,7 @@ namespace App\View\Helper;
 
 use Cake\View\Helper;
 use App\View\Helper\CRUD\ToolPackage;
+use App\Lib\Collection;
 
 class CrudHelper extends Helper
 {
@@ -24,8 +25,8 @@ class CrudHelper extends Helper
 	];
 
 	protected $_recordActionPatterns = [
-		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
-//		'index' => ['edit', 'view', 'delete'],
+//		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
+		'index' => ['edit', 'view', 'delete'],
 		'add' => ['cancel', 'save'],
 		'edit' => ['cancel', 'save', 'delete'],
 		'view' => ['edit', 'delete']
@@ -130,54 +131,18 @@ class CrudHelper extends Helper
 	 */
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
-		foreach ($config as $CrudDataObject) {
-			$this->addCrudData($CrudDataObject);
-			$this->_defaultAlias = \Cake\Utility\Inflector::pluralize(\Cake\Utility\Inflector::classify($this->request->controller));
+		
+		$this->_defaultAlias = \Cake\Utility\Inflector::pluralize(\Cake\Utility\Inflector::classify($this->request->controller));
+		$this->_CrudData = new Collection();
+		$this->_Field = new Collection();
+		
+		foreach ($config as $crudData) {
+			$this->_CrudData->add($crudData->alias()->name, $crudData);
 		}
+		
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
 	}
-	
-	/**
-	 * Add another CrudData object to the class
-	 * 
-	 * @param \App\Model\Table\CrudData $data
-	 */
-	public function addCrudData(\App\Model\Table\CrudData $data) {
-		$this->_CrudData[$data->alias()->name] = $data;
-	}
-	
-	/**
-	 * Add another Field object to the class
-	 * 
-	 * @param string $alias The name to index the object by. Must match a _CrudData storage key
-	 * @param string $action The name of the Field configuration strategy to prepare
-	 */
-	public function addField($alias, $action) {
-		$this->_Field[$alias] = $this->setFieldHandler($action);
-	}
-	
-	/**
-	 * Remove a CrudData object from the class
-	 * 
-	 * @param string $alias 
-	 */
-	public function removeCrudData($alias) {
-		if (isset($this->_CrudData[$alias])) {
-			unset($this->_CrudData[$alias]);
-		}
-	}
-	
-	/**
-	 * Remove a Field object from the class
-	 * 
-	 * @param string $alias 
-	 */
-	public function removeField($alias) {
-		if (isset($this->_Field[$alias])) {
-			unset($this->_Field[$alias]);
-		}
-	}
-	
+		
 	/**
 	 * Make the chosen CrudData and its matching Field object the current ones
 	 * 
@@ -186,8 +151,8 @@ class CrudHelper extends Helper
 	 * @throws \BadMethodCallException
 	 */
 	public function useCrudData($alias) {
-		if (isset($this->_CrudData[$alias])) {
-			$this->CrudData = $this->_CrudData[$alias];
+		if ($this->_CrudData->has($alias)) {
+			$this->CrudData = $this->_CrudData->load($alias);
 			$this->useField($alias);
 			return $this->CrudData;
 		} else {
@@ -207,8 +172,8 @@ class CrudHelper extends Helper
 	 * @param string $alias
 	 */
 	public function useField($alias) {
-		if (isset($this->_Field[$alias])) {
-			$this->Field = $this->_Field[$alias];
+		if ($this->_Field->has($alias)) {
+			$this->Field = $this->_Field->load($alias);
 		}
 	}
 	
@@ -232,7 +197,8 @@ class CrudHelper extends Helper
 		
 		// we can at least have a fallback output strategy
 		if (!$this->Field) {
-			$this->addField($this->_defaultAlias, $this->request->action);
+			$this->_Field->add($this->_defaultAlias, $this->createFieldHandler($this->request->action));
+			$this->Field = $this->_Field->load($this->_defaultAlias);
 		}
 		if (!$dot && !isset($this->CrudData)) {
 			$this->useCrudData($this->_defaultAlias);
@@ -240,6 +206,7 @@ class CrudHelper extends Helper
 			$field = $dot[1];
 			$this->useCrudData($dot[0]);
 		}
+		
 		return $this->Field->output($field);
 	}
 	
@@ -275,29 +242,29 @@ class CrudHelper extends Helper
 	 * 
 	 * @param string $action name of the output construction process to use
 	 */
-	public function setFieldHandler($action) {
+	public function createFieldHandler($action) {
 		switch ($action) {
 			// the four cake-standard crud setups
 			case 'index':
-				$this->Field = new CRUD\Decorator\TableCellDecorator(
+				return new CRUD\Decorator\TableCellDecorator(
 					new CRUD\Decorator\BelongsToDecorator(
 						new CRUD\CrudFields($this)
 					));
 				break;
 			case 'view':
-				$this->Field = new CRUD\CrudFields($this);
+				return new CRUD\CrudFields($this);
 				break;
 			case 'edit':
 			case 'add':
-				$this->Field = new CRUD\EditFields($this);
+				return new CRUD\EditFields($this);
 				break;
 
 			// your custom setups or the default result if your's isn't found
 			default:
 				if (method_exists($this->FieldSetups, $action)) {
-					$this->Field = $this->FieldSetups->$action();
+					return $this->FieldSetups->$action();
 				} else {
-					$this->Field = new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
+					return new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
 				}
 		}
 	}
