@@ -51,7 +51,7 @@ class FieldSetups {
 	public function menuIndex($helper) {
 		return new Decorator\TableCellDecorator(
 //				new Decorator\LabelDecorator(
-				new Decorator\BelongsToDecorator(
+				new Decorator\BelongsToSelectDecorator(
 				new CrudFields($helper)
 		));
 	}
