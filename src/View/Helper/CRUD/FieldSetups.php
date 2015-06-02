@@ -2,6 +2,8 @@
 
 namespace App\View\Helper\CRUD;
 
+use App\View\Helper\CRUD\Decorator;
+
 /**
  * FieldSetups are your customer output configurations
  * 
@@ -27,14 +29,14 @@ class FieldSetups {
 	 * It is provided as an example of what you can do with alternate actions.
 	 * 
 	 * @param type $helper
-	 * @return \App\View\Helper\CRUD\CRUD\Decorator\TableCellDecorator
+	 * @return \App\View\Helper\CRUD\Decorator\TableCellDecorator
 	 */
 	public function status($helper) {
-		return new CRUD\Decorator\TableCellDecorator(
-				new CRUD\Decorator\LabelDecorator(
-				new CRUD\Decorator\BelongsToDecorator(
-				new CRUD\CrudFields($helper)
-		)));
+		return new Decorator\TableCellDecorator(
+//				new Decorator\LabelDecorator(
+				new Decorator\BelongsToDecorator(
+				new CrudFields($helper)
+		));
 	}
 
 	/**
@@ -44,14 +46,14 @@ class FieldSetups {
 	 * It is provided as an example of what you can do with alternate actions.
 	 * 
 	 * @param type $helper
-	 * @return \App\View\Helper\CRUD\CRUD\Decorator\TableCellDecorator
+	 * @return \App\View\Helper\CRUD\Decorator\TableCellDecorator
 	 */
 	public function menuIndex($helper) {
-		return new CRUD\Decorator\TableCellDecorator(
-				new CRUD\Decorator\LabelDecorator(
-				new CRUD\Decorator\BelongsToDecorator(
-				new CRUD\CrudFields($helper)
-		)));
+		return new Decorator\TableCellDecorator(
+//				new Decorator\LabelDecorator(
+				new Decorator\BelongsToDecorator(
+				new CrudFields($helper)
+		));
 	}
 
 }
