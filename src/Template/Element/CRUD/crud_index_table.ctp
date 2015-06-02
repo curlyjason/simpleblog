@@ -1,10 +1,4 @@
-<?php
-//debug($this->Crud);
-//$this->Crud->useCrudData(ucfirst($this->request->controller));
-
-?>
-
-    <table cellpadding="0" cellspacing="0">
+<table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
 			<?php
@@ -16,33 +10,42 @@
         </tr>
     </thead>
     <tbody>
-	<?php foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;?>
-        <tr class="record">
-			<?php
-			foreach ($crud_data->columns() as $field => $specs) :
-				echo "\t\t\t\t" . $this->Crud->output($field) . "\n";
-			endforeach;
+		<?php
+		foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;
+			$uuid = new \App\Lib\Uuid();
+			$this->Crud->entity->_uuid = $uuid;
 			?>
-            <td class="actions">
+	        <tr <?= $uuid->attr('id', 'row') ?> class="record">
+				<td hidden="TRUE">
+					<?= $this->Form->create(NULL, ['id' => $uuid->uuid('form'), 'url' => ['action' => 'edit', $entity->id]]); ?>
+					<?= $this->Form->input('id', ['value' => $entity->id]); ?>
+					<?= $this->Form->end(); ?>
+				</td>
 				<?php
-				$tools = $this->Crud->actionPattern('record', $this->request->action);
-				foreach ($tools->tools as $tool) {
-					echo $this->Crud->RecordAction->output($tools, $tool, $entity);
+				foreach ($crud_data->columns() as $field => $specs) :
+					echo "\t\t\t\t" . $this->Crud->output($field) . "\n";
+				endforeach;
+				?>
+	            <td class="actions">
+					<?php
+					$tools = $this->Crud->actionPattern('record', $this->request->action);
+					foreach ($tools->tools as $tool) {
+						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
 //					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
-				}
-				?> <!-- 
-                 -->
-            </td>
-        </tr>
+					}
+					echo $this->Form->submit('Submit', ['form' => $uuid->uuid('form')]);
+					?>
+	            </td>
+	        </tr>
 
-    <?php endforeach; ?>
+<?php endforeach; ?>
     </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
+</table>
+<div class="paginator">
+	<ul class="pagination">
+		<?= $this->Paginator->prev('< ' . __('previous')) ?>
+		<?= $this->Paginator->numbers() ?>
+<?= $this->Paginator->next(__('next') . ' >') ?>
+	</ul>
+	<p><?= $this->Paginator->counter() ?></p>
+</div>
