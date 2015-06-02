@@ -19,12 +19,17 @@ namespace App\View\Helper\CRUD\Decorator;
 class BelongsToSelectDecorator extends BelongsToDecorator {
 	
 	public function output($field, $options = array()) {
-		if ($this->fieldIsKey($field, 'manyToOne')) {
-			return $this->helper->Form->input($field,[
+		$attributes = [
 				'empty' => 'choose one',
 				'label' => FALSE,
 				'value' => $this->helper->entity->$field
-			]);
+			];
+		if($this->hasUuid()) {
+//			debug($this->helper->entity);
+			$attributes['form'] = $this->helper->entity->_uuid->uuid('form');
+		}
+		if ($this->fieldIsKey($field, 'manyToOne')) {
+			return $this->helper->Form->input($field,$attributes);
 		}
 		return $this->base->output($field, $options);
 	}

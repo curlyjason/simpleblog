@@ -22,5 +22,9 @@ class FieldDecorator implements FieldOutputInterface {
 	public function output($field, $options = array()) {
 		return $this->base->output($field, $options);
 	}
+	
+	public function hasUuid() {
+		return !is_null($this->helper->entity->_uuid);
+	}
 
 }
