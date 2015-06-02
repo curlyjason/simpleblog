@@ -27,10 +27,11 @@ class BelongsToDecorator extends FieldDecorator {
 			return ( $this->helper->entity->has($this->helper->CrudData->foreignKeys()[$field]['property']) ? 
 //					"<a href=\"/{$this->helper->CrudData->foreignKeys()[$field]['name']}/view/$output\">$output</a>" :
 					$this->helper->Html->link(
-							$output,
+							$output, //This should be a reference to the associate model's display
 							[
 								'controller' => $this->helper->CrudData->foreignKeys()[$field]['name'], 
-								'action' => 'view', $output
+								'action' => 'view',
+								$output //This should be a reference to the associate model's primary key
 							]
 					) :
 					'' );
