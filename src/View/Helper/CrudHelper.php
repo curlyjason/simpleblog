@@ -244,6 +244,9 @@ class CrudHelper extends Helper
 	 * @param string $action name of the output construction process to use
 	 */
 	public function createFieldHandler($action) {
+		if (isset($this->CrudData->_overrideAction[$action])) {
+			$action = $this->CrudData->_overrideAction[$action];
+		}
 		switch ($action) {
 			// the four cake-standard crud setups
 			case 'index':

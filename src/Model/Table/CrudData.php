@@ -102,6 +102,18 @@ use ConventionsTrait;
 	protected $_blacklist;
 	
 	protected $_override;
+	
+	/**
+	 * An alternate output setup name for a standard crud view
+	 * 
+	 * index, view, add, edit are hard-mapped to output strategies. If you want 
+	 * to use one of these views with a different output strategy, you'll need 
+	 * to set this override. ['index' => 'tree_index'] would get the 'tree_index' 
+	 * output strategy when 'index' action was in use.
+	 *
+	 * @var array
+	 */
+	protected $_overrideAction;
 
 	/**
 	 * 
@@ -145,6 +157,21 @@ use ConventionsTrait;
 		}
 		$this->_table = $table;
 		$this->update();
+	}
+	
+	/**
+	 * A way to prevent the native output strategy on standard crud actions
+	 * 
+	 * The action name will select a Field strategy in CrudHelper. And the 
+	 * four standard crud actions are hard-wired. This allows you to substitute 
+	 * a different strategy for one of the standards. Or, indeed, to substitute 
+	 * a strategy for one of your own views (though I'm not sure why you would).
+	 * 
+	 * @param string $action
+	 * @param string $alternate
+	 */
+	public function overrideActionStrategy($action, $alternate) {
+		$this->_overrideAction = [$action => $alternate];
 	}
 	
 	public function alias() {
