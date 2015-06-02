@@ -1,4 +1,5 @@
 <?php
+
 namespace App\View\Helper\CRUD;
 
 /**
@@ -11,14 +12,29 @@ namespace App\View\Helper\CRUD;
  * return new CRUD\Decorator\BelongsToDecorator(new CRUD\CrudFields($helper));
  * 
  * They should all take one argument, $helper, which is an instance of CrudHelper
+ * 
+ * The methods index(), view(), edit(), add() are reserved.
+ * If you implement them, they will never be called.
  *
  * @author dondrake
  */
 class FieldSetups {
 	
 	/**
-	 * The methods index(), view(), edit(), add() are reserved.
-	 * If you implement them, they will never be called.
+	 * Return the decorated output for the status method
+	 * 
+	 * This example method 'status' returns the same as the 'index' base action.
+	 * It is provided as an example of what you can do with alternate actions.
+	 * 
+	 * @param type $helper
+	 * @return \App\View\Helper\CRUD\CRUD\Decorator\TableCellDecorator
 	 */
-	
+	public function status($helper) {
+		return new CRUD\Decorator\TableCellDecorator(
+				new CRUD\Decorator\LabelDecorator(
+				new CRUD\Decorator\BelongsToDecorator(
+				new CRUD\CrudFields($helper)
+		)));
+	}
+
 }
