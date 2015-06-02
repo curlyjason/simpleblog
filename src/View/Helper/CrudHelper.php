@@ -144,6 +144,16 @@ class CrudHelper extends Helper
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
 	}
+	
+	protected function setDefaultAssociatedActions() {
+		$this->_associatedModelActionPatterns = new Collection();
+		$this->_associatedModelActionPatterns->add('default', [
+		'index' => [['new' => 'add'], ['List' => 'index']],
+		'add' => [['new' => 'add'], ['List' => 'index']],
+		'view' => [['new' => 'add'], ['List' => 'index']],
+		'edit' => [['new' => 'add'], ['List' => 'index']]
+	]);
+	}
 		
 	/**
 	 * Make the chosen CrudData and its matching Field object the current ones
