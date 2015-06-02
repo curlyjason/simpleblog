@@ -37,4 +37,21 @@ class FieldSetups {
 		)));
 	}
 
+	/**
+	 * Return the decorated output for the menuIndex method
+	 * 
+	 * This example method 'status' returns the same as the 'index' base action.
+	 * It is provided as an example of what you can do with alternate actions.
+	 * 
+	 * @param type $helper
+	 * @return \App\View\Helper\CRUD\CRUD\Decorator\TableCellDecorator
+	 */
+	public function menuIndex($helper) {
+		return new CRUD\Decorator\TableCellDecorator(
+				new CRUD\Decorator\LabelDecorator(
+				new CRUD\Decorator\BelongsToDecorator(
+				new CRUD\CrudFields($helper)
+		)));
+	}
+
 }

@@ -34,6 +34,7 @@ class MenusController extends AppController {
 			'whitelist' => ['id', 'type', 'name', 'controller', 'action', 'parent_id'],
 			'override' => ['parent_id' => 'selectList']
 		]);
+		$crud_data->overrideActionStrategy('index', 'menuIndex');
 		$this->helpers['Crud'][] = $crud_data;
 		$this->set(compact('crud_data'));
 //		debug($crud_data->AssociationCollection);die;

@@ -319,4 +319,18 @@ use ConventionsTrait;
         }
         return $this->_associationFilter->filterAssociations($this->_table);
     }
+	
+	/**
+	 * Return the indicated override action, or false if none
+	 * 
+	 * @param string $action
+	 * @return string or BOOLEAN FALSE
+	 */
+	public function overrideAction($action) {
+		if(isset($this->_overrideAction[$action])){
+			return $this->_overrideAction[$action];
+		} else {
+			return FALSE;
+		}
+	}
 }

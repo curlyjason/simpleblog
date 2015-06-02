@@ -244,8 +244,17 @@ class CrudHelper extends Helper
 	 * @param string $action name of the output construction process to use
 	 */
 	public function createFieldHandler($action) {
-		if (isset($this->CrudData->_overrideAction[$action])) {
-			$action = $this->CrudData->_overrideAction[$action];
+		//WARNING, HACK AHEAD!!!
+		//This was put in place because there is no chosen CrudData at this point
+		//and we need it to execute the overrideAction
+		//Need to find a smoother way to setup the CrudData, instead of having it all setup
+		//in $this->output()
+		if(!isset($this->CrudData)){
+			$this->useCrudData($this->_defaultAlias);
+		}
+		//END HACK
+		if ($this->CrudData->overrideAction($action)) {
+			$action = $this->CrudData->overrideAction($action);
 		}
 		switch ($action) {
 			// the four cake-standard crud setups
