@@ -142,6 +142,7 @@ class CrudHelper extends Helper
 		
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
+		$this->FieldSetups = new CRUD\FieldSetups;
 	}
 		
 	/**
@@ -275,7 +276,7 @@ class CrudHelper extends Helper
 			// your custom setups or the default result if your's isn't found
 			default:
 				if (method_exists($this->FieldSetups, $action)) {
-					return $this->FieldSetups->$action();
+					return $this->FieldSetups->$action($this);
 				} else {
 					return new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
 				}
