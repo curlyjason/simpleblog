@@ -13,7 +13,7 @@ use App\Model\Table\CrudData;
 class MenusController extends AppController {
 
 	public $helpers = ['Crud'];
-	
+
 //	protected $_associations = NULL;
 
 	/**
@@ -22,13 +22,18 @@ class MenusController extends AppController {
 	 * @return void
 	 */
 	public function index() {
-		$this->set('menus', $this->paginate($this->Menus->find()->contain('Users')
+		$this->set('menus', $this->paginate($this->Menus->find()
+								->contain(['ParentMenus', 'SubMenus'])
 //								->find('threaded')
-//								->order(['lft' => 'ASC'])
+								->order(['Menus.lft' => 'ASC'])
 		));
+		$this->set('parents', $this->Menus->find('list'));
 		$this->set('_serialize', ['menus']);
 
-		$crud_data = new CrudData($this->Menus, ['whitelist' => ['id', 'user_id', 'name', 'controller', 'action']]);
+		$crud_data = new CrudData($this->Menus, [
+			'whitelist' => ['id', 'type', 'name', 'controller', 'action', 'parent_id'],
+			'override' => ['parent_id' => 'selectList']
+		]);
 		$this->helpers['Crud'][] = $crud_data;
 		$this->set(compact('crud_data'));
 //		debug($crud_data->AssociationCollection);die;
@@ -44,7 +49,7 @@ class MenusController extends AppController {
 	 */
 	public function view($id = null) {
 		$menu = $this->Menus->get($id, [
-//			'contain' => ['ChildMenus', 'ParentMenus', 'MenuSupplements']
+			'contain' => ['ParentMenus', 'SubMenus']
 		]);
 		$this->set('menu', $menu);
 		$this->set('_serialize', ['menu']);
@@ -66,8 +71,8 @@ class MenusController extends AppController {
 				$this->Flash->error('The menu could not be saved. Please, try again.');
 			}
 		}
-		$childMenus = [];//$this->Menus->ChildMenus->find('list', ['limit' => 200]);
-		$parentMenus = [];//$this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$childMenus = []; //$this->Menus->ChildMenus->find('list', ['limit' => 200]);
+		$parentMenus = []; //$this->Menus->ParentMenus->find('list', ['limit' => 200]);
 		$this->set(compact('menu', 'childMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
 	}

@@ -22,14 +22,20 @@ class MenusTable extends Table
     public function initialize(array $config)
     {
         $this->table('menus');
-        $this->displayField('label');
+        $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
 		$this->addBehavior('Tree', [
             'scope' => ['type' => 'main']
         ]);
-		$this->belongsTo('Users');
-    }
+        $this->hasMany('SubMenus', [
+            'className' => 'Menus',
+			'foreignKey' => 'parent_id'
+        ]);
+        $this->belongsTo('ParentMenus', [
+            'className' => 'Menus',
+			'foreignKey' => 'parent_id'
+        ]);    }
 
     /**
      * Default validation rules.
