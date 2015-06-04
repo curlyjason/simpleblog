@@ -5,12 +5,13 @@
 <ul class="side-nav">
 
 <?php  
+//debug($modelActions);die;
 // Loop for the primary models actions 
-foreach ($modelActions->tools as $tool) : 
+foreach ($modelActions->content as $tool) : 
 ?>
 	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $crud_data->alias()) ?> </li>
 <?php 
-endforeach; 
+endforeach; die;
 // done with the primary model
 
 //// loop for the associated models
@@ -18,7 +19,7 @@ endforeach;
 //	// now loop the actions for this model
 //	foreach ($assocActions->tools as $tool) :
 //?>
-	<li> //<?= $this->Crud->ModelAction->output($modelActions, $tool, $value['name']) ?> </li>
+	<li> //<?= '';//$this->Crud->ModelAction->output($modelActions, $tool, $value['name']) ?> </li>
 //<?php
 //	endforeach;
 //endforeach;	

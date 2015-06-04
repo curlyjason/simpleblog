@@ -124,7 +124,6 @@ class ActionPattern {
 	}
 	
 	public function load($path) {
-		debug($path);
 		if (!is_string($path)) {
 			return $this->action_template;
 		}

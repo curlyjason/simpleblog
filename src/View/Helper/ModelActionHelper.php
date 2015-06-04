@@ -34,10 +34,11 @@ class ModelActionHelper extends Helper {
 	 * @return type
 	 */
 	public function output($tools, $tool, $name) {
-		if (method_exists($this, $tools->action($tool))) {
-			return $this->{$tools->action($tool)}($tools, $tool, $name);
+//		debug(get_class_methods($tools)); debug(get_class_methods($tools->parse));die;
+		if (method_exists($this, $tools->parse->action($tool))) {
+			return $this->{$tools->parse->action($tool)}($tools, $tool, $name);
 		} else {
-			return $this->Html->link(__($tools->label($tool) . " $name"), ['controller' => $name, 'action' => $tools->action($tool)]);
+			return $this->Html->link(__($tools->parse->label($tool, $name)), ['controller' => $name, 'action' => $tools->parse->action($tool)]);
 		}
 	}
 	
@@ -51,8 +52,8 @@ class ModelActionHelper extends Helper {
 	 */
 	public function delete($tools, $tool, $entity){
 		return $this->Form->postLink(
-				__($tools->label($tool)), 
-				['action' => $tools->action($tool), $entity->id], 
+				__($tools->parse->label($tool)), 
+				['action' => $tools->parse->action($tool), $entity->id], 
 				['confirm' => __('Are you sure you want to delete # {0}?', $entity->id)]);
 	}
 	
@@ -65,6 +66,6 @@ class ModelActionHelper extends Helper {
 	 * @return type
 	 */
 	public function example($tools, $tool, $entity){
-		return '<form>' . $this->Form->input('example', ['label' => $tools->label($tool)]) . '<button>Click</button></form>';
+		return '<form>' . $this->Form->input('example', ['label' => $tools->parse->label($tool)]) . '<button>Click</button></form>';
 	}
 }

@@ -37,11 +37,11 @@ class ToolParser {
 	 */
 	public function label($tool, $suffix = '') {
 		if (is_array($tool)) {
-			$label = array_keys($tool)[0] . (empty($suffix) ? '' : " $suffix");
+			$label = array_keys($tool)[0];
 		} else {
 			$label = $tool;
 		}
-		return ucwords($label);
+		return ucwords($label . (empty($suffix) ? '' : " $suffix"));
 	}
 	
 	/**
