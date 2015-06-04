@@ -163,7 +163,7 @@ class ActionPattern {
 					$this->target = $this->group;
 					$this->insureLevel($levels[0], new Collection());
 					$this->target = $this->alias_level = $this->group->load($levels[0]);
-					$this->insureLevel($levels[1], new Collection());
+					$this->insureLevel($levels[1], $this->action_template);
 					$this->view_level = $this->alias_level->load($levels[1]);
 					$this->addTools($data, $levels[1], $replace);
 					break;
