@@ -9,12 +9,12 @@
 	<?= $this->element('CRUD/crud_index_table'); ?>
 </div>
 <?php 
-debug($this->Crud->_AssociationActions);die;
-$tools = $this->Crud->_AssociationActions->load('Users')->load('tester');
-foreach ($tools->content as $action) {
-	debug($tools->parse->label($action));
-	debug($tools->parse->action($action));
-
-}
-debug($this->Crud->_ModelActions);
+//debug($this->Crud->_AssociationActions);die;
+//$tools = $this->Crud->_AssociationActions->load('Users')->load('tester');
+//foreach ($tools->content as $action) {
+//	debug($tools->parse->label($action));
+//	debug($tools->parse->action($action));
+//
+//}
+//debug($this->Crud->_ModelActions);
 ?>

@@ -28,8 +28,8 @@
 				?>
 	            <td class="actions">
 					<?php
-					$tools = $this->Crud->actionPattern('record', $this->request->action);
-					foreach ($tools->tools as $tool) {
+					$tools = $this->Crud->useActionPattern('record', $crud_data->alias('string'), $this->request->action);
+					foreach ($tools->content as $tool) {
 						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
 //					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
 					}

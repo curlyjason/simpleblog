@@ -121,8 +121,8 @@ class CrudHelper extends Helper
 				$target = 'ModelActions';
 				$property = "_$target";
 				break;
-			case 'associated':
-				$target = 'AssociatedActions';
+			case 'association':
+				$target = 'AssociationActions';
 				$property = "_$target";
 				break;
 			case 'record':
@@ -130,10 +130,18 @@ class CrudHelper extends Helper
 				$property = "_$target";
 				break;
 			default:
-				return [];
+				return []; // !!!!!**** This should throw some error. Must be one of the three to be valid
 				break;
 		}
 		$this->$target = $this->$property->load("$alias.$view");
+		
+		// If we found no actions, check for defaults for this view
+		if (empty($this->$target->content)) {
+			$tryDefault = $this->$property->load("default.$view");
+			If (!empty($tryDefault->content)) {
+				$this->$target = $tryDefault;
+			}
+		}
 		return $this->$target;
 	}
 	
@@ -241,11 +249,17 @@ class CrudHelper extends Helper
 		
 		// we can at least have a fallback output strategy
 		if (!$this->Field) {
-			$this->_Field->add($this->_defaultAlias, $this->createFieldHandler($this->request->action));
-			$this->Field = $this->_Field->load($this->_defaultAlias);
+//			debug('setting Field');
+//			debug($this->_Field);
+//			debug($this->alias('string'));
+			$this->_Field->add($this->alias('string'), $this->createFieldHandler($this->request->action));
+//			debug($this->_Field);
+			$this->Field = $this->_Field->load($this->alias('string'));
 		}
+//		debug($this->Field);
+//		debug('did field get set?');die;
 		if (!$dot && !isset($this->CrudData)) {
-			$this->useCrudData($this->_defaultAlias);
+			$this->useCrudData($this->alias('string'));
 		} elseif ($dot) {
 			$field = $dot[1];
 			$this->useCrudData($dot[0]);
@@ -293,7 +307,7 @@ class CrudHelper extends Helper
 		//Need to find a smoother way to setup the CrudData, instead of having it all setup
 		//in $this->output()
 		if(!isset($this->CrudData)){
-			$this->useCrudData($this->_defaultAlias);
+			$this->useCrudData($this->alias('string'));
 		}
 		//END HACK
 		if ($this->CrudData->overrideAction($action)) {

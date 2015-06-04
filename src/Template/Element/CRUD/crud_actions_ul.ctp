@@ -11,18 +11,24 @@ foreach ($modelActions->content as $tool) :
 ?>
 	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $crud_data->alias()) ?> </li>
 <?php 
-endforeach; die;
+endforeach;
 // done with the primary model
 
-//// loop for the associated models
-//foreach ($crud_data->foreignKeys() as $key => $value) :
-//	// now loop the actions for this model
-//	foreach ($assocActions->tools as $tool) :
-//?>
-	<li> //<?= '';//$this->Crud->ModelAction->output($modelActions, $tool, $value['name']) ?> </li>
-//<?php
-//	endforeach;
-//endforeach;	
-//// done with the associated models and thier actions
+// loop for the associated models
+
+foreach ($crud_data->foreignKeys() as $key => $value) :
+//	debug($value['name']->modelName);
+//	debug($value);
+	$assocActions = $this->Crud->useActionPattern('association', $value['name']->modelName, $this->request->action);
+//	debug($assocActions);die;
+	// now loop the actions for this model
+	foreach ($assocActions->content as $tool) :
+	
+?>
+	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $value['name']->pluralHumanName) ?> </li>
+<?php
+	endforeach;
+endforeach;
+// done with the associated models and thier actions
 ?>
 </ul>
