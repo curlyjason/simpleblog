@@ -10,21 +10,21 @@ class CrudHelper extends Helper
 	
 	public $helpers = ['Html', 'Form'];
 
-	protected $_nativeModelActionPatterns = [
+	protected $_defaultModelActionPatterns = [
 		'index' => [['new' => 'add']],
 		'add' => [['list' => 'index']],
 		'view' => [['new' => 'add'], ['List' => 'index']],
 		'edit' => [['new' => 'add'], ['List' => 'index']]
 	];
 	
-	protected $_associatedModelActionPatterns = [
+	protected $_defaultAssociationActionPatterns = [
 		'index' => [['new' => 'add'], ['List' => 'index']],
 		'add' => [['new' => 'add'], ['List' => 'index']],
 		'view' => [['new' => 'add'], ['List' => 'index']],
 		'edit' => [['new' => 'add'], ['List' => 'index']]
 	];
 
-	protected $_recordActionPatterns = [
+	protected $_defaultRecordActionPatterns = [
 //		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
 		'index' => ['edit', 'view', 'delete'],
 		'add' => ['cancel', 'save'],
@@ -32,7 +32,13 @@ class CrudHelper extends Helper
 		'view' => ['edit', 'delete']
 	];
 	
-	public $RecordAction;
+	protected $_ModelActions;
+	protected $_AssociationActions;
+	protected $_RecordActions;
+
+	public $ModelActions;
+	public $AssociationActions;
+	public $RecordActions;
 
 	protected $_nativeModelActionDisplay = TRUE; 
 	
@@ -94,33 +100,38 @@ class CrudHelper extends Helper
 	 */
 	public $entity;
 	
+	public $ToolParser;
+
+
 	/**
 	 * Get the tool list for the requested context
 	 * 
-	 * @param string $grouping 3 groups, 'model', 'associate', 'record'
-	 * @param string $action 
+	 * @param string $grouping 3 groups, 'model', 'associated', 'record'
+	 * @param string $alias
+	 * @param string $view 
 	 * @return ToolPackage
 	 */
-	public function actionPattern($grouping, $action) {
-		switch ($grouping) {
+	public function useActionPattern($grouping, $alias, $view) {
+		$alias = ucfirst($alias);
+		
+		switch (strtolower($grouping)) {
 			case 'model':
-				$property = '_nativeModelActionPatterns';
+				$target = 'ModelActions';
+				$property = "_$target";
 				break;
-			case 'associate':
-				$property = '_associatedModelActionPatterns';
+			case 'associated':
+				$target = 'AssociatedActions';
+				$property = "_$target";
 				break;
 			case 'record':
-				$property = '_recordActionPatterns';
+				$target = 'RecordActions';
+				$property = "_$target";
 				break;
 			default:
 				return [];
 				break;
 		}
-		if (isset($this->{$property}['index'])) {
-			return new ToolPackage($grouping, $action, $this->{$property}['index']);
-		} else {
-			return [];
-		}
+		return $this->$target = $this->$property->load("$alias.$view");
 	}
 	
 	/**
@@ -143,16 +154,23 @@ class CrudHelper extends Helper
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
+		$this->setDefaultAssociatedActions();
+//		debug($this->_ModelActions);
+		$this->_ModelActions->add('default', ['index'=>['submit']], TRUE);
+		$this->_ModelActions->add('default.edit', ['remove'], TRUE);
+		$this->_ModelActions->add(['Users'=> ['teacher'=>['some', 'thing', ['different' => 'now']]]]);
+//		debug($this->_ModelActions);
+		debug($this->_ModelActions->load('Users'));
+//		die;
 	}
 	
+	/**
+	 * Set the default action patterns to cover all cake-standard crud settings
+	 */
 	protected function setDefaultAssociatedActions() {
-		$this->_associatedModelActionPatterns = new Collection();
-		$this->_associatedModelActionPatterns->add('default', [
-		'index' => [['new' => 'add'], ['List' => 'index']],
-		'add' => [['new' => 'add'], ['List' => 'index']],
-		'view' => [['new' => 'add'], ['List' => 'index']],
-		'edit' => [['new' => 'add'], ['List' => 'index']]
-	]);
+		$this->_ModelActions = new CRUD\ActionPattern(['default' => $this->_defaultModelActionPatterns]) ;
+		$this->_AssocActions = new CRUD\ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
+		$this->_RecordActions = new CRUD\ActionPattern(['default' => $this->_defaultRecordActionPatterns]);
 	}
 		
 	/**

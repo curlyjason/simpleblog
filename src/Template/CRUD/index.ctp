@@ -8,3 +8,12 @@
 <div class="tags index large-10 medium-9 columns">
 	<?= $this->element('CRUD/crud_index_table'); ?>
 </div>
+<?php 
+$tools = $this->Crud->_AssocActions->load('Users')->load('tester');
+foreach ($tools->content as $action) {
+	debug($tools->parse->label($action));
+	debug($tools->parse->action($action));
+
+}
+debug($this->Crud->_ModelActions);
+?>
