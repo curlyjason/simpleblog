@@ -157,8 +157,12 @@ class CrudHelper extends Helper
 		$this->_defaultAlias = new NameConventions(Inflector::pluralize(Inflector::classify($this->request->controller)));
 		$this->_CrudData = new Collection();
 		$this->_Field = new Collection();
+//		debug($config);
+//		die;
+		$configCrudData = isset($config['crudData']) ? $config['crudData'] : [];
+		$configActions =  isset($config['actions']) ? $config['actions'] : [];
 		
-		foreach ($config as $crudData) {
+		foreach ($configCrudData as $crudData) {
 			$this->_CrudData->add($crudData->alias()->name, $crudData);
 		}
 		$this->useCrudData($this->alias('string'));
@@ -167,15 +171,52 @@ class CrudHelper extends Helper
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
 		$this->setDefaultAssociatedActions();
+		
+		//set actions supplied by config
+		foreach ($configActions as $grouping => $action) {
+			//set default values to unset parameters
+			$actionData = isset($action['data']) ? $action['data'] : FALSE;
+			$actionReplace = isset($action['replace']) ? $action['replace'] : FALSE;
+			$this->addActionPattern($grouping, $action['path'], $actionData, $actionReplace);
+		}
 //		debug($this->_ModelActions);
 //		$this->_ModelActions->add('default', ['index'=>['submit']], TRUE);
 //		$this->_ModelActions->add('default.edit', ['remove'], TRUE);
-		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
-		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
+//		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
+//		$this->_ModelActions->add('Menus.index', ['foo', 'blah', ['hut' => 'cabin']], TRUE);
+//		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
 //		debug($this->_ModelActions);
 //		debug($this->_AssociationActions);
 //		debug($this->_ModelActions->load('Users'));
 //		die;
+	}
+	
+	/**
+	 * Add an action to the current action pattern set
+	 * 
+	 * @param string $grouping
+	 * @param mixed $path (can be a dot notation string or array)
+	 * @param mixed $data (can be array or boolean)
+	 * @param boolean $replace
+	 * @return type
+	 */
+	public function addActionPattern($grouping, $path, $data = FALSE, $replace = FALSE) {
+		
+		switch (strtolower($grouping)) {
+			case 'model':
+				$target = '_ModelActions';
+				break;
+			case 'association':
+				$target = '_AssociationActions';
+				break;
+			case 'record':
+				$target = '_RecordActions';
+				break;
+			default:
+				return []; // !!!!!**** This should throw some error. Must be one of the three to be valid
+				break;
+		}
+		$this->$target->add($path, $data, $replace);
 	}
 	
 	public function alias($type = 'object') {

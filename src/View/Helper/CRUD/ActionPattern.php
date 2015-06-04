@@ -158,6 +158,8 @@ class ActionPattern {
 					$this->addViews($data, $replace);
 					break;
 				case 2: // view level stable ->add('Users.index', [])
+					debug($levels);
+					debug($data);
 					$this->target = $this->group;
 					$this->insureLevel($levels[0], new Collection());
 					$this->target = $this->alias_level = $this->group->load($levels[0]);

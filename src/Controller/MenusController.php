@@ -35,7 +35,18 @@ class MenusController extends AppController {
 			'override' => ['parent_id' => 'selectList']
 		]);
 		$crud_data->overrideActionStrategy('index', 'menuIndex');
-		$this->helpers['Crud'][] = $crud_data;
+		$helper_config = [
+			'crudData' => [$crud_data],
+			'actions' => [
+				'model' => [
+					'path' => 'Menus.index',
+					'data' => ['foo', 'blah', ['hut' => 'cabin']]
+				]
+			]];
+//		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
+//		$this->_ModelActions->add('Menus.index', ['foo', 'blah', ['hut' => 'cabin']], TRUE);
+//		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
+		$this->helpers['Crud'] = $helper_config;
 		$this->set(compact('crud_data'));
 //		debug($crud_data->AssociationCollection);die;
 		$this->render('/CRUD/index');
