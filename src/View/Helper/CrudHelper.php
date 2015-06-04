@@ -4,6 +4,8 @@ namespace App\View\Helper;
 use Cake\View\Helper;
 use App\View\Helper\CRUD\ToolPackage;
 use App\Lib\Collection;
+use Cake\Utility\Inflector;
+use App\Lib\NameConventions;
 
 class CrudHelper extends Helper
 {
@@ -131,7 +133,8 @@ class CrudHelper extends Helper
 				return [];
 				break;
 		}
-		return $this->$target = $this->$property->load("$alias.$view");
+		$this->$target = $this->$property->load("$alias.$view");
+		return $this->$target;
 	}
 	
 	/**
@@ -143,25 +146,36 @@ class CrudHelper extends Helper
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
 		
-		$this->_defaultAlias = \Cake\Utility\Inflector::pluralize(\Cake\Utility\Inflector::classify($this->request->controller));
+		$this->_defaultAlias = new NameConventions(Inflector::pluralize(Inflector::classify($this->request->controller)));
 		$this->_CrudData = new Collection();
 		$this->_Field = new Collection();
 		
 		foreach ($config as $crudData) {
 			$this->_CrudData->add($crudData->alias()->name, $crudData);
 		}
+		$this->useCrudData($this->alias('string'));
 		
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
 		$this->setDefaultAssociatedActions();
 //		debug($this->_ModelActions);
-		$this->_ModelActions->add('default', ['index'=>['submit']], TRUE);
-		$this->_ModelActions->add('default.edit', ['remove'], TRUE);
-		$this->_ModelActions->add(['Users'=> ['teacher'=>['some', 'thing', ['different' => 'now']]]]);
+//		$this->_ModelActions->add('default', ['index'=>['submit']], TRUE);
+//		$this->_ModelActions->add('default.edit', ['remove'], TRUE);
+		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
+		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
 //		debug($this->_ModelActions);
-		debug($this->_ModelActions->load('Users'));
+//		debug($this->_AssociationActions);
+//		debug($this->_ModelActions->load('Users'));
 //		die;
+	}
+	
+	public function alias($type = 'object') {
+		if ($type === 'string') {
+			return $this->_defaultAlias->name;
+		} else {
+			return $this->_defaultAlias;
+		}
 	}
 	
 	/**
@@ -169,7 +183,7 @@ class CrudHelper extends Helper
 	 */
 	protected function setDefaultAssociatedActions() {
 		$this->_ModelActions = new CRUD\ActionPattern(['default' => $this->_defaultModelActionPatterns]) ;
-		$this->_AssocActions = new CRUD\ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
+		$this->_AssociationActions = new CRUD\ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
 		$this->_RecordActions = new CRUD\ActionPattern(['default' => $this->_defaultRecordActionPatterns]);
 	}
 		

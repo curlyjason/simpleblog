@@ -174,8 +174,13 @@ use ConventionsTrait;
 		$this->_overrideAction = [$action => $alternate];
 	}
 	
-	public function alias() {
-		return new NameConventions($this->_table->alias());
+	public function alias($type = 'object') {
+		if ($type === 'string') {
+			return $this->_table->alias();
+		} else {
+			return new NameConventions($this->_table->alias());
+		}
+		
 	}
 	
 	public function update() {

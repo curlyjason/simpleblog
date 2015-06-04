@@ -124,6 +124,7 @@ class ActionPattern {
 	}
 	
 	public function load($path) {
+		debug($path);
 		if (!is_string($path)) {
 			return $this->action_template;
 		}
@@ -131,14 +132,14 @@ class ActionPattern {
 		switch (count($levels)) {
 			case 1: // alias level stable ->add('Users', [])
 				$this->target = $this->group;
-				$this->insureLevel($levels[0]);
+				$this->insureLevel($levels[0], new Collection());
 				return $this->group->load($levels[0]);
 				break;
 			case 2: // view level stable ->add('Users.index', [])
 				$this->target = $this->group;
-				$this->insureLevel($levels[0]);
+				$this->insureLevel($levels[0], new Collection());
 				$this->target = $this->alias_level = $this->group->load($levels[0]);
-				$this->insureLevel($levels[1]);
+				$this->insureLevel($levels[1], $this->action_template);
 				return $this->alias_level->load($levels[1]);
 				break;
 		}
@@ -153,39 +154,18 @@ class ActionPattern {
 			switch (count($levels)) {
 				case 1: // alias level stable ->add('Users', [])
 					$this->target = $this->group;
-					$this->insureLevel($levels[0]);
+					$this->insureLevel($levels[0], new Collection());
 					$this->alias_level = $this->group->load($levels[0]);
 					$this->addViews($data, $replace);
 					break;
 				case 2: // view level stable ->add('Users.index', [])
 					$this->target = $this->group;
-					$this->insureLevel($levels[0]);
+					$this->insureLevel($levels[0], new Collection());
 					$this->target = $this->alias_level = $this->group->load($levels[0]);
-					$this->insureLevel($levels[1]);
+					$this->insureLevel($levels[1], new Collection());
 					$this->view_level = $this->alias_level->load($levels[1]);
 					$this->addTools($data, $levels[1], $replace);
 					break;
-//				case 3: // action level ->add('Users.index.delete', []
-//					$this->target = $this->group;
-//					$this->insureLevel($levels[0]);
-//					$this->target = $this->group->load($levels[0]);
-//					$this->insureLevel($levels[1]);
-//					$this->target = $this->group->load($levels[0])->load($levels[1]);
-//					$needle = $levels[2];
-//					$placed = FALSE;
-//					if ($replace) {
-//						foreach ($this->target->content as $index => $action) {
-//							if ($action === $needle || in_array($needle, $action)) {
-//								$this->target->content[$index] = $data;
-//								$placed = TRUE;
-//							}
-//						}
-//					}
-//					if (!$placed) {
-//						array_push($this->target->content, $data);
-//					}
-//					debug($this->target);
-//					debug($this->group);
 			}
 		}
 		$this->clearScratchpad();
