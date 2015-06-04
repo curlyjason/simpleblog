@@ -33,7 +33,7 @@
 						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
 //					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
 					}
-					echo $this->Form->submit('Submit', ['form' => $uuid->uuid('form')]);
+//					echo $this->Form->submit('Submit', ['form' => $uuid->uuid('form')]);
 					?>
 	            </td>
 	        </tr>

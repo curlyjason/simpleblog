@@ -67,4 +67,14 @@ class RecordActionHelper extends Helper {
 	public function example($tools, $tool, $entity){
 		return '<form>' . $this->Form->input('example', ['label' => $tools->parse->label($tool)]) . '<button>Click</button></form>';
 	}
+	
+	public function submit($tools, $tool, $entity) {
+		if (isset($entity->_uuid)) {
+			$attributes = ['form' => $entity->_uuid->uuid('form')];
+		} else {
+			$attributes = [];
+		}
+		return $this->Form->submit($tools->parse->label($tool), $attributes);
+
+	}
 }

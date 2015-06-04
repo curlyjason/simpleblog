@@ -38,9 +38,9 @@ class MenusController extends AppController {
 		$helper_config = [
 			'crudData' => [$crud_data],
 			'actions' => [
-				'model' => [
-					'path' => 'Menus.index',
-					'data' => ['foo', 'blah', ['hut' => 'cabin']]
+				'record' => [
+					'path' => 'default.index',
+					'data' => ['submit']
 				]
 			]];
 //		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
