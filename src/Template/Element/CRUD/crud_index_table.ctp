@@ -12,15 +12,8 @@
     <tbody>
 		<?php
 		foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;
-			$uuid = new \App\Lib\Uuid();
-			$this->Crud->entity->_uuid = $uuid;
 			?>
-	        <tr <?= $uuid->attr('id', 'row') ?> class="record">
-				<td hidden="TRUE">
-					<?= $this->Form->create($entity, ['id' => $uuid->uuid('form'), 'url' => ['action' => 'edit', $entity->id]]); ?>
-					<?= $this->Form->input('id', ['value' => $entity->id]); ?>
-					<?= $this->Form->end(); ?>
-				</td>
+	        <tr class="record">
 				<?php
 				foreach ($crud_data->columns() as $field => $specs) :
 					echo "\t\t\t\t" . $this->Crud->output($field) . "\n";
@@ -31,9 +24,7 @@
 					$tools = $this->Crud->useActionPattern('record', $crud_data->alias('string'), $this->request->action);
 					foreach ($tools->content as $tool) {
 						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
-//					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
 					}
-//					echo $this->Form->submit('Submit', ['form' => $uuid->uuid('form')]);
 					?>
 	            </td>
 	        </tr>

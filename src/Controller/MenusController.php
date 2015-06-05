@@ -25,8 +25,9 @@ class MenusController extends AppController {
 		$this->set('menus', $this->paginate($this->Menus->find()
 								->contain(['ParentMenus', 'SubMenus'])
 //								->find('threaded')
-								->order(['Menus.lft' => 'ASC'])
+//								->order(['Menus.lft' => 'ASC'])
 		));
+		
 		$this->set('parents', $this->Menus->find('list'));
 		$this->set('_serialize', ['menus']);
 
@@ -38,7 +39,6 @@ class MenusController extends AppController {
 			]],
 			'override' => ['parent_id' => 'input']
 		]);
-//		$crud_data->overrideActionStrategy('index', 'menuIndex');
 		$helper_config = [
 			'crudData' => [$crud_data],
 			'actions' => [
@@ -47,13 +47,9 @@ class MenusController extends AppController {
 					'data' => ['submit']
 				]
 			]];
-//		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
-//		$this->_ModelActions->add('Menus.index', ['foo', 'blah', ['hut' => 'cabin']], TRUE);
-//		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
 		$this->helpers['Crud'] = $helper_config;
 		$this->set(compact('crud_data'));
-//		debug($crud_data->AssociationCollection);die;
-		$this->render('/CRUD/index');
+		$this->render('/CRUD/index_form');
 	}
 
 	/**
