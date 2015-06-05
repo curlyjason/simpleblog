@@ -121,7 +121,7 @@ class MenusController extends AppController {
 		$this->helpers['Crud'] = $helper_config;
 		$this->set(compact('crud_data'));
 
-		$this->render('/CRUD/edit');
+//		$this->render('/CRUD/edit');
 	}
 
 	/**

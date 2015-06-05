@@ -228,6 +228,10 @@ class CrudHelper extends Helper
 		}
 	}
 	
+	public function columns() {
+			return $this->CrudData->columns();
+	}
+
 	public function column($name) {
 		return $this->CrudData->column($name);
 	}

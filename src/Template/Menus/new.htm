@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        CakePHP: the rapid development php framework:
+        Menus    </title>
+    <link href="/simpleblog/favicon.ico" type="image/x-icon" rel="icon"/><link href="/simpleblog/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
+    <link rel="stylesheet" href="/simpleblog/css/base.css"/>    <link rel="stylesheet" href="/simpleblog/css/cake.css"/>
+            </head>
+<body>
+    <header>
+        <div class="header-title">
+            <span>Menus</span>
+        </div>
+        <div class="header-help">
+            <span><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></span>
+            <span><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></span>
+        </div>
+    </header>
+    <div id="container">
+
+        <div id="content">
+            
+            <div class="row">
+                <div class="actions columns large-2 medium-3">
+    <h3>Actions</h3>
+    <ul class="side-nav">
+        <li><form action="/simpleblog/menus/delete/1" name="post_5571b8713ed0f404258688" style="display:none;" method="post"><input type="hidden" name="_method" value="POST"></form><a href="#" onclick="if (confirm(&quot;Are you sure you want to delete # 1?&quot;)) { document.post_5571b8713ed0f404258688.submit(); } event.returnValue = false; return false;">Delete</a></li>
+        <li><a href="/simpleblog/menus">List Menus</a></li>
+        <li><a href="/simpleblog/child_menus">List Child Menus</a> </li>
+        <li><a href="/simpleblog/child_menus/add">New Child Menu</a> </li>
+        <li><a href="/simpleblog/parent_menus">List Parent Menus</a> </li>
+        <li><a href="/simpleblog/parent_menus/add">New Parent Menu</a> </li>
+    </ul>
+</div>
+<div class="menus form large-10 medium-9 columns">
+    <form method="post" accept-charset="utf-8" action="/simpleblog/menus/edit/1"><div style="display:none;"><input type="hidden" name="_method" value="PUT"></div>    <fieldset>
+        <legend>Edit Menu</legend>
+        <div class="input text"><label for="model">Model</label><input type="text" name="model" id="model"></div><div class="input text"><label for="label">Label</label><input type="text" name="label" id="label"></div><div class="input text"><label for="controller">Controller</label><input type="text" name="controller" maxlength="256" id="controller" value="burns"></div><div class="input text"><label for="action">Action</label><input type="text" name="action" maxlength="256" id="action" value="index"></div><div class="input text"><label for="query">Query</label><input type="text" name="query" id="query"></div><div class="input text"><label for="hash">Hash</label><input type="text" name="hash" id="hash"></div><div class="input select"><label for="child-menus-ids">Child Menus</label><input type="hidden" name="child_menus[_ids]" value=""><select name="child_menus[_ids][]" multiple="multiple" id="child-menus-ids"></select></div><div class="input select"><label for="parent-menus-ids">Parent Menus</label><input type="hidden" name="parent_menus[_ids]" value=""><select name="parent_menus[_ids][]" multiple="multiple" id="parent-menus-ids"></select></div>    </fieldset>
+    <button type="submit">Submit</button>    </form></div>
+            </div>
+        </div>
+        <footer>
+        </footer>
+    </div>
+<script>var __debug_kit_id = '88f7c617-f095-4975-9ab7-12c00f53c275', __debug_kit_base_url = 'https://localhost/simpleblog/';</script><script src="/simpleblog/debug_kit/js/toolbar.js"></script></body>
+</html>

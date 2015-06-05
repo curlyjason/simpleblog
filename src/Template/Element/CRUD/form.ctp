@@ -7,7 +7,7 @@ use Cake\Utility\Inflector; ?>
         <legend><?= __(Inflector::humanize($this->request->action) . ' ' . $this->Crud->alias()->singularHumanName) ?></legend>
 
 <?php
-foreach ($this->Crud->columns as $field) {
+foreach (array_keys($this->Crud->columns()) as $field) {
 	if (in_array($field, $this->Crud->primaryKey())) {
 		continue;
 	}
