@@ -371,4 +371,8 @@ use ConventionsTrait;
 			return FALSE;
 		}
 	}
+	
+	public function addAttributes($field, $attributes) {
+		$this->_columns[$field]['attributes'] += $attributes;
+	}
 }

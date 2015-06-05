@@ -407,6 +407,10 @@ class CrudHelper extends Helper
 		}
 	}
 	
+	public function addAttributes($field, $attributes) {
+		$this->CrudData->addAttributes($field, $attributes);
+	}
+	
 
 	/**
 	 * var_dump output
