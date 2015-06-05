@@ -1,5 +1,7 @@
 <?php 
-
+$this->start('css');
+	echo $this->Html->css('crud_root');
+$this->end();
 ?>
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
