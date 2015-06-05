@@ -179,7 +179,7 @@ class CrudHelper extends Helper
 			$actionReplace = isset($action['replace']) ? $action['replace'] : FALSE;
 			$this->addActionPattern($grouping, $action['path'], $actionData, $actionReplace);
 		}
-		debug($this->CrudData->foreignKeys());die;
+//		debug($this->CrudData->foreignKeys());die;
 	}
 	
 	/**

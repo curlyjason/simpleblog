@@ -98,7 +98,7 @@ class MenusController extends AppController {
 	 */
 	public function edit($id = null) {
 		$menu = $this->Menus->get($id, [
-			'contain' => ['ChildMenus', 'ParentMenus']
+//			'contain' => ['ChildMenus', 'ParentMenus']
 		]);
 		if ($this->request->is(['patch', 'post', 'put'])) {
 			$menu = $this->Menus->patchEntity($menu, $this->request->data);
@@ -109,10 +109,19 @@ class MenusController extends AppController {
 				$this->Flash->error('The menu could not be saved. Please, try again.');
 			}
 		}
-		$childMenus = $this->Menus->ChildMenus->find('list', ['limit' => 200]);
-		$parentMenus = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$childMenus = []; //$this->Menus->ChildMenus->find('list', ['limit' => 200]);
+		$parentMenus = []; //$this->Menus->ParentMenus->find('list', ['limit' => 200]);
 		$this->set(compact('menu', 'childMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
+		
+		$crud_data = new CrudData($this->Menus);
+		$helper_config = [
+			'crudData' => [$crud_data]
+		];
+		$this->helpers['Crud'] = $helper_config;
+		$this->set(compact('crud_data'));
+
+		$this->render('/CRUD/edit');
 	}
 
 	/**
