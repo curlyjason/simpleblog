@@ -32,6 +32,7 @@ class MenusFixture extends TestFixture
         'controller' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'action' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'type' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -56,7 +57,8 @@ class MenusFixture extends TestFixture
             'name' => 'Lorem ipsum dolor sit amet',
             'controller' => 'Lorem ipsum dolor sit amet',
             'action' => 'Lorem ipsum dolor sit amet',
-            'type' => 'Lorem ipsum dolor sit amet'
+            'type' => 'Lorem ipsum dolor sit amet',
+            'user_id' => 1
         ],
     ];
 }

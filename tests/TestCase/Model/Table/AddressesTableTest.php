@@ -1,14 +1,14 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\MenusTable;
+use App\Model\Table\AddressesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\MenusTable Test Case
+ * App\Model\Table\AddressesTable Test Case
  */
-class MenusTableTest extends TestCase
+class AddressesTableTest extends TestCase
 {
 
     /**
@@ -17,7 +17,7 @@ class MenusTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.menus'
+        'app.addresses'
     ];
 
     /**
@@ -28,8 +28,8 @@ class MenusTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Menus') ? [] : ['className' => 'App\Model\Table\MenusTable'];
-        $this->Menus = TableRegistry::get('Menus', $config);
+        $config = TableRegistry::exists('Addresses') ? [] : ['className' => 'App\Model\Table\AddressesTable'];
+        $this->Addresses = TableRegistry::get('Addresses', $config);
     }
 
     /**
@@ -39,7 +39,7 @@ class MenusTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Menus);
+        unset($this->Addresses);
 
         parent::tearDown();
     }
