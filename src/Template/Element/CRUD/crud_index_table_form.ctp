@@ -12,6 +12,7 @@
     <tbody>
 		<?php
 		foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;
+//		debug($entity->table_tag);
 			$uuid = new \App\Lib\Uuid();
 			$this->Crud->entity->_uuid = $uuid;
 			?>
@@ -19,7 +20,7 @@
 				<!--<td hidden="TRUE">-->
 				<td colspan="<?= count($this->Crud->columns()) ?>">
 					<?= $this->Form->create($entity, ['id' => $uuid->uuid('form'), 'url' => ['action' => 'edit', $entity->id]]); ?>
-					<table>
+					<?= $entity->table_tag ? $entity->table_tag : '<table>' ?>
 						<tbody>
 							<tr>
 								<?= $this->Form->input('id', ['value' => $entity->id]); ?>
