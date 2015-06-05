@@ -15,14 +15,15 @@ class Menu extends Entity
      * @var array
      */
     protected $_accessible = [
-        'model' => true,
-        'label' => true,
+        'parent_id' => true,
+        'lft' => true,
+        'rght' => true,
+        'name' => true,
         'controller' => true,
         'action' => true,
-        'query' => true,
-        'hash' => true,
-        'child_menus' => true,
-        'parent_menus' => true,
-        'menu_supplements' => true,
+        'type' => true,
+        'user_id' => true,
+        'sub_menus' => true,
+        'parent_menu' => true,
     ];
 }
