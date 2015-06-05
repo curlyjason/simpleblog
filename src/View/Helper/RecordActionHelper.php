@@ -77,4 +77,8 @@ class RecordActionHelper extends Helper {
 		return $this->Form->submit($tools->parse->label($tool), $attributes);
 
 	}
+	
+//	public function move_up($tools, $tool, $entity) {
+//		return $this->Html->link($tools->parse->label($tool), ['action' => $tools->parse->action($tool), $entity->id]);
+//	}
 }

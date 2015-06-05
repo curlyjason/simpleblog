@@ -25,7 +25,7 @@ class MenusController extends AppController {
 		$this->set('menus', $this->paginate($this->Menus->find()
 								->contain(['ParentMenus', 'SubMenus'])
 //								->find('threaded')
-//								->order(['Menus.lft' => 'ASC'])
+								->order(['Menus.lft' => 'ASC'])
 		));
 		
 		$this->set('parents', $this->Menus->find('list'));
@@ -44,7 +44,7 @@ class MenusController extends AppController {
 			'actions' => [
 				'record' => [
 					'path' => 'default.index',
-					'data' => ['submit']
+					'data' => ['submit', ['Move Up' => 'move_up'], ['Move Down' => 'move_down']]
 				]
 			]];
 		$this->helpers['Crud'] = $helper_config;
@@ -143,7 +143,7 @@ class MenusController extends AppController {
 	}
 
 	public function move_up($id = null) {
-		$this->request->allowMethod(['post', 'put']);
+//		$this->request->allowMethod(['post', 'put']);
 		$menu = $this->Menus->get($id);
 		if ($this->Menus->moveUp($menu)) {
 			$this->Flash->success('The menu has been moved Up.');
@@ -154,7 +154,7 @@ class MenusController extends AppController {
 	}
 
 	public function move_down($id = null) {
-		$this->request->allowMethod(['post', 'put']);
+//		$this->request->allowMethod(['post', 'put']);
 		$menu = $this->Menus->get($id);
 		if ($this->Menus->moveDown($menu)) {
 			$this->Flash->success('The menu has been moved down.');
