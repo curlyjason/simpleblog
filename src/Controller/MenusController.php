@@ -98,7 +98,7 @@ class MenusController extends AppController {
 	 */
 	public function edit($id = null) {
 		$menu = $this->Menus->get($id, [
-//			'contain' => ['ChildMenus', 'ParentMenus']
+			'contain' => []
 		]);
 		if ($this->request->is(['patch', 'post', 'put'])) {
 			$menu = $this->Menus->patchEntity($menu, $this->request->data);
@@ -110,8 +110,8 @@ class MenusController extends AppController {
 			}
 		}
 		$subMenus = $this->Menus->SubMenus->find('list', ['limit' => 200]);
-		$parentMenus = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
-		$this->set(compact('menu', 'subMenus', 'parentMenus'));
+		$parents = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$this->set(compact('menu', 'subMenus', 'parents'));
 		$this->set('_serialize', ['menu']);
 		
 		$crud_data = new CrudData($this->Menus);
