@@ -159,6 +159,15 @@ use ConventionsTrait;
 		$this->update();
 	}
 	
+	
+	public function primaryKey() {
+			return $this->_table->primaryKey();
+	}
+	
+	public function displayField() {
+			return $this->_table->displayField();
+	}
+	
 	/**
 	 * A way to prevent the native output strategy on standard crud actions
 	 * 
@@ -219,7 +228,22 @@ use ConventionsTrait;
 	}
 
 	public function columns() {
-		return $this->_columns;
+			return $this->_columns;
+//		if (isset($this->_columns)) {
+//			return $this->_columns;
+//		} else {
+//			return $this->_columns();
+//		}
+	}
+	
+	/**
+	 * get data about a column in the schema
+	 * 
+	 * @param string $name
+	 * @return array
+	 */
+	public function column($name) {
+		return $this->_table->schema()->column($name);
 	}
 
 	public function columnType($field) {
@@ -254,7 +278,7 @@ use ConventionsTrait;
 	}
 	
 	/**
-	 * Get an array of the foreign keys in this table and inormation about the associations
+	 * Get an array of the foreign keys in this table and information about the associations
 	 * 
 	 * @return array
 	 */
@@ -271,8 +295,8 @@ use ConventionsTrait;
 					'name' => new NameConventions($association->name()), 
 					'property' => $association->property()
 				];
-			}
-		}
+            }
+        }
 		return $this->_foreign_keys;
 	}
 
@@ -306,7 +330,7 @@ use ConventionsTrait;
 				if (in_array($name, $foreign_keys)) {
 					$this->_columns[$name] = $this->_foreign_keys[$name];
 				}
-				$this->_columns[$name]['type'] = isset($this->type_override[$name]) ? $this->type_override[$name] : $schema->columnType($name);				
+				$this->_columns[$name]['type'] = isset($this->type_override[$name]) ? $this->type_override[$name] : $schema->columnType($name);
 			}
 		}
 //		debug($this->_columns);

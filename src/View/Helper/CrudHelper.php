@@ -179,16 +179,7 @@ class CrudHelper extends Helper
 			$actionReplace = isset($action['replace']) ? $action['replace'] : FALSE;
 			$this->addActionPattern($grouping, $action['path'], $actionData, $actionReplace);
 		}
-//		debug($this->_ModelActions);
-//		$this->_ModelActions->add('default', ['index'=>['submit']], TRUE);
-//		$this->_ModelActions->add('default.edit', ['remove'], TRUE);
-//		$this->_ModelActions->add(['Menus'=> ['index'=>['some', 'thing', ['different' => 'now']]]]);
-//		$this->_ModelActions->add('Menus.index', ['foo', 'blah', ['hut' => 'cabin']], TRUE);
-//		$this->_AssociationActions->add(['Users'=> ['tester'=>['some', 'thing', ['different' => 'now']]]]);
-//		debug($this->_ModelActions);
-//		debug($this->_AssociationActions);
-//		debug($this->_ModelActions->load('Users'));
-//		die;
+		debug($this->CrudData->foreignKeys());die;
 	}
 	
 	/**
@@ -219,12 +210,44 @@ class CrudHelper extends Helper
 		$this->$target->add($path, $data, $replace);
 	}
 	
+	/**
+	 * Get the primary model alias for this controller
+	 * 
+	 * Other value returns follow CrudData, but this one always 
+	 * returns the alias of the model for the controller that 
+	 * is running this page
+	 * 
+	 * @param string $type 'string' = string name, other value for NameConvention object for name
+	 * @return string|object
+	 */
 	public function alias($type = 'object') {
 		if ($type === 'string') {
 			return $this->_defaultAlias->name;
 		} else {
 			return $this->_defaultAlias;
 		}
+	}
+	
+	public function column($name) {
+		return $this->CrudData->column($name);
+	}
+	
+	/**
+	 * Get the primary key(s) for the current CrudData
+	 * 
+	 * @return array
+	 */
+	public function primaryKey() {
+		return (array) $this->CrudData->primaryKey();
+	}
+	
+	/**
+	 * Get the dispayField for the current CrudData
+	 * 
+	 * @return string
+	 */
+	public function dispayField() {
+		return $this->CrudData->dispayField();
 	}
 	
 	/**
