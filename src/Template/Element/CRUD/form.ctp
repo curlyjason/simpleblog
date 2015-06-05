@@ -2,7 +2,7 @@
 use Cake\Utility\Inflector; ?>		
 
 <div class="<?= $this->Crud->alias()->variableName; ?> form large-10 medium-9 columns">
-    <?= $this->Form->create($this->Crud->alias()->singularName); ?>
+    <?= $this->Form->create(${$this->Crud->alias()->singularName}); ?>
     <fieldset>
         <legend><?= __(Inflector::humanize($this->request->action) . ' ' . $this->Crud->alias()->singularHumanName) ?></legend>
 
