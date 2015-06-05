@@ -38,6 +38,14 @@ foreach (array_keys($this->Crud->columns()) as $field) {
 			
 ?>
     </fieldset>
+	<?php
+debug($menu);
+		$tools = $this->Crud->useActionPattern('record', $this->Crud->alias('string'), $this->request->action);
+		foreach ($tools->content as $tool) {
+			echo $this->Crud->RecordAction->output($tools, $tool, ${$this->Crud->alias()->singularName});
+//					echo $this->Html->link(__($tools->label($tool)), ['action' => $tools->action($tool), $this->Crud->entity->id]);
+		}
+	?>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -16,7 +16,7 @@ class CrudHelper extends Helper
 		'index' => [['new' => 'add']],
 		'add' => [['list' => 'index']],
 		'view' => [['new' => 'add'], ['List' => 'index']],
-		'edit' => ['delete', ['new' => 'add'], ['List' => 'index']]
+		'edit' => [['new' => 'add'], ['List' => 'index']]
 	];
 	
 	protected $_defaultAssociationActionPatterns = [

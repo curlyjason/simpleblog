@@ -109,9 +109,9 @@ class MenusController extends AppController {
 				$this->Flash->error('The menu could not be saved. Please, try again.');
 			}
 		}
-		$childMenus = []; //$this->Menus->ChildMenus->find('list', ['limit' => 200]);
-		$parentMenus = []; //$this->Menus->ParentMenus->find('list', ['limit' => 200]);
-		$this->set(compact('menu', 'childMenus', 'parentMenus'));
+		$subMenus = $this->Menus->SubMenus->find('list', ['limit' => 200]);
+		$parentMenus = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$this->set(compact('menu', 'subMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
 		
 		$crud_data = new CrudData($this->Menus);
