@@ -1,6 +1,6 @@
 <?php use App\Lib\NameConventions; 
 use Cake\Utility\Inflector; ?>		
-</div>
+
 <div class="<?= $this->Crud->alias()->variableName; ?> form large-10 medium-9 columns">
     <?= $this->Form->create($this->Crud->alias()->singularName); ?>
     <fieldset>
