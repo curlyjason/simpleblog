@@ -103,6 +103,8 @@ use ConventionsTrait;
 	
 	protected $_override;
 	
+	protected $_attributes;
+	
 	/**
 	 * An alternate output setup name for a standard crud view
 	 * 
@@ -153,6 +155,9 @@ use ConventionsTrait;
 			}
 			if (isset($options['override'])) {
 				$this->_override = $options['override'];
+			}
+			if (isset($options['attributes'])) {
+				$this->_attributes = $options['attributes'];
 			}
 		}
 		$this->_table = $table;
@@ -331,6 +336,7 @@ use ConventionsTrait;
 					$this->_columns[$name] = $this->_foreign_keys[$name];
 				}
 				$this->_columns[$name]['type'] = isset($this->type_override[$name]) ? $this->type_override[$name] : $schema->columnType($name);
+				$this->_columns[$name]['attributes'] = isset($this->_attributes[$name]) ? $this->_attributes[$name] : [];
 			}
 		}
 //		debug($this->_columns);

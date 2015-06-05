@@ -121,4 +121,8 @@ class CrudFields implements FieldOutputInterface {
 		return $this->helper->Form->input($field,$attributes);
 	}
 	
+	protected function input($field, $options){
+		return $this->helper->Form->input($field, $options);
+	}
+	
 }

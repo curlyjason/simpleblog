@@ -333,7 +333,7 @@ class CrudHelper extends Helper
 			$this->useCrudData($dot[0]);
 		}
 		
-		return $this->Field->output($field);
+		return $this->Field->output($field, $this->columns()[$field]['attributes']);
 	}
 	
 	/**

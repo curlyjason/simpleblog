@@ -17,7 +17,7 @@
 			?>
 	        <tr <?= $uuid->attr('id', 'row') ?> class="record">
 				<td hidden="TRUE">
-					<?= $this->Form->create(NULL, ['id' => $uuid->uuid('form'), 'url' => ['action' => 'edit', $entity->id]]); ?>
+					<?= $this->Form->create($entity, ['id' => $uuid->uuid('form'), 'url' => ['action' => 'edit', $entity->id]]); ?>
 					<?= $this->Form->input('id', ['value' => $entity->id]); ?>
 					<?= $this->Form->end(); ?>
 				</td>
