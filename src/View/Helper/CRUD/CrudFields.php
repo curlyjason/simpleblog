@@ -108,5 +108,17 @@ class CrudFields implements FieldOutputInterface {
 		return $this->helper->entity->$field;
 	}
 
-
+	protected function selectList($field, $options) {
+		
+		$attributes = [
+				'empty' => 'choose one',
+				'label' => FALSE,
+				'value' => $this->helper->entity->$field
+			];
+		if ($this->helper->entity->_uuid) {
+			$attributes['form'] = $this->helper->entity->_uuid->uuid('form');
+		}
+		return $this->helper->Form->input($field,$attributes);
+	}
+	
 }

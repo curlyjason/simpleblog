@@ -224,6 +224,9 @@ use ConventionsTrait;
 
 	public function columnType($field) {
 		if (isset($this->_columns[$field])) {
+			if (isset($this->_override[$field])) {
+				return $this->_override[$field];
+			}
 			return $this->_columns[$field]['type'];
 		} else {
 			return NULL;
