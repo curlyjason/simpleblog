@@ -8,7 +8,7 @@ use Cake\Utility\Inflector; ?>
 
 <?php
 foreach (array_keys($this->Crud->columns()) as $field) {
-	if (in_array($field, $this->Crud->primaryKey())) {
+	if (in_array($field, $this->Crud->primaryKey(TRUE))) {
 		continue;
 	}
 	if (isset($this->Crud->foreignKeys[$field])) {

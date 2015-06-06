@@ -25,7 +25,6 @@ class BelongsToDecorator extends FieldDecorator {
 			
 			// if this is a belongsTo field, make it a link to the parent record
 			if ($this->fieldIsKey($field, 'manyToOne')) {
-				debug('inside');
 
 				$output = $this->base->output($field, $options);
 //			debug($this->helper->helpers());

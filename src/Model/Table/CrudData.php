@@ -157,8 +157,13 @@ use ConventionsTrait;
 	}
 	
 	
-	public function primaryKey() {
+	public function primaryKey($as_array = FALSE) {
+		if ($as_array) {
+			return (array) $this->_table->primaryKey();
+		} else {
 			return $this->_table->primaryKey();
+		}
+			
 	}
 	
 	public function displayField() {

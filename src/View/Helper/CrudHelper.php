@@ -249,8 +249,8 @@ class CrudHelper extends Helper
 	 * 
 	 * @return array
 	 */
-	public function primaryKey() {
-		return $this->CrudData->primaryKey();
+	public function primaryKey($as_array = FALSE) {
+		return $this->CrudData->primaryKey($as_array);
 	}
 	
 	public function foreignKeys() {
