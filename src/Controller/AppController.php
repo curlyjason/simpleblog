@@ -55,6 +55,6 @@ class AppController extends Controller
 
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
-		$this->helpers['Crud'] = ['crudData' => [$this->crudData]];
+		$this->helpers['Crud'] = ['crudData' => [$this->crudData], ['actions' => []] ];
 	}
 }
