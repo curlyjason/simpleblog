@@ -9,14 +9,13 @@
 // Loop for the primary models actions 
 foreach ($modelActions->content as $tool) : 
 ?>
-	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $crud_data->alias()) ?> </li>
+	<li> <?= $this->Crud->ModelAction->output($modelActions, $tool, $this->Crud->alias()) ?> </li>
 <?php 
 endforeach;
 // done with the primary model
 
 // loop for the associated models
-
-foreach ($crud_data->foreignKeys() as $key => $value) :
+foreach ($this->Crud->foreignKeys() as $key => $value) :
 //	debug($value['name']->modelName);
 //	debug($value);
 	$assocActions = $this->Crud->useActionPattern('association', $value['name']->modelName, $this->request->action);

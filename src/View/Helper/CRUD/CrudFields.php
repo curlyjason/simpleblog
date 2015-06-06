@@ -57,7 +57,7 @@ class CrudFields implements FieldOutputInterface {
 	 * @return string
 	 */
 	public function output($field, $options = []) {
-		return $this->{$this->helper->CrudData->columnType($field)}($field, $options);
+		return $this->{$this->helper->columnType($field)}($field, $options);
 	}
 	
 	protected function integer($field, $options = []) { 

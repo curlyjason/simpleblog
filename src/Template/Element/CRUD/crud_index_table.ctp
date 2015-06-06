@@ -2,7 +2,7 @@
     <thead>
         <tr>
 			<?php
-			foreach ($crud_data->columns() as $column_name => $column_specs) {
+			foreach ($this->Crud->columns() as $column_name => $column_specs) {
 				echo '<th>' . $this->Paginator->sort($column_name) . '</th>';
 			}
 			?>
@@ -11,17 +11,17 @@
     </thead>
     <tbody>
 		<?php
-		foreach (${$crud_data->alias()->variableName} as $entity): $this->Crud->entity = $entity;
+		foreach (${$this->Crud->alias()->variableName} as $entity): $this->Crud->entity = $entity;
 			?>
 	        <tr class="record">
 				<?php
-				foreach ($crud_data->columns() as $field => $specs) :
+				foreach ($this->Crud->columns() as $field => $specs) :
 					echo "\t\t\t\t" . $this->Crud->output($field) . "\n";
 				endforeach;
 				?>
 	            <td class="actions">
 					<?php
-					$tools = $this->Crud->useActionPattern('record', $crud_data->alias('string'), $this->request->action);
+					$tools = $this->Crud->useActionPattern('record', $this->Crud->alias('string'), $this->request->action);
 					foreach ($tools->content as $tool) {
 						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
 					}

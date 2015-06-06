@@ -21,7 +21,7 @@ class BelongsToDecorator extends FieldDecorator {
 
 	public function output($field, $options = array()) {
 		// if there is a override type on the field, don't make it a belongsTo link
-		if (!in_array($this->helper->CrudData->columnType($field), $this->helper->CrudData->override())) {
+		if (!in_array($this->helper->columnType($field), $this->helper->override())) {
 			
 			// if this is a belongsTo field, make it a link to the parent record
 			if ($this->fieldIsKey($field, 'manyToOne')) {
@@ -30,12 +30,12 @@ class BelongsToDecorator extends FieldDecorator {
 				$output = $this->base->output($field, $options);
 //			debug($this->helper->helpers());
 
-				return ( $this->helper->entity->has($this->helper->CrudData->foreignKeys()[$field]['property']) ?
-//					"<a href=\"/{$this->helper->CrudData->foreignKeys()[$field]['name']}/view/$output\">$output</a>" :
+				return ( $this->helper->entity->has($this->helper->foreignKeys()[$field]['property']) ?
+//					"<a href=\"/{$this->helper->foreignKeys()[$field]['name']}/view/$output\">$output</a>" :
 								$this->helper->Html->link(
 										$output, //This should be a reference to the associate model's display
 										[
-									'controller' => $this->helper->CrudData->foreignKeys()[$field]['name'],
+									'controller' => $this->helper->foreignKeys()[$field]['name'],
 									'action' => 'view',
 									$output //This should be a reference to the associate model's primary key
 										]
@@ -48,9 +48,9 @@ class BelongsToDecorator extends FieldDecorator {
 
 	protected function fieldIsKey($field, $association) {
 		return (
-				isset($this->helper->CrudData->foreignKeys()[$field]) &&
-				!$this->helper->CrudData->foreignKeys()[$field]['owner'] &&
-				$this->helper->CrudData->foreignKeys()[$field]['association_type'] === $association
+				isset($this->helper->foreignKeys()[$field]) &&
+				!$this->helper->foreignKeys()[$field]['owner'] &&
+				$this->helper->foreignKeys()[$field]['association_type'] === $association
 				);
 	}
 
