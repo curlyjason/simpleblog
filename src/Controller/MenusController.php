@@ -32,7 +32,7 @@ class MenusController extends AppController {
 		$this->set('_serialize', ['menus']);
 
 		$crud_data = new CrudData($this->Menus, [
-			'whitelist' => ['id', 'type', 'name', 'controller', 'action', 'parent_id'],
+			'whitelist' => ['type', 'name', 'controller', 'action', 'parent_id'],
 			'attributes' => ['parent_id' => [
 				'empty' => 'Choose one',
 				'label' => FALSE
@@ -65,6 +65,15 @@ class MenusController extends AppController {
 		]);
 		$this->set('menu', $menu);
 		$this->set('_serialize', ['menu']);
+		
+		$crud_data = new CrudData($this->Menus);
+		$helper_config = [
+			'crudData' => [$crud_data]
+		];
+		$this->helpers['Crud'] = $helper_config;
+		$this->set(compact('crud_data'));
+
+		$this->render('/CRUD/edit');
 	}
 
 	/**
@@ -84,9 +93,18 @@ class MenusController extends AppController {
 			}
 		}
 		$childMenus = []; //$this->Menus->ChildMenus->find('list', ['limit' => 200]);
-		$parentMenus = []; //$this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$parents = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
 		$this->set(compact('menu', 'childMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
+		
+		$crud_data = new CrudData($this->Menus);
+		$helper_config = [
+			'crudData' => [$crud_data]
+		];
+		$this->helpers['Crud'] = $helper_config;
+		$this->set(compact('crud_data'));
+
+		$this->render('/CRUD/edit');
 	}
 
 	/**
