@@ -28,7 +28,7 @@ use App\Model\Table\CrudData;
 class AppController extends Controller
 {
 
-	public $CrudData;
+	public $crudData;
     /**
      * Initialization hook method.
      *
@@ -46,7 +46,7 @@ class AppController extends Controller
 		parent::beforeFilter($event);
 		$this->crudData = new CrudData($this->{$this->modelClass}, [
 			'whitelist' => [],
-			'blacklist' => [],
+			'blacklist' => ['created', 'modified', 'id'],
 			'override' => [],
 			'attributes' => []
 		]);

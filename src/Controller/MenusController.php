@@ -31,6 +31,8 @@ class MenusController extends AppController {
 		$this->set('parents', $this->Menus->find('list'));
 		$this->set('_serialize', ['menus']);
 
+		// verify and document config options. 
+		// Look into cakes array merge tools (used for class setup) and co-opt if possible
 		$crud_data = new CrudData($this->Menus, [
 			'whitelist' => ['type', 'name', 'controller', 'action', 'parent_id'],
 			'attributes' => ['parent_id' => [
@@ -39,6 +41,7 @@ class MenusController extends AppController {
 			]],
 			'override' => ['parent_id' => 'input']
 		]);
+		// verify how the array must be structured, then document it
 		$helper_config = [
 			'crudData' => [$crud_data],
 			'actions' => [

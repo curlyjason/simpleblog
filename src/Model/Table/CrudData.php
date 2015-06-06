@@ -146,20 +146,12 @@ use ConventionsTrait;
 	 * @param array $options
 	 */
 	public function __construct(\Cake\ORM\Table $table, $options = []) {
-		if (!empty($options)) {
-			if (isset($options['blacklist'])) {
-				$this->_blacklist = $options['blacklist'];
-			}
-			if (isset($options['whitelist'])) {
-				$this->_whitelist = $options['whitelist'];
-			}
-			if (isset($options['override'])) {
-				$this->_override = $options['override'];
-			}
-			if (isset($options['attributes'])) {
-				$this->_attributes = $options['attributes'];
-			}
-		}
+		
+		$this->_blacklist = (isset($options['blacklist'])) ? $options['blacklist'] : [];
+		$this->_whitelist = (isset($options['whitelist'])) ? $options['whitelist'] : [];
+		$this->_override = (isset($options['override'])) ? $options['override'] : [];
+		$this->_attributes = (isset($options['attributes'])) ? $options['attributes'] : [];
+			
 		$this->_table = $table;
 		$this->update();
 	}
@@ -199,14 +191,14 @@ use ConventionsTrait;
 	
 	public function update() {
 		$this->AssociationCollection = $this->_associationCollection($this->_table);
-		$this->_foreignKeys = $this->_foreignKeys();
-		$this->_columns = $this->_columns();
+		$this->_foreignKeys = $this->_foreignKeys(TRUE);
+		$this->_columns = $this->_columns(TRUE);
 //		$this->_associationFilter = $this->_filteredAssociations();
 	}
 	
 	public function whitelist($allow = FALSE) {
 		if ($allow !== FALSE) {
-			$this->_whitelist = $allow;
+			$this->_whitelist = array_merge($this->_whitelist, (array) $allow);
 			$this->update();
 		}
 		return $this->_whitelist;
@@ -214,7 +206,7 @@ use ConventionsTrait;
 
 	public function blacklist($deny = FALSE) {
 		if ($deny !== FALSE) {
-			$this->_blacklist = $deny;
+			$this->_blacklist = array_merge($this->_blacklist, (array) $deny);
 			$this->update();
 		}
 		return $this->_blacklist;
@@ -222,10 +214,18 @@ use ConventionsTrait;
 
 	public function override($types = FALSE) {
 		if ($types !== FALSE) {
-			$this->_override = $types;
+			$this->_override += $types;
 			$this->update();
 		}
 		return $this->_override;
+	}
+
+	public function attributes($attributes = FALSE) {
+		if ($attributes !== FALSE) {
+			$this->_attributes += $attributes;
+			$this->update();
+		}
+		return $this->_attributes;
 	}
 	
 	public function foreignKeys() {
@@ -287,8 +287,8 @@ use ConventionsTrait;
 	 * 
 	 * @return array
 	 */
-	protected function _foreignKeys() {
-		if (!$this->_foreign_keys) {
+	protected function _foreignKeys($refresh = FALSE) {
+		if (!$this->_foreign_keys || $refresh) {
 			$this->_foreign_keys = [];
 			$keys = $this->AssociationCollection->keys();
 			foreach ($keys as $assoc_name) {
@@ -316,8 +316,8 @@ use ConventionsTrait;
 	 * 
 	 * @return array 
 	 */
-	protected function _columns() {
-		if (!$this->_columns) {
+	protected function _columns($refresh = FALSE) {
+		if (!$this->_columns || $refresh) {
 			$this->_columns = [];
 			$foreign_keys = array_keys($this->foreignKeys());
 			$schema = $this->_table->schema();
