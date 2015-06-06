@@ -33,17 +33,13 @@ class MenusController extends AppController {
 
 		// verify and document config options. 
 		// Look into cakes array merge tools (used for class setup) and co-opt if possible
-		$crud_data = new CrudData($this->Menus, [
-			'whitelist' => ['type', 'name', 'controller', 'action', 'parent_id'],
-			'attributes' => ['parent_id' => [
-				'empty' => 'Choose one',
-				'label' => FALSE
-			]],
-			'override' => ['parent_id' => 'input']
-		]);
+		$this->crudData->blacklist(['lft', 'rght']);
+//		$this->crudData->whitelist(['type', 'name', 'controller', 'action', 'parent_id']);
+		$this->crudData->override(['parent_id' => 'input']);
+		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+
 		// verify how the array must be structured, then document it
 		$helper_config = [
-			'crudData' => [$crud_data],
 			'actions' => [
 				'record' => [
 					'path' => 'default.index',
@@ -51,7 +47,6 @@ class MenusController extends AppController {
 				]
 			]];
 		$this->helpers['Crud'] = $helper_config;
-		$this->set(compact('crud_data'));
 		$this->render('/CRUD/index_form');
 	}
 
