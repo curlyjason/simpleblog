@@ -11,12 +11,13 @@ $this->end();
 	<?= $this->element('CRUD/crud_index_table_form'); ?>
 </div>
 <?php 
-//debug($this->Crud->_AssociationActions);die;
-//$tools = $this->Crud->_AssociationActions->load('Users')->load('tester');
-//foreach ($tools->content as $action) {
-//	debug($tools->parse->label($action));
-//	debug($tools->parse->action($action));
-//
-//}
-//debug($this->Crud->_ModelActions);
+
 ?>
+<div class="paginator">
+	<ul class="pagination">
+		<?= $this->Paginator->prev('< ' . __('previous')) ?>
+		<?= $this->Paginator->numbers() ?>
+<?= $this->Paginator->next(__('next') . ' >') ?>
+	</ul>
+	<p><?= $this->Paginator->counter() ?></p>
+</div>
