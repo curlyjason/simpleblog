@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use App\Model\Table\CrudData;
 
 /**
  * Application Controller
@@ -27,6 +28,7 @@ use Cake\Controller\Controller;
 class AppController extends Controller
 {
 
+	public $CrudData;
     /**
      * Initialization hook method.
      *
@@ -39,4 +41,20 @@ class AppController extends Controller
         parent::initialize();
         $this->loadComponent('Flash');
     }
+	
+	public function beforeFilter(\Cake\Event\Event $event) {
+		parent::beforeFilter($event);
+		$this->crudData = new CrudData($this->{$this->modelClass}, [
+			'whitelist' => [],
+			'blacklist' => [],
+			'override' => [],
+			'attributes' => []
+		]);
+	}
+
+
+	public function beforeRender(\Cake\Event\Event $event) {
+		parent::beforeRender($event);
+		$this->helpers['Crud'] = ['crudData' => [$this->crudData]];
+	}
 }

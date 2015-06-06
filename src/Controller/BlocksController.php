@@ -21,9 +21,9 @@ class BlocksController extends AppController
     {
         $this->set('blocks', $this->paginate($this->Blocks->find('blocks')));
         $this->set('_serialize', ['blocks']);
-		$crud_data = new CrudData($this->Blocks, ['whitelist' => ['id', 'label', 'controller', 'action']]);
-		$this->helpers['Crud'][] = $crud_data;
-		$this->set(compact('crud_data'));
+//		$crud_data = new CrudData($this->Blocks, ['whitelist' => ['id', 'label', 'controller', 'action']]);
+//		$this->helpers['Crud'][] = $crud_data;
+//		$this->set(compact('crud_data'));
 		$this->render('/CRUD/index');
     }
 
