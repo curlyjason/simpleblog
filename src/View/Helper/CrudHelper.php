@@ -236,13 +236,25 @@ class CrudHelper extends Helper
 		return $this->CrudData->column($name);
 	}
 	
+	public function override($types = FALSE) {
+		return $this->CrudData->override($types);
+	}
+	
+	public function columnType($name) {
+		return $this->CrudData->columnType($name);
+	}
+	
 	/**
 	 * Get the primary key(s) for the current CrudData
 	 * 
 	 * @return array
 	 */
 	public function primaryKey() {
-		return (array) $this->CrudData->primaryKey();
+		return $this->CrudData->primaryKey();
+	}
+	
+	public function foreignKeys() {
+		return $this->CrudData->foreignKeys();
 	}
 	
 	/**
