@@ -55,6 +55,12 @@ class AppController extends Controller
 
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
-		$this->helpers['Crud'] = ['crudData' => [$this->crudData], ['actions' => []] ];
+//		if (isset($event->subject()->viewVars['helper_config'])) {
+//			$helper_config = $event->subject()->viewVars['helper_config'];
+//		} else {
+//			$helper_config = [];
+//		}
+//		$this->helpers['Crud']['crudData'] = [$this->crudData];
+//		$this->helpers['Crud']['actions'] = $helper_config ;
 	}
 }

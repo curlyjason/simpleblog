@@ -40,10 +40,11 @@ class MenusController extends AppController {
 
 		// verify how the array must be structured, then document it
 		$helper_config = [
+			'crudData' => [$this->crudData],
 			'actions' => [
 				'record' => [
 					'path' => 'default.index',
-					'data' => ['submit', ['Move Up' => 'move_up'], ['Move Down' => 'move_down']]
+					'data' => [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]
 				]
 			]];
 		$this->helpers['Crud'] = $helper_config;
