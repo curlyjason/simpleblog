@@ -3,7 +3,7 @@
 		<tr>
 			<?php
 			foreach ($this->Crud->columns() as $column_name => $column_specs) {
-				echo '<th>' . $this->Paginator->sort($column_name) . '</th>';
+				echo '<th>' . $this->Paginator->sort($column_name) . "</th>\n";
 			}
 			?>
 			<th class="actions"><?= __('Actions') ?></th>
