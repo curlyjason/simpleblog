@@ -5,5 +5,5 @@
     </ul>
 </div>
 <div class="menus form large-10 medium-9 columns">
-	<?= $this->element('CRUD/crud_add'); ?>
+	<?= $this->element('CRUD/form'); ?>
 </div>
