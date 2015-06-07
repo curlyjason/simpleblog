@@ -23,7 +23,7 @@
 					<?php
 					$tools = $this->Crud->useActionPattern('record', $this->Crud->alias('string'), $this->request->action);
 					foreach ($tools->content as $tool) {
-						echo $this->Crud->RecordAction->output($tools, $tool, $entity);
+						echo $this->Crud->RecordAction->output($tools, $tool, $entity) . '               ';
 					}
 					?>
 	            </td>
