@@ -15,23 +15,23 @@ class CrudHelper extends Helper
 	protected $_defaultModelActionPatterns = [
 		'index' => [['new' => 'add']],
 		'add' => [['list' => 'index']],
-		'view' => [['new' => 'add'], ['List' => 'index']],
-		'edit' => [['new' => 'add'], ['List' => 'index']]
+		'view' => [['List' => 'index'], 'edit', ['new' => 'add'], 'delete'],
+		'edit' => [['List' => 'index'], ['new' => 'add'], 'delete']
 	];
 	
 	protected $_defaultAssociationActionPatterns = [
-		'index' => [['new' => 'add'], ['List' => 'index']],
-		'add' => [['new' => 'add'], ['List' => 'index']],
-		'view' => [['new' => 'add'], ['List' => 'index']],
-		'edit' => [['new' => 'add'], ['List' => 'index']]
+		'index' => [['List' => 'index'], ['new' => 'add']],
+		'add' => [['List' => 'index'], ['new' => 'add']],
+		'view' => [['List' => 'index'], ['new' => 'add']],
+		'edit' => [['List' => 'index'], ['new' => 'add']]
 	];
 
 	protected $_defaultRecordActionPatterns = [
 //		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
-		'index' => ['edit', 'view', 'delete'],
+		'index' => ['view', 'edit', 'delete'],
 		'add' => ['cancel', 'save'],
-		'edit' => ['cancel', 'save', 'delete'],
-		'view' => ['edit', 'delete']
+		'edit' => ['cancel', 'save'],
+		'view' => []
 	];
 	
 	protected $_ModelActions;
