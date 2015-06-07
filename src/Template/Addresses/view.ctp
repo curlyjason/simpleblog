@@ -1,4 +1,19 @@
-<div class="actions columns large-2 medium-3">
+array (
+  'BelongsTo' => 
+  array (
+  ),
+  'HasOne' => 
+  array (
+  ),
+  'HasMany' => 
+  array (
+  ),
+  'BelongsToMany' => 
+  array (
+  ),
+)array (
+)array (
+)<div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Html->link(__('Edit Address'), ['action' => 'edit', $address->id]) ?> </li>
@@ -17,6 +32,16 @@
         <div class="large-2 columns numbers end">
             <h6 class="subheader"><?= __('Id') ?></h6>
             <p><?= $this->Number->format($address->id) ?></p>
+            <h6 class="subheader"><?= __('User Id') ?></h6>
+            <p><?= $this->Number->format($address->user_id) ?></p>
+        </div>
+        <div class="large-2 columns dates end">
+            <h6 class="subheader"><?= __('Created') ?></h6>
+            <p><?= h($address->created) ?></p>
+            <h6 class="subheader"><?= __('Modified') ?></h6>
+            <p><?= h($address->modified) ?></p>
+            <h6 class="subheader"><?= __('Updated') ?></h6>
+            <p><?= h($address->updated) ?></p>
         </div>
     </div>
 </div>

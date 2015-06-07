@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Address Entity.
+ * Tree Entity.
  */
-class Address extends Entity
+class Tree extends Entity
 {
 
     /**
@@ -15,7 +15,8 @@ class Address extends Entity
      * @var array
      */
     protected $_accessible = [
-        'address' => true,
-        'user_id' => true,
+        'parent_tree_id' => true,
+        'name' => true,
+        'parent_tree' => true,
     ];
 }

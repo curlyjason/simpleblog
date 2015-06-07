@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * AddressesFixture
+ * TreesFixture
  *
  */
-class AddressesFixture extends TestFixture
+class TreesFixture extends TestFixture
 {
 
     /**
@@ -18,11 +18,11 @@ class AddressesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'address' => ['type' => 'string', 'length' => 256, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
-        'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'updated' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'parent_tree_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'name' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -41,11 +41,11 @@ class AddressesFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'address' => 'Lorem ipsum dolor sit amet',
-            'user_id' => 1,
-            'created' => '2015-06-07 17:46:15',
-            'modified' => '2015-06-07 17:46:15',
-            'updated' => '2015-06-07 17:46:15'
+            'created' => '2015-06-07 17:19:12',
+            'modified' => '2015-06-07 17:19:12',
+            'updated' => '2015-06-07 17:19:12',
+            'parent_tree_id' => 1,
+            'name' => 'Lorem ipsum dolor sit amet'
         ],
     ];
 }

@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Address;
+use App\Model\Entity\Organization;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Addresses Model
+ * Organizations Model
  */
-class AddressesTable extends Table
+class OrganizationsTable extends Table
 {
 
     /**
@@ -21,16 +21,13 @@ class AddressesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('addresses');
-        $this->displayField('id');
+        $this->table('organizations');
+        $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->belongsToMany('Organizations', [
-            'foreignKey' => 'address_id',
-            'targetForeignKey' => 'organization_id',
+        $this->belongsToMany('Addresses', [
+            'foreignKey' => 'organization_id',
+            'targetForeignKey' => 'address_id',
             'joinTable' => 'addresses_organizations'
         ]);
     }
@@ -48,21 +45,8 @@ class AddressesTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->allowEmpty('address');
+            ->allowEmpty('name');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        return $rules;
     }
 }

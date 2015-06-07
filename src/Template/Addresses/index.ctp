@@ -10,6 +10,10 @@
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
             <th><?= $this->Paginator->sort('address') ?></th>
+            <th><?= $this->Paginator->sort('user_id') ?></th>
+            <th><?= $this->Paginator->sort('created') ?></th>
+            <th><?= $this->Paginator->sort('modified') ?></th>
+            <th><?= $this->Paginator->sort('updated') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
     </thead>
@@ -18,6 +22,10 @@
         <tr>
             <td><?= $this->Number->format($address->id) ?></td>
             <td><?= h($address->address) ?></td>
+            <td><?= $this->Number->format($address->user_id) ?></td>
+            <td><?= h($address->created) ?></td>
+            <td><?= h($address->modified) ?></td>
+            <td><?= h($address->updated) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $address->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $address->id]) ?>

@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Address;
+use App\Model\Entity\Tree;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Addresses Model
+ * Trees Model
  */
-class AddressesTable extends Table
+class TreesTable extends Table
 {
 
     /**
@@ -21,17 +21,12 @@ class AddressesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('addresses');
-        $this->displayField('id');
+        $this->table('trees');
+        $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->belongsToMany('Organizations', [
-            'foreignKey' => 'address_id',
-            'targetForeignKey' => 'organization_id',
-            'joinTable' => 'addresses_organizations'
+        $this->belongsTo('ParentTrees', [
+            'foreignKey' => 'parent_tree_id'
         ]);
     }
 
@@ -48,7 +43,7 @@ class AddressesTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->allowEmpty('address');
+            ->allowEmpty('name');
 
         return $validator;
     }
@@ -62,7 +57,7 @@ class AddressesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['parent_tree_id'], 'ParentTrees'));
         return $rules;
     }
 }

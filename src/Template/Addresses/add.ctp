@@ -10,6 +10,7 @@
         <legend><?= __('Add Address') ?></legend>
         <?php
             echo $this->Form->input('address');
+            echo $this->Form->input('user_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     0.2.9
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -25,23 +27,22 @@ use App\Model\Table\CrudData;
  *
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller
-{
+class AppController extends Controller {
 
 	public $crudData;
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * @return void
-     */
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('Flash');
-    }
-	
+
+	/**
+	 * Initialization hook method.
+	 *
+	 * Use this method to add common initialization code like loading components.
+	 *
+	 * @return void
+	 */
+	public function initialize() {
+		parent::initialize();
+		$this->loadComponent('Flash');
+	}
+
 	public function beforeFilter(\Cake\Event\Event $event) {
 		parent::beforeFilter($event);
 		$this->crudData = new CrudData($this->{$this->modelClass}, [
@@ -51,7 +52,6 @@ class AppController extends Controller
 			'attributes' => []
 		]);
 	}
-
 
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
@@ -63,4 +63,68 @@ class AppController extends Controller
 //		$this->helpers['Crud']['crudData'] = [$this->crudData];
 //		$this->helpers['Crud']['actions'] = $helper_config ;
 	}
+
+	/** CAKE 2 METHOD THAT MIGHT BE USEFUL TO CONVERT TO CAKE 3
+	 * ========================================================
+	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * ========================================================
+	 * 
+	 * Converts POST'ed form data to a model conditions array, suitable for use in a Model::find() call.
+	 *
+	 * @param array $data POST'ed data organized by model and field
+	 * @param string|array $op A string containing an SQL comparison operator, or an array matching operators
+	 *        to fields
+	 * @param string $bool SQL boolean operator: AND, OR, XOR, etc.
+	 * @param boolean $exclusive If true, and $op is an array, fields not included in $op will not be
+	 *        included in the returned conditions
+	 * @return array An array of model conditions
+	 * @deprecated Will be removed in 3.0
+	 */
+//	public function postConditions($data = array(), $op = null, $bool = 'AND', $exclusive = false) {
+//		if (!is_array($data) || empty($data)) {
+//			if (!empty($this->request->data)) {
+//				$data = $this->request->data;
+//			} else {
+//				return null;
+//			}
+//		}
+//		$cond = array();
+//
+//		if ($op === null) {
+//			$op = '';
+//		}
+//
+//		$arrayOp = is_array($op);
+//		foreach ($data as $model => $fields) {
+//			foreach ($fields as $field => $value) {
+//				$key = $model . '.' . $field;
+//				$fieldOp = $op;
+//				if ($arrayOp) {
+//					if (array_key_exists($key, $op)) {
+//						$fieldOp = $op[$key];
+//					} elseif (array_key_exists($field, $op)) {
+//						$fieldOp = $op[$field];
+//					} else {
+//						$fieldOp = false;
+//					}
+//				}
+//				if ($exclusive && $fieldOp === false) {
+//					continue;
+//				}
+//				$fieldOp = strtoupper(trim($fieldOp));
+//				if ($fieldOp === 'LIKE') {
+//					$key = $key . ' LIKE';
+//					$value = '%' . $value . '%';
+//				} elseif ($fieldOp && $fieldOp !== '=') {
+//					$key = $key . ' ' . $fieldOp;
+//				}
+//				$cond[$key] = $value;
+//			}
+//		}
+//		if ($bool && strtoupper($bool) !== 'AND') {
+//			$cond = array($bool => $cond);
+//		}
+//		return $cond;
+//	}
+
 }

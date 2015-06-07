@@ -68,14 +68,11 @@ class AddressesController extends AppController
      */
     public function edit($id = null)
     {
-		debug($this->request->data);
         $address = $this->Addresses->get($id, [
             'contain' => []
         ]);
-		debug($address);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $address = $this->Addresses->patchEntity($address, $this->request->data);
-			debug($address);die;
             if ($this->Addresses->save($address)) {
                 $this->Flash->success('The address has been saved.');
                 return $this->redirect(['action' => 'index']);
