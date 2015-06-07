@@ -28,26 +28,36 @@ class ModelActionHelper extends Helper {
 	 * defaults to controller/action/id links
 	 * if a named action is found, return that instead
 	 * 
-	 * @param type $tools
-	 * @param type $tool
-	 * @param type $entity
+	 * @param object $tools
+	 * @param string $tool
+	 * @param object $name NameConvention
 	 * @return type
 	 */
 	public function output($tools, $tool, $name) {
-//		debug(get_class_methods($tools)); debug(get_class_methods($tools->parse));die;
+		// if there's a named action do it
 		if (method_exists($this, $tools->parse->action($tool))) {
 			return $this->{$tools->parse->action($tool)}($tools, $tool, $name);
+			
+		// otherwise do a link to controller = name, action = tool
 		} else {
-			return $this->Html->link(__($tools->parse->label($tool, $name)), ['controller' => $name, 'action' => $tools->parse->action($tool)]);
+//			debug($tool);
+			$targetName = $name->pluralHumanName;
+			if (in_array($tools->parse->action($tool), ['new', 'add'])) {
+				$targetName = $name->singularHumanName;
+			}
+			return $this->Html->link(
+					__($tools->parse->label($tool, $targetName)), 
+					['controller' => $name, 'action' => $tools->parse->action($tool)]
+			);
 		}
 	}
 	
 	/**
 	 * Standard CRUD delete link
 	 * 
-	 * @param type $tools
-	 * @param type $tool
-	 * @param type $entity
+	 * @param object $tools
+	 * @param string $tool
+	 * @param object $name NameConvention
 	 * @return type
 	 */
 	public function delete($tools, $tool, $entity){
@@ -65,7 +75,7 @@ class ModelActionHelper extends Helper {
 	 * @param type $entity
 	 * @return type
 	 */
-	public function example($tools, $tool, $entity){
+	public function example($tools, $tool, $name){
 		return '<form>' . $this->Form->input('example', ['label' => $tools->parse->label($tool)]) . '<button>Click</button></form>';
 	}
 }

@@ -111,6 +111,7 @@ class ActionPattern {
 	
 	protected function addTools($toolSettings, $view, $replace = FALSE) {
 //		$this->target = $this->view_level;
+		$content = [];
 		foreach ($toolSettings as $action) {
 			$content[$this->ToolParser->action($action)] = $action;
 		}
