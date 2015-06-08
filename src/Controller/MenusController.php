@@ -22,10 +22,10 @@ class MenusController extends AppController {
 	 * @return void
 	 */
 	public function index() {
+//		debug($this->_crudData);die;
 		$this->set('menus', $this->paginate($this->Menus->find()
-								->contain(['ParentMenus', 'SubMenus'])
-//								->find('threaded')
-								->order(['Menus.lft' => 'ASC'])
+			->contain(['ParentMenus', 'SubMenus'])
+			->order(['Menus.lft' => 'ASC'])
 		));
 		
 		$this->set('parents', $this->Menus->find('list'));
@@ -37,17 +37,9 @@ class MenusController extends AppController {
 //		$this->crudData->whitelist(['type', 'name', 'controller', 'action', 'parent_id']);
 		$this->crudData->override(['parent_id' => 'input']);
 		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+		
+		$this->RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
 
-		// verify how the array must be structured, then document it
-		$helper_config = [
-			'crudData' => [$this->crudData],
-			'actions' => [
-				'record' => [
-					'path' => 'default.index',
-					'data' => [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]
-				]
-			]];
-		$this->helpers['Crud'] = $helper_config;
 		$this->render('/CRUD/index_form');
 	}
 
@@ -96,13 +88,6 @@ class MenusController extends AppController {
 		$this->set(compact('menu', 'childMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
 		
-		$crud_data = new CrudData($this->Menus);
-		$helper_config = [
-			'crudData' => [$crud_data]
-		];
-		$this->helpers['Crud'] = $helper_config;
-		$this->set(compact('crud_data'));
-
 		$this->render('/CRUD/edit');
 	}
 
@@ -131,13 +116,6 @@ class MenusController extends AppController {
 		$this->set(compact('menu', 'subMenus', 'parents'));
 		$this->set('_serialize', ['menu']);
 		
-		$crud_data = new CrudData($this->Menus);
-		$helper_config = [
-			'crudData' => [$crud_data]
-		];
-		$this->helpers['Crud'] = $helper_config;
-		$this->set(compact('crud_data'));
-
 		$this->render('/CRUD/edit');
 	}
 

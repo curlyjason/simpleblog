@@ -12,28 +12,6 @@ class CrudHelper extends Helper
 	
 	public $helpers = ['Html', 'Form'];
 
-	protected $_defaultModelActionPatterns = [
-		'index' => [['new' => 'add']],
-		'add' => [['list' => 'index']],
-		'view' => [['List' => 'index'], 'edit', ['new' => 'add'], 'delete'],
-		'edit' => [['List' => 'index'], ['new' => 'add'], 'delete']
-	];
-	
-	protected $_defaultAssociationActionPatterns = [
-		'index' => [['List' => 'index'], ['new' => 'add']],
-		'add' => [['List' => 'index'], ['new' => 'add']],
-		'view' => [['List' => 'index'], ['new' => 'add']],
-		'edit' => [['List' => 'index'], ['new' => 'add']]
-	];
-
-	protected $_defaultRecordActionPatterns = [
-//		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
-		'index' => ['view', 'edit', 'delete'],
-		'add' => ['cancel', 'save'],
-		'edit' => ['cancel', 'save'],
-		'view' => []
-	];
-	
 	protected $_ModelActions;
 	protected $_AssociationActions;
 	protected $_RecordActions;
@@ -157,29 +135,22 @@ class CrudHelper extends Helper
 		$this->_defaultAlias = new NameConventions(Inflector::pluralize(Inflector::classify($this->request->controller)));
 		$this->_CrudData = new Collection();
 		$this->_Field = new Collection();
-//		debug($config);
-//		die;
-		$configCrudData = isset($config['crudData']) ? $config['crudData'] : [];
-		$configActions =  isset($config['actions']) ? $config['actions'] : [];
 		
-		foreach ($configCrudData as $crudData) {
+		$config += ['crudData' => [], 'actions' =>[]];
+		
+		foreach ($config['crudData'] as $crudData) {
 			$this->_CrudData->add($crudData->alias()->name, $crudData);
 		}
-		$this->useCrudData($this->alias('string'));
 		
+		foreach ($config['actions'] as $name => $pattern) {
+			$this->{"_$name"} = $pattern;
+		}   
+		
+		$this->useCrudData($this->alias('string'));
 		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
 		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
-		$this->setDefaultAssociatedActions();
-		
-		//set actions supplied by config
-		foreach ($configActions as $grouping => $action) {
-			//set default values to unset parameters
-			$actionData = isset($action['data']) ? $action['data'] : FALSE;
-			$actionReplace = isset($action['replace']) ? $action['replace'] : FALSE;
-			$this->addActionPattern($grouping, $action['path'], $actionData, $actionReplace);
-		}
-//		debug($this->CrudData->foreignKeys());die;
+
 	}
 	
 	/**
@@ -266,15 +237,6 @@ class CrudHelper extends Helper
 		return $this->CrudData->dispayField();
 	}
 	
-	/**
-	 * Set the default action patterns to cover all cake-standard crud settings
-	 */
-	protected function setDefaultAssociatedActions() {
-		$this->_ModelActions = new CRUD\ActionPattern(['default' => $this->_defaultModelActionPatterns]) ;
-		$this->_AssociationActions = new CRUD\ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
-		$this->_RecordActions = new CRUD\ActionPattern(['default' => $this->_defaultRecordActionPatterns]);
-	}
-		
 	/**
 	 * Make the chosen CrudData and its matching Field object the current ones
 	 * 

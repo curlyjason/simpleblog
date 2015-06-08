@@ -18,6 +18,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use App\Model\Table\CrudData;
+use App\View\Helper\CRUD\ActionPattern;
 
 /**
  * Application Controller
@@ -30,7 +31,33 @@ use App\Model\Table\CrudData;
 class AppController extends Controller {
 
 	public $crudData;
+	public $_crudData = [];
+	public $ModelActions;
+	public $AssociationActions;
+	public $RecordActions;
 
+	protected $_defaultModelActionPatterns = [
+		'index' => [['new' => 'add']],
+		'add' => [['list' => 'index']],
+		'view' => [['List' => 'index'], 'edit', ['new' => 'add'], 'delete'],
+		'edit' => [['List' => 'index'], ['new' => 'add'], 'delete']
+	];
+	
+	protected $_defaultAssociationActionPatterns = [
+		'index' => [['List' => 'index'], ['new' => 'add']],
+		'add' => [['List' => 'index'], ['new' => 'add']],
+		'view' => [['List' => 'index'], ['new' => 'add']],
+		'edit' => [['List' => 'index'], ['new' => 'add']]
+	];
+
+	protected $_defaultRecordActionPatterns = [
+//		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
+		'index' => ['view', 'edit', 'delete'],
+		'add' => ['cancel', 'save'],
+		'edit' => ['cancel', 'save'],
+		'view' => []
+	];
+	
 	/**
 	 * Initialization hook method.
 	 *
@@ -51,17 +78,31 @@ class AppController extends Controller {
 			'override' => [],
 			'attributes' => []
 		]);
+		array_push($this->_crudData, $this->crudData);
+		$this->setDefaultActionPatterns();
 	}
+	
+	/**
+	 * Set the default action patterns to cover all cake-standard crud settings
+	 */
+	protected function setDefaultActionPatterns() {
+		$this->ModelActions = new ActionPattern(['default' => $this->_defaultModelActionPatterns]) ;
+		$this->AssociationActions = new ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
+		$this->RecordActions = new ActionPattern(['default' => $this->_defaultRecordActionPatterns]);
+	}
+		
 
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
-//		if (isset($event->subject()->viewVars['helper_config'])) {
-//			$helper_config = $event->subject()->viewVars['helper_config'];
-//		} else {
-//			$helper_config = [];
-//		}
-//		$this->helpers['Crud']['crudData'] = [$this->crudData];
-//		$this->helpers['Crud']['actions'] = $helper_config ;
+
+		$this->helpers['Crud'] = [
+			'crudData' => $this->_crudData,
+			'actions' => [
+				'ModelActions' => $this->ModelActions,
+				'AssociationActions' => $this->AssociationActions,
+				'RecordActions' => $this->RecordActions
+			]];
+
 	}
 
 	/** CAKE 2 METHOD THAT MIGHT BE USEFUL TO CONVERT TO CAKE 3
