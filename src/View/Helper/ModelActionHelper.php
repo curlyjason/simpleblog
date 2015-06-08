@@ -78,4 +78,8 @@ class ModelActionHelper extends Helper {
 	public function example($tools, $tool, $name){
 		return '<form>' . $this->Form->input('example', ['label' => $tools->parse->label($tool)]) . '<button>Click</button></form>';
 	}
+	
+	public function search($tools, $tool, $name) {
+		return $this->_View->element('simple_search');
+	}
 }

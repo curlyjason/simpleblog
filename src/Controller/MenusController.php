@@ -21,13 +21,15 @@ class MenusController extends AppController {
 	 *
 	 * @return void
 	 */
-	public function index() {
-//		debug($this->_crudData);die;
-		$this->set('menus', $this->paginate($this->Menus->find()
-			->contain(['ParentMenus', 'SubMenus'])
-			->order(['Menus.lft' => 'ASC'])
-		));
+	public function index($search = FALSE) {
+		$menus = $this->Menus->find();
+		if ($search) {
+			$menus->where($search);
+		}
+		$menus->contain(['ParentMenus', 'SubMenus'])
+			->order(['Menus.lft' => 'ASC']);
 		
+		$this->set('menus', $this->paginate($menus));
 		$this->set('parents', $this->Menus->find('list'));
 		$this->set('_serialize', ['menus']);
 
@@ -39,6 +41,7 @@ class MenusController extends AppController {
 		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
 		
 		$this->RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
+		$this->ModelActions->add('default.index', ['search']);
 
 		$this->render('/CRUD/index_form');
 	}
