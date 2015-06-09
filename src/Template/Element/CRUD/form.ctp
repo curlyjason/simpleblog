@@ -14,13 +14,13 @@ use Cake\Utility\Inflector;
 			if (in_array($field, $this->Crud->primaryKey(TRUE))) {
 				continue;
 			}
-			if (isset($this->Crud->foreignKeys[$field])) {
+			if (isset($this->Crud->foreignKeys()[$field])) {
 				$field = new NameConventions($field);
-				$fieldData = $this->Crud->column($field);
+				$fieldData = $this->Crud->column($field->name);
 				if (!empty($fieldData['null'])) {
-					echo $this->Form->input($field, ['options' => $field->variableName, 'empty' => true]);
+					echo $this->Form->input($field->name, ['options' => ${strtolower($field->modelName)}, 'empty' => 'Choose one']);
 				} else {
-					echo $this->Form->input('<%= $field %>', ['options' => $$field->variableName]);
+					echo $this->Form->input($field->name, ['options' => ${strtolower($field->modelName)}]);
 				}
 				continue;
 			}

@@ -114,6 +114,8 @@ class MenusController extends AppController {
 				$this->Flash->error('The menu could not be saved. Please, try again.');
 			}
 		}
+		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+		$this->crudData->blacklist(['lft', 'rght']);
 		$subMenus = $this->Menus->SubMenus->find('list', ['limit' => 200]);
 		$parents = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
 		$this->set(compact('menu', 'subMenus', 'parents'));
