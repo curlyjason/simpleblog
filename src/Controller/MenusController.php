@@ -35,7 +35,7 @@ class MenusController extends AppController {
 
 		// verify and document config options. 
 		// Look into cakes array merge tools (used for class setup) and co-opt if possible
-		$this->crudData->blacklist(['lft', 'rght']);
+//		$this->crudData->blacklist(['lft', 'rght']);
 //		$this->crudData->whitelist(['type', 'name', 'controller', 'action', 'parent_id']);
 		$this->crudData->override(['parent_id' => 'input']);
 		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
@@ -86,8 +86,9 @@ class MenusController extends AppController {
 				$this->Flash->error('The menu could not be saved. Please, try again.');
 			}
 		}
+		$this->crudData->blacklist(['lft', 'rght']);
 		$childMenus = []; //$this->Menus->ChildMenus->find('list', ['limit' => 200]);
-		$parents = $this->Menus->ParentMenus->find('list', ['limit' => 200]);
+		$this->set('parents', $this->Menus->ParentMenus->find('list', ['limit' => 200]));
 		$this->set(compact('menu', 'childMenus', 'parentMenus'));
 		$this->set('_serialize', ['menu']);
 		
@@ -162,6 +163,11 @@ class MenusController extends AppController {
 			$this->Flash->error('The menu could not be moved down. Please, try again.');
 		}
 		return $this->redirect($this->referer(['action' => 'index']));
+	}
+	
+	public function recover(){
+		$this->Menus->recover();
+		$this->redirect(['action' => 'index']);
 	}
 
 }

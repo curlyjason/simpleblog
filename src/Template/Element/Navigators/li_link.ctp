@@ -1,12 +1,14 @@
 <?php
-foreach (${$this->Crud->alias()->variableName} as $key => $value) {
-	$this->Crud->entity = $value;
-	echo '<ul>';
-	foreach ($this->Crud->columns() as $column => $type) {
-		$this->Crud->addAttributes($column, ['action' => $value->action, 'controller' => $value->controller, '?' => $value->query, '#' => $value->hash], FALSE);
-		echo $this->Crud->output($column);
-		echo '</li>';
-	}
-	echo '</ul>';
-}
+
+use Cake\Collection\Collection;
+
+$collection = new Collection(${$this->Crud->alias()->variableName});
+$roots = $collection->filter(function ($nav, $key) {
+    return $nav->parent_id === NULL;
+});
+//$children = $collection->filter(function ($nav, $key) {
+//    return $nav->gender === 'male';
+//});
+echo $this->List->outputRecursiveLi($roots, $this->Crud, ${$this->Crud->alias()->variableName});
+
 ?>
