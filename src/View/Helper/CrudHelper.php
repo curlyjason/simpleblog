@@ -341,6 +341,7 @@ class CrudHelper extends Helper
 		if ($this->CrudData->overrideAction($action)) {
 			$action = $this->CrudData->overrideAction($action);
 		}
+		
 		switch ($action) {
 			// the four cake-standard crud setups
 			case 'index':

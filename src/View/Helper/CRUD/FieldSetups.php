@@ -55,5 +55,12 @@ class FieldSetups {
 				new CrudFields($helper)
 		));
 	}
+	
+	public function liLink($helper) {
+		return new Decorator\LiDecorator(
+				new Decorator\LinkDecorator(
+				new CrudFields($helper)
+				));
+	}
 
 }

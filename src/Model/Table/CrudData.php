@@ -363,7 +363,7 @@ use ConventionsTrait;
 	public function overrideAction($action, $alternate = NULL) {
 		if (!is_null($alternate)) {
 			$this->_overrideAction = [$action => $alternate];
-		}		
+		}
 		if(isset($this->_overrideAction[$action])){
 			return $this->_overrideAction[$action];
 		} else {
