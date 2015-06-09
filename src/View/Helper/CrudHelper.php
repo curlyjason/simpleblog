@@ -291,15 +291,9 @@ class CrudHelper extends Helper
 		
 		// we can at least have a fallback output strategy
 		if (!$this->Field) {
-//			debug('setting Field');
-//			debug($this->_Field);
-//			debug($this->alias('string'));
 			$this->_Field->add($this->alias('string'), $this->createFieldHandler($this->request->action));
-//			debug($this->_Field);
 			$this->Field = $this->_Field->load($this->alias('string'));
 		}
-//		debug($this->Field);
-//		debug('did field get set?');die;
 		if (!$dot && !isset($this->CrudData)) {
 			$this->useCrudData($this->alias('string'));
 		} elseif ($dot) {
@@ -348,10 +342,12 @@ class CrudHelper extends Helper
 		//and we need it to execute the overrideAction
 		//Need to find a smoother way to setup the CrudData, instead of having it all setup
 		//in $this->output()
-		if(!isset($this->CrudData)){
-			$this->useCrudData($this->alias('string'));
-		}
+//		if(!isset($this->CrudData)){
+//			$this->useCrudData($this->alias('string'));
+//		}
 		//END HACK
+		
+		// Is actually override-strategy-for-fields-in-this-action
 		if ($this->CrudData->overrideAction($action)) {
 			$action = $this->CrudData->overrideAction($action);
 		}

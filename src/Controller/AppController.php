@@ -58,14 +58,11 @@ class AppController extends Controller {
 		'view' => []
 	];
 	
-	public function simpleSearch() {
-		$search = ["Menus.{$this->Menus->displayField()} LIKE" => "%{$this->request->data['search']}%"];
-		$this->index($search);
-//		$menus = $this->Menus->find()->where(["{$this->Menus->displayField()} LIKE" => "%{$this->request->data['search']}%"]);
-//		foreach($menus as $menu) {
-//			debug($menu);
-//		}
-//		die;
+	public function simpleSearch($action) {
+		$this->request->action = $action;
+		$alias = $this->modelClass;
+		$search = ["$alias.{$this->$alias->displayField()} LIKE" => "%{$this->request->data['search']}%"];
+		$this->$action($search);
 	}
 	
 	/**
