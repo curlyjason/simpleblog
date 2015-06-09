@@ -18,6 +18,7 @@
 namespace App\Model\Table;
 
 use Cake\Core\ConventionsTrait;
+use Cake\Core\InstanceConfigTrait;
 use App\Lib\NameConventions;
 use Bake\Utility\Model\AssociationFilter;
 
@@ -28,6 +29,7 @@ use Bake\Utility\Model\AssociationFilter;
 class CrudData {
 	
 use ConventionsTrait;
+use InstanceConfigTrait;
 
 	/**
 	 * This is just for reference. 
@@ -104,6 +106,8 @@ use ConventionsTrait;
 	protected $_override;
 	
 	protected $_attributes;
+	
+	protected $_defaultConfig;
 	
 	/**
 	 * An alternate output setup name for a standard crud view
@@ -371,7 +375,9 @@ use ConventionsTrait;
 		}
 	}
 	
-	public function addAttributes($field, $attributes) {
-		$this->_columns[$field]['attributes'] += $attributes;
+	public function addAttributes($key = null, $value = null, $merge = true) {
+		$this->_defaultConfig = $this->_columns[$key]['attributes'];
+		$this->_columns[$key]['attributes'] = $this->config($key, $value, $merge)->config()[$key];
+//		$this->_columns[$key]['attributes'] += $value;
 	}
 }
