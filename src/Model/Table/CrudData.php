@@ -170,21 +170,6 @@ use ConventionsTrait;
 			return $this->_table->displayField();
 	}
 	
-	/**
-	 * A way to prevent the native output strategy on standard crud actions
-	 * 
-	 * The action name will select a Field strategy in CrudHelper. And the 
-	 * four standard crud actions are hard-wired. This allows you to substitute 
-	 * a different strategy for one of the standards. Or, indeed, to substitute 
-	 * a strategy for one of your own views (though I'm not sure why you would).
-	 * 
-	 * @param string $action
-	 * @param string $alternate
-	 */
-	public function overrideActionStrategy($action, $alternate) {
-		$this->_overrideAction = [$action => $alternate];
-	}
-	
 	public function alias($type = 'object') {
 		if ($type === 'string') {
 			return $this->_table->alias();
@@ -364,12 +349,21 @@ use ConventionsTrait;
     }
 	
 	/**
-	 * Return the indicated override action, or false if none
+	 * Set and/or return override action
+	 * 
+	 * The action name will select a Field strategy in CrudHelper. And the 
+	 * four standard crud actions are hard-wired. This allows you to substitute 
+	 * a different strategy for one of the standards. Or, indeed, to substitute 
+	 * a strategy for one of your own views (though I'm not sure why you would).
 	 * 
 	 * @param string $action
+	 * @param string $alternate
 	 * @return string or BOOLEAN FALSE
 	 */
-	public function overrideAction($action) {
+	public function overrideAction($action, $alternate = NULL) {
+		if (!is_null($alternate)) {
+			$this->_overrideAction = [$action => $alternate];
+		}		
 		if(isset($this->_overrideAction[$action])){
 			return $this->_overrideAction[$action];
 		} else {
