@@ -17,8 +17,7 @@ class LinkDecorator extends FieldDecorator {
 	
 	public function output($field, $options = array()) {
 //		return $this->helper->Html->tag('td', $this->base->output($field, $options), $options);
-		debug($options);
-		return $this->helper->Html->link($this->base->output($field, $options), ['action' => $options['action'], 'controller' => $options['controller']]);
+		return $this->helper->Html->link($this->base->output($field, $options), $options);
 	}
 
 }
