@@ -10,7 +10,7 @@ use App\Lib\NameConventions;
 class CrudHelper extends Helper
 {
 	
-	public $helpers = ['Html', 'Form'];
+	public $helpers = ['Html', 'Form', 'RecordAction', 'ModelAction'];
 
 	protected $_ModelActions;
 	protected $_AssociationActions;
@@ -147,8 +147,6 @@ class CrudHelper extends Helper
 		}   
 		
 		$this->useCrudData($this->alias('string'));
-		$this->RecordAction = $this->_View->helpers()->load('RecordAction');
-		$this->ModelAction = $this->_View->helpers()->load('ModelAction');
 		$this->FieldSetups = new CRUD\FieldSetups;
 
 	}
@@ -299,6 +297,7 @@ class CrudHelper extends Helper
 		} elseif ($dot) {
 			$field = $dot[1];
 			$this->useCrudData($dot[0]);
+			// shouldn't this also check to see if there is a field output strategy for this $dot[0]?
 		}
 		
 		return $this->Field->output($field, $this->columns()[$field]['attributes']);
@@ -337,15 +336,6 @@ class CrudHelper extends Helper
 	 * @param string $action name of the output construction process to use
 	 */
 	public function createFieldHandler($action) {
-		//WARNING, HACK AHEAD!!!
-		//This was put in place because there is no chosen CrudData at this point
-		//and we need it to execute the overrideAction
-		//Need to find a smoother way to setup the CrudData, instead of having it all setup
-		//in $this->output()
-//		if(!isset($this->CrudData)){
-//			$this->useCrudData($this->alias('string'));
-//		}
-		//END HACK
 		
 		// Is actually override-strategy-for-fields-in-this-action
 		if ($this->CrudData->overrideAction($action)) {

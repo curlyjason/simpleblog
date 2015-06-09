@@ -77,50 +77,37 @@ class CrudFields implements FieldOutputInterface {
 	}
 	
 	protected function date($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
 	
 	protected function time($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
  
 	protected function datetime($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
  
 	protected function timestamp($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
  
 	protected function boolean($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
 
 	protected function uuid($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
 
 	protected function string($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
 
 	protected function binary($field, $options = []) {
-		return $this->helper->entity->$field;
+		return h($this->helper->entity->$field);
 	}
 
-	protected function selectList($field, $options) {
-		
-		$attributes = [
-				'empty' => 'choose one',
-				'label' => FALSE,
-				'value' => $this->helper->entity->$field
-			];
-		if ($this->helper->entity->_uuid) {
-			$attributes['form'] = $this->helper->entity->_uuid->uuid('form');
-		}
-		return $this->helper->Form->input($field,$attributes);
-	}
-	
 	protected function input($field, $options){
 		return $this->helper->Form->input($field, $options);
 	}
