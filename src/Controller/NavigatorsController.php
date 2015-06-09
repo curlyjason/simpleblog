@@ -12,7 +12,7 @@ use App\Model\Table\CrudData;
  */
 class NavigatorsController extends AppController {
 
-	public $helpers = ['Crud', 'List'];
+	public $helpers = ['Crud'];
 
 	/**
 	 * Index method
