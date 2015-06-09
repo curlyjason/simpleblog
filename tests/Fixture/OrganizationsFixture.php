@@ -41,9 +41,9 @@ class OrganizationsFixture extends TestFixture
         [
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
-            'created' => '2015-06-07 17:45:51',
-            'modified' => '2015-06-07 17:45:51',
-            'updated' => '2015-06-07 17:45:51'
+            'created' => '2015-06-09 15:46:01',
+            'modified' => '2015-06-09 15:46:01',
+            'updated' => '2015-06-09 15:46:01'
         ],
     ];
 }

@@ -17,7 +17,11 @@ class AddressesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.addresses'
+        'app.addresses',
+        'app.users',
+        'app.contacts',
+        'app.organizations',
+        'app.addresses_organizations'
     ];
 
     /**
@@ -60,6 +64,16 @@ class AddressesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

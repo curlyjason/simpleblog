@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * AddressesFixture
+ * ContactsFixture
  *
  */
-class AddressesFixture extends TestFixture
+class ContactsFixture extends TestFixture
 {
 
     /**
@@ -43,9 +43,9 @@ class AddressesFixture extends TestFixture
             'id' => 1,
             'address' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
-            'created' => '2015-06-09 15:45:15',
-            'modified' => '2015-06-09 15:45:15',
-            'updated' => '2015-06-09 15:45:15'
+            'created' => '2015-06-09 15:45:30',
+            'modified' => '2015-06-09 15:45:30',
+            'updated' => '2015-06-09 15:45:30'
         ],
     ];
 }

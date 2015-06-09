@@ -18,6 +18,8 @@ class OrganizationsControllerTest extends IntegrationTestCase
     public $fixtures = [
         'app.organizations',
         'app.addresses',
+        'app.users',
+        'app.contacts',
         'app.addresses_organizations'
     ];
 
