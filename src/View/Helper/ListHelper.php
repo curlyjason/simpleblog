@@ -4,6 +4,10 @@ namespace App\View\Helper;
 
 use Cake\View\Helper;
 use Cake\Collection\Collection;
+use FilterIterator;
+use ArrayIterator;
+use ArrayObject;
+use App\Lib\ChildFilter;
 
 /**
  * CakePHP ListHelper
@@ -12,6 +16,7 @@ use Cake\Collection\Collection;
 class ListHelper extends Helper {
 	
 	public $Crud;
+	public $tabs = 0;
 	
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
@@ -19,39 +24,29 @@ class ListHelper extends Helper {
 	}
 
 	public function outputRecursiveLi($level, $data) {
-//		debug($this->Crud);die;
+		
+		echo str_repeat("\t", $this->tabs) . "<ul>\n";
+		
 		foreach ($level as $index => $value) {
 			$this->Crud->entity = $value;
-			echo '<ul>';
 			foreach ($this->Crud->columns() as $column => $type) {
-				$this->Crud->addAttributes($column, ['action' => $value->action, 'controller' => $value->controller, '?' => $value->query, '#' => $value->hash], FALSE);
-				echo $this->Crud->output($column);
-//				$id = $value->id;
+				$this->Crud->addAttributes($column, [
+					'action' => $value->action, 
+					'controller' => $value->controller, 
+					'?' => $value->query, 
+					'#' => $value->hash], FALSE);
+				
+				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column) . "\n";
+				
+				$collection = new ArrayObject($data->toArray());
+				$children = new ChildFilter($collection->getIterator(), $value->id);
+				$this->tabs++;
+				$this->outputRecursiveLi($children, $data);
+				
+				echo str_repeat("\t", $this->tabs--) . "</li>\n";
 			}
-			$collection = new Collection($data);
-			$children = $collection->filter(function ($nav, $key) {
-//				debug($nav);
-//				debug($key);
-//					debug($id);
-//					debug($id->items[$key]->id);
-//					get_class_methods($id);die;
-////					debug($nav);die;
-////					debug($id);die;
-				return $nav->parent_id === 9;
-			});
-			if (iterator_count($children) > 0) {
-//				$this->outputRecursiveLi($children, $crud, $data);
-//				die;
-			}
-//				debug(iterator_count($children));
-			echo '</li>';
 		}
-		echo '</ul>';
+		echo str_repeat("\t", $this->tabs) . "</ul>\n";
+		return;
 	}
-
 }
-
-//	public function filter($param) {
-//		
-//	}
-
