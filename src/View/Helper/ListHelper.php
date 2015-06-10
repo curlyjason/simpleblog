@@ -17,10 +17,13 @@ class ListHelper extends Helper {
 	
 	public $Crud;
 	public $tabs = 0;
+	public $filter_property;
 	
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
+//		debug($config);die;
 		$this->Crud = $config[0];
+		$this->filter_property = $config['filter_property'];
 	}
 
 	public function outputRecursiveLi($level, $data) {
@@ -39,7 +42,7 @@ class ListHelper extends Helper {
 				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column) . "\n";
 				
 				$collection = new ArrayObject($data->toArray());
-				$children = new ChildFilter($collection->getIterator(), $value->id);
+				$children = new ChildFilter($collection->getIterator(), $value->id, $this->filter_property);
 				$this->tabs++;
 				$this->outputRecursiveLi($children, $data);
 				

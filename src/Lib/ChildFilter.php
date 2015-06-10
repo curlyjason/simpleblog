@@ -11,18 +11,18 @@ use FilterIterator;
  */
 class ChildFilter extends FilterIterator {
 	
-	public function __construct(ArrayIterator $iterator, $match_value){
-//		debug($match_value);
+	public $property_name;
+	public $match_value;
+	
+	public function __construct(ArrayIterator $iterator, $match_value, $property_name){
         parent::__construct($iterator);
+		$this->property_name = $property_name;
 		$this->match_value = $match_value;
     }
 
 	public function accept() {
         $entry = $this->getInnerIterator()->current();
-//		debug($entry->parent_id);
-//		debug($this->match_value);
-//		debug($entry->parent_id == $this->match_value);
-		return $entry->parent_id == $this->match_value;
+		return $entry->{$this->property_name} == $this->match_value;
     }
 
 }
