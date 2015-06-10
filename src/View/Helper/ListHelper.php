@@ -18,12 +18,14 @@ class ListHelper extends Helper {
 	public $Crud;
 	public $tabs = 0;
 	public $filter_property;
+	public $filter_match;
 	
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
 //		debug($config);die;
 		$this->Crud = $config[0];
 		$this->filter_property = $config['filter_property'];
+		$this->filter_match = $config['filter_match'];
 	}
 
 	public function outputRecursiveLi($level, $data) {
@@ -33,16 +35,11 @@ class ListHelper extends Helper {
 		foreach ($level as $index => $value) {
 			$this->Crud->entity = $value;
 			foreach ($this->Crud->columns() as $column => $type) {
-				$this->Crud->addAttributes($column, [
-					'action' => $value->action, 
-					'controller' => $value->controller, 
-					'?' => $value->query, 
-					'#' => $value->hash], FALSE);
 				
 				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column) . "\n";
 				
 				$collection = new ArrayObject($data->toArray());
-				$children = new ChildFilter($collection->getIterator(), $value->id, $this->filter_property);
+				$children = new ChildFilter($collection->getIterator(), $value->{$this->filter_match}, $this->filter_property);
 				$this->tabs++;
 				$this->outputRecursiveLi($children, $data);
 				

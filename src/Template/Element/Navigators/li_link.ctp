@@ -7,18 +7,19 @@
  *	needs to be an instance of Cake\ORM\ResultSet (standard query result)
  * This assumes a flat list of all records for the list structure
  *		A filter iterator selects the members that go at each level
- * 
- * This assumes a tree that links on parent_id (though it should take a flat list)
+ *		'filter_property' names the propery that will be tested in the child entity iterator
+ *		'filter_match' names the property that provides the testing value in the parent entity
+ *		Testing will be ==
+ *		You can get all members back flat if you provide a non-existant property name for both
  * 
  */
 use App\Lib\ChildFilter;
 
-use Cake\Collection\Collection;
-
-$filter_property = 'parent_id';
+//$filter_property = 'parent_id';
+//$filter_match = 'id';
 
 $collection = new ArrayObject(${$this->Crud->alias()->variableName}->toArray());
 $roots = new ChildFilter($collection->getIterator(), null, $filter_property);
 
-$List = $this->helpers()->load('List', [$this->Crud, 'filter_property' => $filter_property]);
+$List = $this->helpers()->load('List', [$this->Crud, 'filter_property' => $filter_property, 'filter_match' => 'id']);
 echo $List->outputRecursiveLi($roots, ${$this->Crud->alias()->variableName});
