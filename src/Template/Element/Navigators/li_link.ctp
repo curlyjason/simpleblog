@@ -17,8 +17,8 @@
  */
 use App\Lib\ChildFilter;
 
-//$filter_property = 'parent_id';
-//$filter_match = 'id';
+$filter_property = isset($filter_property) ? $filter_property : 'nothing';
+$filter_match = isset($filter_match) ? $filter_match : 'nothing';
 
 $collection = new ArrayObject(${$this->Crud->alias()->variableName}->toArray());
 $roots = new ChildFilter($collection->getIterator(), null, $filter_property); //root level trees are hard-coded to have no parent
