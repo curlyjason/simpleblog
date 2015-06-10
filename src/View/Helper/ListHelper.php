@@ -1,5 +1,4 @@
 <?php
-
 namespace App\View\Helper;
 
 use Cake\View\Helper;
@@ -10,7 +9,16 @@ use ArrayObject;
 use App\Lib\ChildFilter;
 
 /**
- * CakePHP ListHelper
+ * ListHelper is a recursive list outputer that works inside the CrudFields decoration system
+ * 
+ * This helper will send the field to CrudHelper's output method. It should be called through 
+ * /Elements/Navigators/li_link.ctp or an equivalent.
+ * 
+ * The CrudHelper's output method is calling output on some object stored in Field. That object 
+ * should be decorated with LiDecorator for this method. That decorator opens the <LI> tag and 
+ * this recursive loop wraps them in <UL>s and closes them around any nested nodes. So there is 
+ * a lot of coordination going on.
+ * 
  * @author jasont
  */
 class ListHelper extends Helper {
