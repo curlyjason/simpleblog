@@ -11,9 +11,12 @@
  *		'filter_match' names the property that provides the testing value in the parent entity
  *		Testing will be ==
  *		You can get all members back flat if you provide a non-existant property name for both
+ *		This called helper assumes only one field is in the columns list. Otherwise the ouput 
+ *			will be strange, with more than one LI per record.
  * 
  * A common pattern for filter_propery/filter_match would be 'parent_id' and 'id' (that's how 
  * navigation menus work). The child's parent_id would == the parent's id.
+ * 
  */
 use App\Lib\ChildFilter;
 

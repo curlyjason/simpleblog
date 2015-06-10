@@ -19,6 +19,9 @@ use App\Lib\ChildFilter;
  * this recursive loop wraps them in <UL>s and closes them around any nested nodes. So there is 
  * a lot of coordination going on.
  * 
+ * This assumes only one field is in the columns list. Since we loop on columns, if there 
+ * are more fields, you'll end up with multiple LIs per record.
+ * 
  * @author jasont
  */
 class ListHelper extends Helper {
