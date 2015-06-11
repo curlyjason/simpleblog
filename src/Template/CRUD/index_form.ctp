@@ -21,3 +21,8 @@ $this->end();
 	</ul>
 	<p><?= $this->Paginator->counter() ?></p>
 </div>
+<?php
+$this->Crud->useCrudData('Navigators');
+$this->Crud->useActionPattern('model', 'Navigators', 'index');
+$this->Crud->Field = $this->Crud->createFieldHandler('index');
+echo $this->element('Navigators/li_link');

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Model\Table\CrudData;
+use Cake\ORM\TableRegistry;
 
 /**
  * Menus Controller
@@ -35,13 +36,29 @@ class MenusController extends AppController {
 
 		// verify and document config options. 
 		// Look into cakes array merge tools (used for class setup) and co-opt if possible
-//		$this->crudData->blacklist(['lft', 'rght']);
-//		$this->crudData->whitelist(['type', 'name', 'controller', 'action', 'parent_id']);
+		$this->crudData->blacklist(['lft', 'rght']);
 		$this->crudData->override(['parent_id' => 'input']);
 		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
 		
 		$this->RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
 		$this->ModelActions->add('default.index', ['search']);
+		
+		// ----------------------
+		$Navigators = TableRegistry::get('Navigators');
+		$navCrudData = new CrudData($Navigators);
+
+		$navCrudData->whitelist(['name']);
+		$navCrudData->overrideAction('index', 'liLink');
+		array_push($this->_crudData, $navCrudData);
+
+		$this->RecordActions->add('Navigators.index', [], TRUE);
+		$this->ModelActions->add('Navigators.index', [], TRUE);
+		$this->AssociationActions->add('Navigators.index', [], TRUE);
+		
+		$this->set('filter_property', 'parent_id');
+		$this->set('filter_match', 'id');
+		// -----------------------
+
 
 		$this->render('/CRUD/index_form');
 	}

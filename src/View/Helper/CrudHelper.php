@@ -299,7 +299,6 @@ class CrudHelper extends Helper
 			$this->useCrudData($dot[0]);
 			// shouldn't this also check to see if there is a field output strategy for this $dot[0]?
 		}
-		
 		return $this->Field->output($field, $this->columns()[$field]['attributes']);
 	}
 	
