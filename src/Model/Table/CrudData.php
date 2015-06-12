@@ -166,7 +166,7 @@ use InstanceConfigTrait;
 		$this->_blacklist = (isset($options['blacklist'])) ? $options['blacklist'] : [];
 		$this->_whitelist = (isset($options['whitelist'])) ? $options['whitelist'] : [];
 		$this->_override = (isset($options['override'])) ? $options['override'] : [];
-		$this->_override = (isset($options['overrideAction'])) ? $options['overrideAction'] : [];
+		$this->_overrideAction = (isset($options['overrideAction'])) ? $options['overrideAction'] : [];
 		$this->_attributes = (isset($options['attributes'])) ? $options['attributes'] : [];
 		$this->_strategy = (isset($options['stragegy'])) ? $options['strategy'] : 'index';
 			
