@@ -19,6 +19,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use App\Model\Table\CrudData;
 use App\View\Helper\CRUD\ActionPattern;
+use App\Lib\CrudConfig;
 
 /**
  * Application Controller
@@ -75,16 +76,12 @@ class AppController extends Controller {
 	public function initialize() {
 		parent::initialize();
 		$this->loadComponent('Flash');
+		$this->CrudConfig = new CrudConfig($this);
 	}
 
 	public function beforeFilter(\Cake\Event\Event $event) {
 		parent::beforeFilter($event);
-		$this->crudData = new CrudData($this->{$this->modelClass}, [
-			'whitelist' => [],
-			'blacklist' => ['created', 'modified', 'id'],
-			'override' => [],
-			'attributes' => []
-		]);
+		$this->crudData = $this->CrudConfig->vanilla($this->{$this->modelClass}, $this->request->action);
 		array_push($this->_crudData, $this->crudData);
 		$this->setDefaultActionPatterns();
 	}

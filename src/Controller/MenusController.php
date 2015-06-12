@@ -44,15 +44,7 @@ class MenusController extends AppController {
 		$this->ModelActions->add('default.index', ['search']);
 		
 		// ----------------------
-		$Navigators = TableRegistry::get('Navigators');
-		$navCrudData = new CrudData($Navigators, [
-			'whitelist' => ['name'],
-			'overrideAction' => ['index' => 'liLink'],
-			'strategy' => 'index'
-		]);
-		array_push($this->_crudData, $navCrudData);
-		$this->set('filter_property', 'parent_id');
-		$this->set('filter_match', 'id');
+		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
 		// -----------------------
 
 		$this->render('/CRUD/index_form');
