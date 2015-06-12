@@ -138,6 +138,18 @@ use InstanceConfigTrait;
 	protected $_table;
 	
 	/**
+	 * The output strategy to use if this is a secondary module
+	 * 
+	 * If this is output as the primary model, it will use the strategy that 
+	 * matches the current action. If This is a CrudData object added to include 
+	 * another page module, this is the strategy that will be used.
+	 *
+	 * @var string
+	 */
+	protected $_strategy;
+
+
+	/**
 	 * Create a fully populated information object for guiding abstracted output of table data
 	 * 
 	 * allowed options keys
@@ -154,7 +166,9 @@ use InstanceConfigTrait;
 		$this->_blacklist = (isset($options['blacklist'])) ? $options['blacklist'] : [];
 		$this->_whitelist = (isset($options['whitelist'])) ? $options['whitelist'] : [];
 		$this->_override = (isset($options['override'])) ? $options['override'] : [];
+		$this->_override = (isset($options['overrideAction'])) ? $options['overrideAction'] : [];
 		$this->_attributes = (isset($options['attributes'])) ? $options['attributes'] : [];
+		$this->_strategy = (isset($options['stragegy'])) ? $options['strategy'] : 'index';
 			
 		$this->_table = $table;
 		$this->update();
@@ -180,9 +194,16 @@ use InstanceConfigTrait;
 		} else {
 			return new NameConventions($this->_table->alias());
 		}
-		
 	}
 	
+	public function strategy($name = NULL) {
+		if (!is_null($name)) {
+			$this->_strategy = $name;
+		}
+		return $this->_strategy;
+	}
+
+
 	public function update() {
 		$this->AssociationCollection = $this->_associationCollection($this->_table);
 		$this->_foreignKeys = $this->_foreignKeys(TRUE);

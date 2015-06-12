@@ -52,7 +52,7 @@ class CrudHelper extends Helper
 	 *
 	 * @var array
 	 */
-	protected $_Field;
+//	protected $_Field;
 
 	/**
 	 * Instance of some CrudField sub-type to do field-vlaue output (possibly wrapped in decorators)
@@ -245,7 +245,8 @@ class CrudHelper extends Helper
 	public function useCrudData($alias) {
 		if ($this->_CrudData->has($alias)) {
 			$this->CrudData = $this->_CrudData->load($alias);
-			$this->useField($alias);
+			$this->Field = $this->createFieldHandler($this->CrudData->strategy());
+//			$this->useField($alias);
 			return $this->CrudData;
 		} else {
 			$trace = \Cake\Error\Debugger::trace(['args' => TRUE]);
@@ -263,11 +264,11 @@ class CrudHelper extends Helper
 	 * 
 	 * @param string $alias
 	 */
-	public function useField($alias) {
-		if ($this->_Field->has($alias)) {
-			$this->Field = $this->_Field->load($alias);
-		}
-	}
+//	public function useField($alias) {
+//		if ($this->_Field->has($alias)) {
+//			$this->Field = $this->_Field->load($alias);
+//		}
+//	}
 	
 	/**
 	 * The call to get product for you page. Will also do default setup if it's not done yet

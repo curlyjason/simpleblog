@@ -45,20 +45,15 @@ class MenusController extends AppController {
 		
 		// ----------------------
 		$Navigators = TableRegistry::get('Navigators');
-		$navCrudData = new CrudData($Navigators);
-
-		$navCrudData->whitelist(['name']);
-		$navCrudData->overrideAction('index', 'liLink');
+		$navCrudData = new CrudData($Navigators, [
+			'whitelist' => ['name'],
+			'overrideAction' => ['index' => 'liLink'],
+			'strategy' => 'index'
+		]);
 		array_push($this->_crudData, $navCrudData);
-
-		$this->RecordActions->add('Navigators.index', [], TRUE);
-		$this->ModelActions->add('Navigators.index', [], TRUE);
-		$this->AssociationActions->add('Navigators.index', [], TRUE);
-		
 		$this->set('filter_property', 'parent_id');
 		$this->set('filter_match', 'id');
 		// -----------------------
-
 
 		$this->render('/CRUD/index_form');
 	}
