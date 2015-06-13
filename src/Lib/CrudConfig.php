@@ -28,6 +28,7 @@ class CrudConfig {
 			'whitelist' => [],
 			'blacklist' => ['created', 'modified', 'id'],
 			'override' => [],
+			'overrideActions' => [],
 			'attributes' => [],
 			'strategy' => $action
 		]);
