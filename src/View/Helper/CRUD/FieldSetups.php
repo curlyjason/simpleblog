@@ -22,6 +22,13 @@ use App\View\Helper\CRUD\Decorator;
  */
 class FieldSetups {
 	
+	protected $helper;
+
+
+	public function __construct($helper) {
+		$this->helper = $helper;
+	}
+	
 	/**
 	 * Return the decorated output for the status method
 	 * 

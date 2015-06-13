@@ -57,7 +57,12 @@ class CrudFields implements FieldOutputInterface {
 	 * @return string
 	 */
 	public function output($field, $options = []) {
-		return $this->{$this->helper->columnType($field)}($field, $options);
+		$outputStrategy = $this->helper->columnType($field);
+		if (method_exists($this, $outputStrategy)) {
+			return $this->$outputStrategy($field, $options);
+		} else {
+			return $this->helper->FieldSetups->$outputStrategy($field, $options);
+		}
 	}
 	
 	protected function integer($field, $options = []) { 

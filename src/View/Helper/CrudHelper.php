@@ -71,7 +71,7 @@ class CrudHelper extends Helper
 	 *
 	 * @var object
 	 */
-	protected $FieldSetups;
+	public $FieldSetups;
 
 	/**
 	 * The current entity
@@ -147,7 +147,7 @@ class CrudHelper extends Helper
 		}   
 		
 		$this->useCrudData($this->alias('string'));
-		$this->FieldSetups = new CRUD\FieldSetups;
+		$this->FieldSetups = new CRUD\FieldSetups($this);
 
 	}
 	
