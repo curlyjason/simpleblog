@@ -3,6 +3,7 @@
 namespace App\View\Helper\CRUD;
 
 use App\View\Helper\CRUD\Decorator;
+use Cake\Utility\Text;
 
 /**
  * FieldSetups are your customer output configurations
@@ -68,6 +69,31 @@ class FieldSetups {
 				new Decorator\LinkDecorator(
 				new CrudFields($helper)
 				));
+	}
+	
+	/**
+	 * Show some of long text and hide all for flyout
+	 * 
+	 * When there is a lot of text for a small area, this shows just the 
+	 * truncated lead. The full text is in an element that is hidden. 
+	 * Javascript can implement a flyout to show the full thing.
+	 * 
+	 * @param type $helper
+	 */
+	public function leadPlus($field, $options) {
+		$hidden = $this->helper->Html->div(
+				'full_text',
+				$this->helper->Html->para(
+						null, 
+						$this->helper->entity->$field
+					), 
+					['style' => 'position: absolute; display: none;']
+				);
+		return $this->helper->Html->tag(
+				'span', 
+				Text::truncate($this->helper->entity->$field, 100) .
+				$hidden
+			);
 	}
 
 }
