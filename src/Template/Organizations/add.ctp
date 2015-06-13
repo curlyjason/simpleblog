@@ -2,16 +2,18 @@
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Html->link(__('List Organizations'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Addresses'), ['controller' => 'Addresses', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Address'), ['controller' => 'Addresses', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Addresses'), ['controller' => 'Addresses', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Address'), ['controller' => 'Addresses', 'action' => 'add']) ?></li>
     </ul>
 </div>
 <div class="organizations form large-10 medium-9 columns">
-    <?= $this->Form->create($organization); ?>
+    <?= $this->Form->create($organization) ?>
     <fieldset>
         <legend><?= __('Add Organization') ?></legend>
         <?php
             echo $this->Form->input('name');
+            echo $this->Form->input('truthy');
+            echo $this->Form->input('explanation');
             echo $this->Form->input('addresses._ids', ['options' => $addresses]);
         ?>
     </fieldset>

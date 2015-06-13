@@ -28,6 +28,16 @@
             <h6 class="subheader"><?= __('Updated') ?></h6>
             <p><?= h($organization->updated) ?></p>
         </div>
+        <div class="large-2 columns booleans end">
+            <h6 class="subheader"><?= __('Truthy') ?></h6>
+            <p><?= $organization->truthy ? __('Yes') : __('No'); ?></p>
+        </div>
+    </div>
+    <div class="row texts">
+        <div class="columns large-9">
+            <h6 class="subheader"><?= __('Explanation') ?></h6>
+            <?= $this->Text->autoParagraph(h($organization->explanation)) ?>
+        </div>
     </div>
 </div>
 <div class="related row">
