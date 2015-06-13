@@ -20,6 +20,8 @@ class OrganizationsController extends AppController
     {
         $this->set('organizations', $this->paginate($this->Organizations));
         $this->set('_serialize', ['organizations']);
+		$this->crudData->override(['explanation' => 'leadPlus']);
+		$this->render('/CRUD/index');
     }
 
     /**
