@@ -81,7 +81,13 @@ class AppController extends Controller {
 
 	public function beforeFilter(\Cake\Event\Event $event) {
 		parent::beforeFilter($event);
-		$this->crudData = $this->CrudConfig->vanilla($this->{$this->modelClass}, $this->request->action);
+		$current = strtolower($this->request->controller).ucfirst($this->request->action);
+//		debug($current);die;
+		if (method_exists($this->CrudConfig, $current)) {
+			$this->crudData = $this->CrudConfig->$current();
+		} else {
+			$this->crudData = $this->CrudConfig->vanilla($this->{$this->modelClass}, $this->request->action);
+		}
 		array_push($this->_crudData, $this->crudData);
 		$this->setDefaultActionPatterns();
 	}

@@ -36,10 +36,10 @@ class MenusController extends AppController {
 
 		// verify and document config options. 
 		// Look into cakes array merge tools (used for class setup) and co-opt if possible
-		$this->crudData->blacklist(['lft', 'rght']);
-		$this->crudData->override(['parent_id' => 'input']);
-		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
-		
+//		$this->crudData->blacklist(['lft', 'rght']);
+//		$this->crudData->override(['parent_id' => 'input']);
+//		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+//		
 		$this->RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
 		$this->ModelActions->add('default.index', ['search']);
 		

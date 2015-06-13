@@ -44,6 +44,15 @@ class CrudConfig {
 		]);
 	}
 	
+	public function menusIndex() {
+		$menus = TableRegistry::get('Menus');
+		return new CrudData($menus, [
+			'blacklist' => ['lft', 'rght'],
+			'override' => ['parent_id' => 'input'],
+			'attributes' => ['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]
+		]);
+	}
+	
     /**
      * Saves a variable or an associative array of variables for use inside a template.
      *
