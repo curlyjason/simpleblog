@@ -3,6 +3,7 @@ namespace App\View\Helper\CRUD;
 
 use App\View\Helper\CRUD\FieldOutputInterface;
 use Cake\I18n\Number;
+use App\View\Helper\CRUD\FieldSetups;
 /**
  * CrudFields base class to establish output for the possible field types
  * 
@@ -110,6 +111,11 @@ class CrudFields implements FieldOutputInterface {
 	}
 
 	protected function binary($field, $options = []) {
+//		return h($this->helper->entity->$field);
+		return h('Info about the binary blob');
+	}
+
+	protected function text($field, $options = []) {
 		return h($this->helper->entity->$field);
 	}
 
