@@ -53,6 +53,9 @@ class ArticlesTable extends Table
             
         $validator
             ->allowEmpty('slug');
+            
+        $validator
+            ->allowEmpty('summary');
 
         return $validator;
     }

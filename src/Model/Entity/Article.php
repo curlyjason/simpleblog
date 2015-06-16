@@ -19,6 +19,7 @@ class Article extends Entity
         'text' => true,
         'type' => true,
         'slug' => true,
+        'summary' => true,
         'images' => true,
     ];
 }
