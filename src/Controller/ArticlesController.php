@@ -10,6 +10,7 @@ use App\Controller\AppController;
  */
 class ArticlesController extends AppController
 {
+	public $helpers = ['Crud'];
 
     /**
      * Index method
@@ -20,6 +21,8 @@ class ArticlesController extends AppController
     {
         $this->set('articles', $this->paginate($this->Articles));
         $this->set('_serialize', ['articles']);
+		$this->crudData->override(['text' => 'leadPlus', 'summary' => 'leadPlus']);
+		$this->render('/CRUD/index');
     }
 
     /**
@@ -36,6 +39,7 @@ class ArticlesController extends AppController
         ]);
         $this->set('article', $article);
         $this->set('_serialize', ['article']);
+//		$this->render('/CRUD/view');
     }
 
     /**
@@ -57,6 +61,7 @@ class ArticlesController extends AppController
         }
         $this->set(compact('article'));
         $this->set('_serialize', ['article']);
+		$this->render('/CRUD/add');
     }
 
     /**
@@ -82,6 +87,7 @@ class ArticlesController extends AppController
         }
         $this->set(compact('article'));
         $this->set('_serialize', ['article']);
+		$this->render('/CRUD/edit');
     }
 
     /**
@@ -102,4 +108,9 @@ class ArticlesController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+	
+	public function summaries() {
+		$this->set('articles', $this->paginate($this->Articles));
+		$this->crudData->whitelist(['title']);
+	}
 }
