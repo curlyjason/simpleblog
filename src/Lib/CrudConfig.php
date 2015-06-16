@@ -26,7 +26,7 @@ class CrudConfig {
 	public function vanilla($table, $action) {
 		return new CrudData($table, [
 			'whitelist' => [],
-			'blacklist' => ['created', 'modified', 'id'],
+			'blacklist' => ['created', 'modified', 'id', 'updated'],
 			'override' => [],
 			'overrideActions' => [],
 			'attributes' => [],
