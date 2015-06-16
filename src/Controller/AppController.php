@@ -31,6 +31,8 @@ use App\Lib\CrudConfig;
  */
 class AppController extends Controller {
 
+	public $helpers = ['Crud'];
+
 	public $crudData;
 	public $_crudData = [];
 	public $ModelActions;
