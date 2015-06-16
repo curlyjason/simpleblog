@@ -146,7 +146,7 @@ class CrudHelper extends Helper
 			$this->{"_$name"} = $pattern;
 		}   
 		
-		$this->useCrudData($this->alias('string'));
+		$this->useCrudData($this->_defaultAlias->name);
 		$this->FieldSetups = new CRUD\FieldSetups($this);
 
 	}
@@ -180,20 +180,16 @@ class CrudHelper extends Helper
 	}
 	
 	/**
-	 * Get the primary model alias for this controller
-	 * 
-	 * Other value returns follow CrudData, but this one always 
-	 * returns the alias of the model for the controller that 
-	 * is running this page
+	 * Get the alias for the current CrudData object
 	 * 
 	 * @param string $type 'string' = string name, other value for NameConvention object for name
 	 * @return string|object
 	 */
 	public function alias($type = 'object') {
 		if ($type === 'string') {
-			return $this->_defaultAlias->name;
+			return $this->CrudData->alias()->name;
 		} else {
-			return $this->_defaultAlias;
+			return $this->CrudData->alias();
 		}
 	}
 	
