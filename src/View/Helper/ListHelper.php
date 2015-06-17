@@ -45,9 +45,9 @@ class ListHelper extends Helper {
 		
 		foreach ($level as $index => $value) {
 			$this->Crud->entity = $value;
-			foreach ($this->Crud->columns() as $column => $type) {
+			foreach ($this->Crud->columns() as $column => $details) {
 				
-				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column) . "\n";
+				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column, $details) . "\n";
 				
 				$collection = new ArrayObject($data->toArray());
 				$children = new ChildFilter($collection->getIterator(), $value->{$this->filter_match}, $this->filter_property);
