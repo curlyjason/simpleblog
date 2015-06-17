@@ -44,6 +44,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </header>
     <div id="container">
+		<nav>
+			<?php
+			$alias = $this->Crud->alias('string');
+			$this->Crud->useCrudData('Navigators');
+			echo $this->element('Navigators/li_link');
+			$this->Crud->useCrudData($alias);
+			?>
+		</nav>
 
         <div id="content">
             <?= $this->Flash->render() ?>

@@ -68,6 +68,13 @@ class AppController extends Controller {
 		$this->$action($search);
 	}
 	
+	protected function loadMainNavigation() {
+		$Menus = \Cake\ORM\TableRegistry::get('Menus');
+		$this->set('navigators', $Menus->find()->all());
+		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
+	}
+
+
 	/**
 	 * Initialization hook method.
 	 *
@@ -92,6 +99,7 @@ class AppController extends Controller {
 		}
 		array_push($this->_crudData, $this->crudData);
 		$this->setDefaultActionPatterns();
+		$this->loadMainNavigation();
 	}
 	
 	/**
