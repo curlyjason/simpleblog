@@ -45,6 +45,7 @@ class MenusController extends AppController {
 		
 		// ----------------------
 		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
+		$this->set('navigators', $menus);
 		// -----------------------
 
 		$this->render('/CRUD/index_form');

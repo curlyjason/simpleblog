@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Lib\Markdown;
 
 /**
  * Articles Controller
@@ -112,5 +113,14 @@ class ArticlesController extends AppController
 	public function summaries() {
 		$this->set('articles', $this->paginate($this->Articles));
 		$this->crudData->whitelist(['title']);
+		
+		$Menus = \Cake\ORM\TableRegistry::get('Menus');
+		$this->set('navigators', $Menus->find()->all());
+		
+		// ----------------------
+		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
+		// -----------------------
+		
+		$this->set('Markdown', new Markdown());
 	}
 }

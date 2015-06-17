@@ -1,6 +1,6 @@
 <article>
 	<h3><?=$article->title ?></h3>
 	<div class ="articleBody">
-		<?= $this->Html->para('articleText', \Cake\Utility\Text::truncate($article->text, 250)); ?>
+		<?= $this->Html->para('summaryText', $article->summary); ?>
 	</div>
 </article>
