@@ -120,6 +120,7 @@ class ArticlesController extends AppController
 		// ----------------------
 		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
 		// -----------------------
+		$this->RecordActions->add('Navigators.summaries', ['edit']);
 		
 		$this->set('Markdown', new Markdown());
 	}
