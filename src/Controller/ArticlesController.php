@@ -114,12 +114,12 @@ class ArticlesController extends AppController
 		$this->set('articles', $this->paginate($this->Articles));
 		$this->crudData->whitelist(['title']);
 		
-		$Menus = \Cake\ORM\TableRegistry::get('Menus');
-		$this->set('navigators', $Menus->find()->all());
-		
-		// ----------------------
-		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
-		// -----------------------
+//		$Menus = \Cake\ORM\TableRegistry::get('Menus');
+//		$this->set('navigators', $Menus->find()->all());
+//		
+//		// ----------------------
+//		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
+//		// -----------------------
 		$this->RecordActions->add('Navigators.summaries', ['edit']);
 		
 		$this->set('Markdown', new Markdown());
