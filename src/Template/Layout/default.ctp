@@ -44,6 +44,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </header>
     <div id="container">
+		<style> nav li {  display: inline-block; padding: 0 10px; }	</style>
 		<nav>
 			<?php
 			$alias = $this->Crud->alias('string');
