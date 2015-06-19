@@ -19,5 +19,7 @@ class Address extends Entity
         'user_id' => true,
         'user' => true,
         'organizations' => true,
+		'boo' => true,
+		'many_words' => true
     ];
 }

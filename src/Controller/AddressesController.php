@@ -23,6 +23,8 @@ class AddressesController extends AppController
         ];
         $this->set('addresses', $this->paginate($this->Addresses));
         $this->set('_serialize', ['addresses']);
+		$this->crudData->override(['many_words' => 'leadPlus']);
+		$this->render('/CRUD/index');
     }
 
     /**
@@ -40,7 +42,7 @@ class AddressesController extends AppController
         $this->set('address', $address);
         $this->set('_serialize', ['address']);
 		$this->crudData->blacklist(FALSE);
-		$this->crudData->blacklist(['many_words']);
+//		$this->crudData->blacklist(['many_words']);
 		$this->render('/CRUD/view');
     }
 
@@ -65,6 +67,7 @@ class AddressesController extends AppController
         $organizations = $this->Addresses->Organizations->find('list', ['limit' => 200]);
         $this->set(compact('address', 'users', 'organizations'));
         $this->set('_serialize', ['address']);
+		$this->render('/CRUD/add');
     }
 
     /**
@@ -92,6 +95,7 @@ class AddressesController extends AppController
         $organizations = $this->Addresses->Organizations->find('list', ['limit' => 200]);
         $this->set(compact('address', 'users', 'organizations'));
         $this->set('_serialize', ['address']);
+		$this->render('/CRUD/edit');
     }
 
     /**

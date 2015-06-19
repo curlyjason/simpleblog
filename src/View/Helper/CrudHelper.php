@@ -10,7 +10,7 @@ use App\Lib\NameConventions;
 class CrudHelper extends Helper
 {
 	
-	public $helpers = ['Html', 'Form', 'RecordAction', 'ModelAction'];
+	public $helpers = ['Html', 'Form', 'Text', 'RecordAction', 'ModelAction'];
 
 	protected $_ModelActions;
 	protected $_AssociationActions;
