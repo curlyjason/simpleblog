@@ -168,7 +168,7 @@ use InstanceConfigTrait;
 		$this->_override = (isset($options['override'])) ? $options['override'] : [];
 		$this->_overrideAction = (isset($options['overrideAction'])) ? $options['overrideAction'] : [];
 		$this->_attributes = (isset($options['attributes'])) ? $options['attributes'] : [];
-		$this->_strategy = (isset($options['stragegy'])) ? $options['strategy'] : 'index';
+		$this->_strategy = (isset($options['strategy'])) ? $options['strategy'] : 'index';
 			
 		$this->_table = $table;
 		$this->update();
@@ -219,9 +219,12 @@ use InstanceConfigTrait;
 		return $this->_whitelist;
 	}
 
-	public function blacklist($deny = FALSE) {
-		if ($deny !== FALSE) {
+	public function blacklist($deny = []) {
+		if (!empty($deny)) {
 			$this->_blacklist = array_merge($this->_blacklist, (array) $deny);
+			$this->update();
+		} elseif ($deny === FALSE) {
+			$this->_blacklist = [];
 			$this->update();
 		}
 		return $this->_blacklist;

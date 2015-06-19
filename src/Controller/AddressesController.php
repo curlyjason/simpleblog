@@ -39,6 +39,9 @@ class AddressesController extends AppController
         ]);
         $this->set('address', $address);
         $this->set('_serialize', ['address']);
+		$this->crudData->blacklist(FALSE);
+		$this->crudData->blacklist(['many_words']);
+		$this->render('/CRUD/view');
     }
 
     /**

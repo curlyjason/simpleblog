@@ -37,6 +37,8 @@ class CrudFields implements FieldOutputInterface {
 	 */
 	public $helper;
 	
+	protected $Text;
+
 	protected $Number;
 
 	public function __construct($helper) {
@@ -99,7 +101,7 @@ class CrudFields implements FieldOutputInterface {
 	}
  
 	protected function boolean($field, $options = []) {
-		return h($this->helper->entity->$field);
+		return h($this->helper->entity->$field  ? __('Yes') : __('No'));
 	}
 
 	protected function uuid($field, $options = []) {
@@ -116,7 +118,10 @@ class CrudFields implements FieldOutputInterface {
 	}
 
 	protected function text($field, $options = []) {
-		return h($this->helper->entity->$field);
+		if (!$Text) {
+			$this->Text = $this->helper->_View->loadHelper('Text');
+		}
+//		return $this->Text->autoParagraph(h($this->helper->entity->$field));
 	}
 
 	protected function input($field, $options){

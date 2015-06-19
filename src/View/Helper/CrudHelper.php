@@ -227,8 +227,8 @@ class CrudHelper extends Helper
 	 * 
 	 * @return string
 	 */
-	public function dispayField() {
-		return $this->CrudData->dispayField();
+	public function displayField() {
+		return $this->CrudData->displayField();
 	}
 	
 	/**
@@ -341,17 +341,21 @@ class CrudHelper extends Helper
 		switch ($action) {
 			// the four cake-standard crud setups
 			case 'index':
+//				debug('setup index decoration');
 				return new CRUD\Decorator\TableCellDecorator(
 					new CRUD\Decorator\BelongsToDecorator(
 						new CRUD\CrudFields($this)
 					));
 				break;
 			case 'view':
-				return new CRUD\CrudFields($this);
+//				debug('setup view decoration');
+				return new CRUD\Decorator\BelongsToDecorator(
+						new CRUD\CrudFields($this)
+					);
 				break;
 			case 'edit':
 			case 'add':
-				return new CRUD\EditFields($this);
+				return new CRUD\CrudFields($this);
 				break;
 
 			// your custom setups or the default result if your's isn't found
