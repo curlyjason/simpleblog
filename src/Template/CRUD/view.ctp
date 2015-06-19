@@ -7,12 +7,11 @@ use Cake\Utility\Inflector;
 </div>
 
 <?php
-//$this->start('string');
-//$this->end();
-//debug($this->Crud->columns());
-//debug($this->Crud->alias());die;
-//debug(${$this->Crud->alias()->singularName});die;
-$this->Crud->entity = ${$this->Crud->alias()->singularName};
+// send the entity to the helper for output services
+$entityName = $this->Crud->alias()->singularName;
+$this->Crud->entity = $$entityName;
+
+// Group the fields by type for the standard view page
 foreach ($this->Crud->columns() as $field => $data) {
 	$type = $this->Crud->columnType($field);
 	if (isset($this->Crud->foreignKeys()[$type])) {
@@ -66,29 +65,17 @@ foreach ($this->Crud->columns() as $field => $data) {
 			break;
 	}
 }
-/*
- * 	$type = $schema->columnType($field);
-	if (isset($associationFields[$field])) {
-		$this->append('string');
-		echo $this->Crud->output($field, $data['attributes']);
-		$this->end();
-	}
-	if (in_array($type, ['integer', 'float', 'decimal', 'biginteger'])) {
-	}
-	if (in_array($type, ['date', 'time', 'datetime', 'timestamp'])) {
-	}
-	return in_array($type, ['text', 'boolean']) ? $type : 'string';
-     
- */
+
+// Output the blocks that gather each type
 ?>
 <div class="<?= $this->Crud->alias()->variableName; ?> view large-10 medium-9 columns">
 
     <h2><?= h($this->Crud->displayField()) ?></h2>
     <div class="row">
-		<?php if ($string = $this->fetch('string')) : ?>
+		<?php if ($this->fetch('string')) : ?>
 			<div class="large-5 columns strings">
 				<!--this will be watched by the decorator for association links-->
-				<?= $string; ?>
+				<?= $this->fetch('string') ?>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->fetch('number')) : ?>
@@ -114,6 +101,23 @@ foreach ($this->Crud->columns() as $field => $data) {
 	<?php endif; ?>
 </div>
 <?php
+// Now show the related table data
+
+debug($this->Crud->foreignKeys());
+//$associations = collection($this->Crud->foreignKeys());
+//$associated = $associations->filter(function($association, $foreignKey) {
+//	return stristr($association['class'], 'HasMany') || stristr($association['class'], 'BelongsToMany');
+//});
+////		debug($$entityName);
+//foreach ($associated as $assoc) {
+//	debug($assoc);
+////	$alias = $assoc['name'];
+////	debug($$entityName);
+////	debug($assoc['property']);
+////	debug($$entityName->{$assoc['property']});
+////	if ($$entityName->{$assoc['property']}) {
+////	}
+//}
 //$relations = $associations['HasMany'] + $associations['BelongsToMany'];
 //foreach ($relations as $alias => $details):
 //	$otherSingularVar = Inflector::variable($alias);

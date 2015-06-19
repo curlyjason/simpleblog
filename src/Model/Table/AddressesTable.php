@@ -33,6 +33,9 @@ class AddressesTable extends Table
             'targetForeignKey' => 'organization_id',
             'joinTable' => 'addresses_organizations'
         ]);
+        $this->belongsTo('Something', [
+            'foreignKey' => 'some_id'
+        ]);
     }
 
     /**
