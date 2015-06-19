@@ -33,8 +33,8 @@ use Cake\Utility\Inflector;
 				}
 			}
 		}
-		if (!empty($this->Crud->foreignKeys())) {
-			foreach ($this->Crud->foreignKeys() as $assoc) {
+		if (!empty($this->Crud->associations())) {
+			foreach ($this->Crud->associations() as $assoc) {
 				if (in_array($assoc['association_type'], ['oneToMany', 'manyToMany'])) {
 					echo $this->Form->input($assoc['property'] . '._ids', ['options' => ${$assoc['name']->variableName}]);
 				}

@@ -19,7 +19,7 @@ endforeach;
 <ul class="side-nav">
 <?php
 // loop for the associated models
-foreach ($this->Crud->foreignKeys() as $key => $value) :
+foreach ($this->Crud->associations() as $key => $value) :
 //	debug($value['name']->modelName);
 //	debug($value);
 	$assocActions = $this->Crud->useActionPattern('association', $value['name'], $this->request->action);

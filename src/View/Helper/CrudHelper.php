@@ -222,6 +222,10 @@ class CrudHelper extends Helper
 		return $this->CrudData->foreignKeys();
 	}
 	
+	public function associations() {
+		return $this->CrudData->associations();
+	}
+	
 	/**
 	 * Get the dispayField for the current CrudData
 	 * 

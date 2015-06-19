@@ -59,10 +59,17 @@ use InstanceConfigTrait;
 	protected $AssociationCollection;
 
 	/**
-	 * The foreign keys in this table and info about the associations
+	 * The foreign keys in this table and its associations
+	 * 
+	 * @var array
+	 */
+	protected $_foreign_keys;
+	
+	/**
+	 * The associations in this table and info about them
 	 * 
 	 * <pre>[
-	 *  fk (string, the field name) => [
+	 *  fk (string, the name) => [
 	 *    'owner' => boolean, is this table the owner of the association,
 	 *    'association_type' => string, the type of association,
 	 *    'name' => string, the alias for the association,
@@ -75,7 +82,7 @@ use InstanceConfigTrait;
 	 *
 	 * @var array
 	 */
-	protected $_foreign_keys;
+	protected $_associations;
 	
 	/**
 	 * An array of all the BelongsTo objects for this model 
@@ -133,7 +140,7 @@ use InstanceConfigTrait;
      *
      * @var AssociationFilter
      */
-    protected $_associationFilter;
+//    protected $_associationFilter;
 	
 	protected $_table;
 	
@@ -172,6 +179,9 @@ use InstanceConfigTrait;
 			
 		$this->_table = $table;
 		$this->update();
+//		debug($this->_associationFilter);
+//		debug($this->AssociationCollection);
+//		debug($this->_foreignKeys());die;
 	}
 	
 	
@@ -250,6 +260,10 @@ use InstanceConfigTrait;
 		return $this->_foreignKeys;
 	}
 
+	public function associations() {
+		return $this->_associations;
+	}
+
 	public function columns() {
 			return $this->_columns;
 //		if (isset($this->_columns)) {
@@ -308,16 +322,19 @@ use InstanceConfigTrait;
 	protected function _foreignKeys($refresh = FALSE) {
 		if (!$this->_foreign_keys || $refresh) {
 			$this->_foreign_keys = [];
+			$this->_associations = [];
 			$keys = $this->AssociationCollection->keys();
 			foreach ($keys as $assoc_name) {
 				$association = $this->AssociationCollection->get($assoc_name);
-				$this->_foreign_keys[$association->foreignKey()] = [
+				$this->_associations[$association->name()] = [
+					'foreign_key' => $association->foreignKey(),
 					'owner' => $association->isOwningSide($this->_table),
 					'class' => get_class($association),
 					'association_type' => $association->type(), // oneToOne, oneToMany, manyToMany, manyToOne
 					'name' => new NameConventions($association->name()), 
 					'property' => $association->property()
 				];
+				$this->_foreign_keys[$association->foreignKey()] = $association->foreignKey();
             }
         }
 		return $this->_foreign_keys;
@@ -351,7 +368,7 @@ use InstanceConfigTrait;
 					}
 				}
 				if (in_array($name, $foreign_keys)) {
-					$this->_columns[$name] = $this->_foreign_keys[$name];
+					$this->_columns[$name] = ['foreign_key' => TRUE];
 				}
 				$this->_columns[$name]['type'] = isset($this->type_override[$name]) ? $this->type_override[$name] : $schema->columnType($name);
 				$this->_columns[$name]['attributes'] = isset($this->_attributes[$name]) ? $this->_attributes[$name] : [];
