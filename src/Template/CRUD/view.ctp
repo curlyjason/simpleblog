@@ -103,21 +103,21 @@ foreach ($this->Crud->columns() as $field => $data) {
 <?php
 // Now show the related table data
 
-debug($this->Crud->foreignKeys());
-//$associations = collection($this->Crud->foreignKeys());
-//$associated = $associations->filter(function($association, $foreignKey) {
-//	return stristr($association['class'], 'HasMany') || stristr($association['class'], 'BelongsToMany');
-//});
+//debug($this->Crud->associations());
+$associations = collection($this->Crud->associations());
+$associated = $associations->filter(function($association, $foreignKey) {
+	return stristr($association['class'], 'HasMany') || stristr($association['class'], 'BelongsToMany');
+});
 ////		debug($$entityName);
-//foreach ($associated as $assoc) {
-//	debug($assoc);
-////	$alias = $assoc['name'];
-////	debug($$entityName);
-////	debug($assoc['property']);
-////	debug($$entityName->{$assoc['property']});
-////	if ($$entityName->{$assoc['property']}) {
-////	}
-//}
+foreach ($associated as $assoc) {
+	debug($assoc);
+//	$alias = $assoc['name'];
+//	debug($$entityName);
+//	debug($assoc['property']);
+//	debug($$entityName->{$assoc['property']});
+//	if ($$entityName->{$assoc['property']}) {
+//	}
+}
 //$relations = $associations['HasMany'] + $associations['BelongsToMany'];
 //foreach ($relations as $alias => $details):
 //	$otherSingularVar = Inflector::variable($alias);
