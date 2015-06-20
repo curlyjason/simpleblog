@@ -11,6 +11,17 @@ use App\View\Helper\CRUD\Decorator\FieldDecorator;
  */
 class LinkDecorator extends FieldDecorator {
 
+	/**
+	 * Wrap some output in an <A> tag
+	 * 
+	 * Expects the current entity to have four properties:
+	 *	controller, action, query, hash
+	 * NULL will be used for any that don't exist
+	 * 
+	 * @param string $field
+	 * @param array $options
+	 * @return string
+	 */
 	public function output($field, $options = array()) {
 
 		// we're counting on having the link array overwrite every time so no old values accidentally persist
