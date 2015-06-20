@@ -1,5 +1,6 @@
 <?php
 use Cake\Utility\Inflector;
+use \Cake\ORM\TableRegistry;
 ?>
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
@@ -109,50 +110,39 @@ $associated = $associations->filter(function($association, $foreignKey) {
 	return stristr($association['class'], 'HasMany') || stristr($association['class'], 'BelongsToMany');
 });
 ////		debug($$entityName);
-foreach ($associated as $assoc) {
-	debug($assoc);
-//	$alias = $assoc['name'];
+foreach ($associated as $assoc) :
 //	debug($$entityName);
 //	debug($assoc['property']);
-//	debug($$entityName->{$assoc['property']});
-//	if ($$entityName->{$assoc['property']}) {
-//	}
-}
-//$relations = $associations['HasMany'] + $associations['BelongsToMany'];
-//foreach ($relations as $alias => $details):
-//	$otherSingularVar = Inflector::variable($alias);
-//	$otherPluralHumanName = Inflector::humanize($details['controller']);
-//	?>
-<!--
+?>
 	<div class="related row">
 		<div class="column large-12">
-			<h4 class="subheader"><?php // __("Related $otherPluralHumanName") ?></h4>
-	<?php// if (!empty($$singularVar->$details['property'])): ?>
-				<table cellpadding="0" cellspacing="0">
-					<tr>
-						<?php// foreach ($details['fields'] as $field): ?>
-							<th><?php // __('<%= Inflector::humanize($field) %>') ?></th>
-		<?php //endforeach; ?>
-						<th class="actions">//<?= __('Actions') ?></th>
-					</tr>
-						<?php //foreach ($$singularVar->$details['property'] as $$otherSingularVar): ?>
-						<tr>
-							<?php //foreach ($details['fields'] as $field): ?>
-								<td><?php // h($$otherSingularVar->$field) ?></td>
-							<?php
-//							endforeach;
-//
-//							$otherPk = "\${$otherSingularVar}->{$details['primaryKey'][0]}";
-//							?>
-							<td class="actions">
-								Record Actions
-							</td>
-						</tr>
-
-				<?php //endforeach; ?>
-				</table>
-	<?php //endif; ?>
+			<h4 class="subheader"><?=  __('Related ' . Inflector::humanize($assoc['property'])); ?></h4>
 		</div>
 	</div>
-<?php //endforeach; ?>
--->
+
+<?php
+	if ($$entityName->{$assoc['property']}) :
+		// move the nested entity data for this association to its own variable
+		${$assoc['property']} = $$entityName->{$assoc['property']};
+		$this->set($assoc['property'], $$entityName->{$assoc['property']});
+		
+		// create the crud data element for this data
+		// this should be done on the controller prior to arrival
+		// or called for through a method... possibly a view cell? (new feature)
+		// _CrudData was made public for this call. 
+		// we could also make a CrudHelper method to do this stuff
+		$this->Crud->_CrudData->add(
+				$assoc['name']->modelName, 
+				new App\Model\Table\CrudData(
+						TableRegistry::get($assoc['name']->modelName),
+						['blacklist' => ['created', 'modified', 'updated', 'id']]
+					));
+		// move the new crud data object into place
+		$this->Crud->useCrudData($assoc['name']->modelName);
+		
+		// and make the table view
+		// this is why we need to have an external method to do the setup
+		// there are no action or field setups in place doing things from here
+		echo $this->element('/CRUD/crud_index_table');
+	endif;
+endforeach;

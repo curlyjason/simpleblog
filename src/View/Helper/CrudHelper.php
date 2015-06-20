@@ -34,11 +34,11 @@ class CrudHelper extends Helper
 	protected $_defaultAlias;
 	
 	/**
-	 * All the CrudData object, indexed by the alias of the model that created them
+	 * All the CrudData objects, indexed by the alias of the model that created them
 	 *
 	 * @var array
 	 */
-	protected $_CrudData = [];
+	public $_CrudData = [];
 	
 	/**
 	 * The current crud data object
