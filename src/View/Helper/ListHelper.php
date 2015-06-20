@@ -30,13 +30,17 @@ class ListHelper extends Helper {
 	public $tabs = 0;
 	public $filter_property;
 	public $filter_match;
-	
+	protected $depth;
+	protected $classes = [2 => 'second-level', 'third-level', 'fourth-level', 'fifth-level'];
+
+
 	public function __construct(\Cake\View\View $View, array $config = array()) {
 		parent::__construct($View, $config);
 //		debug($config);die;
 		$this->Crud = $config[0];
 		$this->filter_property = $config['filter_property'];
 		$this->filter_match = $config['filter_match'];
+		$this->depth = 0;
 	}
 
 	public function outputRecursiveLi($level, $data) {
@@ -47,14 +51,23 @@ class ListHelper extends Helper {
 			$this->Crud->entity = $value;
 			foreach ($this->Crud->columns() as $column => $details) {
 				
-				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column, $details) . "\n";
+				$this->depth += 1; // open an li, consider it a deeper level
+				
+				$this->depth > 1 && $this->depth <= (count($this->classes) + 1);
+				$liAttributes = ($this->depth > 1 && $this->depth <= (count($this->classes) + 1)) ? 
+					['li' => ['class' => $this->classes[$this->depth]]] :
+					['li' => ['class' => '']];
+				$this->Crud->addAttributes($column, $liAttributes);
+
+				echo str_repeat("\t", $this->tabs+1) . $this->Crud->output($column, $details) . "<!-- depth is $this->depth -->\n";
 				
 				$collection = new ArrayObject($data->toArray());
 				$children = new ChildFilter($collection->getIterator(), $value->{$this->filter_match}, $this->filter_property);
 				$this->tabs++;
 				$this->outputRecursiveLi($children, $data);
 				
-				echo str_repeat("\t", $this->tabs--) . "</li>\n";
+				$this->depth -= 1; // closing an ul consider it done with the level
+				echo str_repeat("\t", $this->tabs--) . "</li><!-- depth is $this->depth -->\n";
 			}
 		}
 		echo str_repeat("\t", $this->tabs) . "</ul>\n";

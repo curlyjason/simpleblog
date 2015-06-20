@@ -13,13 +13,14 @@ class LinkDecorator extends FieldDecorator {
 
 	public function output($field, $options = array()) {
 
-		$this->helper->addAttributes($field, [
-			'controller' => $this->helper->entity->controller,
+		// we're counting on having the link array overwrite every time so no old values accidentally persist
+		$this->helper->addAttributes($field, ['link' =>
+			['controller' => $this->helper->entity->controller,
 			'action' => $this->helper->entity->action,
 			'?' => $this->helper->entity->query,
-			'#' => $this->helper->entity->hash], FALSE); // false makes values overwrite, not merge
+			'#' => $this->helper->entity->hash]]);
 
-		return $this->helper->Html->link($this->base->output($field, $options), $this->helper->columns()[$field]['attributes']);
+		return $this->helper->Html->link($this->base->output($field, $options), $this->helper->columns()[$field]['attributes']['link']);
 	}
 
 }
