@@ -23,5 +23,5 @@ $this->end();
 </div>
 <?php
 
-$this->Crud->useCrudData('Navigators');
-echo $this->element('Navigators/li_link');
+//$this->Crud->useCrudData('Navigators');
+//echo $this->element('Navigators/li_link');

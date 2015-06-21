@@ -92,7 +92,6 @@ class ListHelper extends Helper {
 				// The class will identify the level of the <LI> in the list heirarchy
 				$this->depth += 1; // open an li, consider it a deeper level
 				
-				$this->depth > 1 && $this->depth <= (count($this->classes) + 1);
 				$liAttributes = ($this->depth > 1 && $this->depth <= (count($this->classes) + 1)) ? 
 					['li' => ['class' => $this->classes[$this->depth]]] :
 					['li' => ['class' => '']];
