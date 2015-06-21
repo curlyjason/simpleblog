@@ -1,6 +1,7 @@
 <?php
 use Cake\Utility\Inflector;
 use \Cake\ORM\TableRegistry;
+use App\Lib\CrudConfig;
 ?>
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
@@ -122,6 +123,7 @@ foreach ($associated as $assoc) :
 
 <?php
 	if ($$entityName->{$assoc['property']}) :
+		if (!isset($crudConfig)) { $crudConfig = new App\Lib\CrudConfig($this); }
 		// move the nested entity data for this association to its own variable
 		${$assoc['property']} = $$entityName->{$assoc['property']};
 		$this->set($assoc['property'], $$entityName->{$assoc['property']});
@@ -133,10 +135,7 @@ foreach ($associated as $assoc) :
 		// we could also make a CrudHelper method to do this stuff
 		$this->Crud->_CrudData->add(
 				$assoc['name']->modelName, 
-				new App\Model\Table\CrudData(
-						TableRegistry::get($assoc['name']->modelName),
-						['blacklist' => ['created', 'modified', 'updated', 'id']]
-					));
+				$crudConfig->vanilla(TableRegistry::get($assoc['name']->modelName), 'index'));
 		// move the new crud data object into place
 		$this->Crud->useCrudData($assoc['name']->modelName);
 		
