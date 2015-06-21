@@ -27,4 +27,9 @@ $collection = new ArrayObject(${$this->Crud->alias()->variableName}->toArray());
 $roots = new ChildFilter($collection->getIterator(), null, $filter_property); //root level trees are hard-coded to have no parent
 
 $List = $this->helpers()->load('List', [$this->Crud, 'filter_property' => $filter_property, 'filter_match' => 'id']);
+
+$this->start('nested');
 echo $List->outputRecursiveLi($roots, ${$this->Crud->alias()->variableName});
+$this->end();
+
+echo preg_replace('/\s*<ul>\s*<\/ul>\s*/', '', $this->fetch('nested'));
