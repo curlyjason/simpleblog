@@ -1,0 +1,145 @@
+
+#cakephp-global-navigation div, #cakephp-global-navigation span, #cakephp-global-navigation a, #cakephp-global-navigation img, #cakephp-global-navigation strong, #cakephp-global-navigation ol, #cakephp-global-navigation ul, #cakephp-global-navigation li {
+    border: 0 none;
+    color: #000000;
+    font-family: "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+#cakephp-global-navigation *:focus {
+    outline: 0 none;
+}
+#cakephp-global-navigation ol, #cakephp-global-navigation ul {
+    list-style: outside none none;
+}
+#cakephp-global-navigation {
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #3b3b3b 0%, #2b2b2b 100%) repeat scroll 0 0;
+    border-bottom: 1px solid #000;
+    position: relative;
+    z-index: 999;
+}
+#cakephp-global-navigation ul {
+    display: block;
+    height: 29px;
+    margin: 0 auto;
+    max-width: 980px;
+}
+#cakephp-global-navigation li {
+    float: left;
+    font-size: 17px;
+    height: 17px;
+    line-height: 23px;
+    list-style: outside none none;
+    padding: 3px 0;
+    position: relative;
+    width: 120px;
+}
+#cakephp-global-navigation li:hover {
+    background: #303030 none repeat scroll 0 0;
+}
+#cakephp-global-navigation li.main {
+    background: transparent url("./main-link.png") no-repeat scroll 0 4px;
+    margin-left: 0;
+    margin-right: 40px;
+    padding-left: 27px;
+    width: 60px;
+}
+#cakephp-global-navigation li, #cakephp-global-navigation a, #cakephp-global-navigation span {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    height: 23px;
+    text-decoration: none;
+}
+#cakephp-global-navigation li a, #cakephp-global-navigation li span {
+    padding: 0 10px;
+}
+#cakephp-global-navigation li.main a {
+    font-size: 14px;
+    padding: 0;
+}
+#cakephp-global-navigation .second-level {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #1b404a, #245b6a) repeat scroll 0 0;
+    border-color: -moz-use-text-color #000 #000;
+    border-image: none;
+    border-radius: 0 0 5px 5px;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    display: none;
+    height: auto;
+    left: -1px;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 3px;
+    width: 200px;
+}
+#cakephp-global-navigation .second-level li {
+    display: block;
+    float: none;
+    margin: 0;
+    padding: 2px;
+    width: 196px;
+}
+#cakephp-global-navigation li:hover .second-level {
+    display: block;
+    margin: 0;
+}
+#cakephp-global-navigation .cake-version {
+    height: 45px;
+}
+#cakephp-global-navigation .second-level li:hover {
+    background: #2f6f80 none repeat scroll 0 0;
+}
+#cakephp-global-navigation .second-level li:last-child {
+    border-radius: 0 0 5px 5px;
+}
+#cakephp-global-navigation .second-level a {
+    margin: 0;
+}
+#cakephp-global-navigation .second-level a:hover {
+    color: #bd8a5d;
+}
+#cakephp-global-navigation .third-level {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    box-shadow: none;
+}
+#cakephp-global-navigation .cake-version ul {
+    display: block;
+    padding-left: 14px;
+}
+#cakephp-global-navigation .cake-version li {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border-right: medium none;
+    display: inline;
+    float: left;
+    width: auto;
+}
+#cakephp-global-navigation .cake-version a {
+    background-color: transparent;
+    display: inline;
+    padding: 0 3px;
+}
+#cakephp-global-navigation li:hover li {
+    background-color: inherit;
+}
+#cakephp-global-navigation .cake-version ul, #cakephp-global-navigation .cake-version li, #cakephp-global-navigation .cake-version a {
+    height: 15px;
+    line-height: 15px;
+}
+#cakephp-global-navigation .cake-version a:hover {
+    color: #bd8a5d;
+    text-decoration: underline;
+}

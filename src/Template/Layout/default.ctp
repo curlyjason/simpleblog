@@ -29,7 +29,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('book.css') ?>
     <?= $this->Html->css('crud_root.css') ?>
 
     <?= $this->fetch('meta') ?>
@@ -48,7 +48,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </header>
     <div id="container">
 		<style> nav li {  display: inline-block; padding: 0 10px; }	</style>
-		<nav>
+		<nav id="cakephp-global-navigation">
 			<?php
 			$this->Crud->crudState('save');
 			$this->Crud->useCrudData('Navigators');
