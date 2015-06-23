@@ -50,10 +50,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 		<style> nav li {  display: inline-block; padding: 0 10px; }	</style>
 		<nav>
 			<?php
-			$alias = $this->Crud->alias('string');
+			$this->Crud->crudState('save');
 			$this->Crud->useCrudData('Navigators');
 			echo $this->element('Navigators/li_link');
-			$this->Crud->useCrudData($alias);
+			$this->Crud->crudState('restore');
 			?>
 		</nav>
 

@@ -73,6 +73,8 @@ class CrudHelper extends Helper
 	public $entity;
 	
 	public $ToolParser;
+	
+	protected $_aliasStack = [];
 
 
 	/**
@@ -227,7 +229,6 @@ class CrudHelper extends Helper
 	 * 
 	 * @param string $alias
 	 * @return object CrudData object
-	 * @throws \BadMethodCallException
 	 */
 	public function useCrudData($alias) {
 		if ($this->_CrudData->has($alias)) {
@@ -235,10 +236,6 @@ class CrudHelper extends Helper
 			$this->Field = $this->createFieldHandler($this->CrudData->strategy());
 //			$this->useField($alias);
 			return $this->CrudData;
-		} else {
-			$trace = \Cake\Error\Debugger::trace(['args' => TRUE]);
-			\Cake\Log\Log::error("The CrudHelper had no $alias data to use.\n$trace");
-			throw new \BadMethodCallException("The helper had no $alias data to use.");
 		}
 	}
 	
@@ -361,6 +358,27 @@ class CrudHelper extends Helper
 	
 	public function addAttributes($field, $attributes) {
 		$this->CrudData->addAttributes($field, $attributes);
+	}
+	
+	public function crudState($mode) {
+		switch ($mode) {
+			case 'save':
+				$current_alias = (is_object($this->CrudData)) ? $this->CrudData->alias('string') : FALSE;
+				array_push($this->_aliasStack, $current_alias);
+				break;
+			
+			case 'restore':
+				$restored_alias = array_pop($this->_aliasStack);
+				if($restored_alias){
+					$this->useCrudData($restored_alias);
+				} else {
+					unset($this->CrudData);
+				}
+				break;
+
+			default:
+				break;
+		}
 	}
 	
 
