@@ -39,15 +39,11 @@ class MenusController extends AppController {
 //		$this->crudData->blacklist(['lft', 'rght']);
 //		$this->crudData->override(['parent_id' => 'input']);
 //		$this->crudData->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
-//		
-		$this->RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
-		$this->ModelActions->add('default.index', ['search']);
 		
-		// ----------------------
-		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
-		$this->set('navigators', $menus);
-		// -----------------------
-
+		$this->menusIndex();
+		$this->_RecordActions->add('default.index', [['Move Up' => 'move_up'], ['Move Down' => 'move_down']]);
+		$this->_ModelActions->add('default.index', ['search']);
+		
 		$this->render('/CRUD/index_form');
 	}
 

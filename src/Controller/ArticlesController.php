@@ -113,7 +113,9 @@ class ArticlesController extends AppController
 	
 	public function summaries() {
 		$this->set('articles', $this->paginate($this->Articles));
-		$this->crudData->whitelist(['title']);
+		$this->configIndex('Articles');
+		$this->configCrudDataOverrides('Articles', 'whitelist', ['title']);
+//		$this->crudData->whitelist(['title']);
 		
 //		$Menus = \Cake\ORM\TableRegistry::get('Menus');
 //		$this->set('navigators', $Menus->find()->all());
@@ -121,7 +123,7 @@ class ArticlesController extends AppController
 //		// ----------------------
 //		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
 //		// -----------------------
-		$this->RecordActions->add('Navigators.summaries', ['edit']);
+		$this->_RecordActions->add('Navigators.summaries', ['edit']);
 		
 		$this->set('Markdown', new Markdown());
 	}
