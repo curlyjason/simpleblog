@@ -18,7 +18,6 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use App\Model\Table\CrudData;
-use App\View\Helper\CRUD\ActionPattern;
 use App\Lib\CrudConfig;
 
 /**
@@ -33,34 +32,8 @@ class AppController extends Controller {
 
 	public $helpers = ['Crud'];
 
-	public $crudData;
-	public $_crudData = [];
-	public $ModelActions;
-	public $AssociationActions;
-	public $RecordActions;
+	use CrudConfig;
 
-	protected $_defaultModelActionPatterns = [
-		'index' => [['new' => 'add']],
-		'add' => [['list' => 'index']],
-		'view' => [['List' => 'index'], 'edit', ['new' => 'add'], 'delete'],
-		'edit' => [['List' => 'index'], ['new' => 'add'], 'delete']
-	];
-	
-	protected $_defaultAssociationActionPatterns = [
-		'index' => [['List' => 'index'], ['new' => 'add']],
-		'add' => [['List' => 'index'], ['new' => 'add']],
-		'view' => [['List' => 'index'], ['new' => 'add']],
-		'edit' => [['List' => 'index'], ['new' => 'add']]
-	];
-
-	protected $_defaultRecordActionPatterns = [
-//		'index' => ['edit', 'view', 'delete', ['Move up' => 'example']],
-		'index' => ['view', 'edit', 'delete'],
-		'add' => ['cancel', 'save'],
-		'edit' => ['cancel', 'save'],
-		'view' => []
-	];
-	
 	public function simpleSearch($action) {
 		$this->request->action = $action;
 		$alias = $this->modelClass;
@@ -68,12 +41,17 @@ class AppController extends Controller {
 		$this->$action($search);
 	}
 	
+	/**
+	 * Setup navigation system for all pages
+	 * 
+	 */
 	protected function loadMainNavigation() {
 		$Menus = \Cake\ORM\TableRegistry::get('Menus');
 		$this->set('navigators', $Menus->find()->all());
-		array_push($this->_crudData, $this->CrudConfig->navigatorIndex());
+		
+		//setup Crud Config
+		$this->navigatorsIndex();
 	}
-
 
 	/**
 	 * Initialization hook method.
@@ -85,42 +63,30 @@ class AppController extends Controller {
 	public function initialize() {
 		parent::initialize();
 		$this->loadComponent('Flash');
-		$this->CrudConfig = new CrudConfig($this);
 	}
 
 	public function beforeFilter(\Cake\Event\Event $event) {
 		parent::beforeFilter($event);
-		$current = strtolower($this->request->controller).ucfirst($this->request->action);
-//		debug($current);die;
-		if (method_exists($this->CrudConfig, $current)) {
-			$this->crudData = $this->CrudConfig->$current();
-		} else {
-			$this->crudData = $this->CrudConfig->vanilla($this->{$this->modelClass}, $this->request->action);
-		}
-		array_push($this->_crudData, $this->crudData);
-		$this->setDefaultActionPatterns();
+//		$current = strtolower($this->request->controller).ucfirst($this->request->action);
+////		debug($current);die;
+//		if (method_exists($this->CrudConfig, $current)) {
+//			$this->crudData = $this->CrudConfig->$current();
+//		} else {
+//			$this->crudData = $this->CrudConfig->vanilla($this->{$this->modelClass}, $this->request->action);
+//		}
+//		array_push($this->_crudData, $this->crudData);
 		$this->loadMainNavigation();
 	}
 	
-	/**
-	 * Set the default action patterns to cover all cake-standard crud settings
-	 */
-	protected function setDefaultActionPatterns() {
-		$this->ModelActions = new ActionPattern(['default' => $this->_defaultModelActionPatterns]) ;
-		$this->AssociationActions = new ActionPattern(['default' => $this->_defaultAssociationActionPatterns]);
-		$this->RecordActions = new ActionPattern(['default' => $this->_defaultRecordActionPatterns]);
-	}
-		
-
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
 
 		$this->helpers['Crud'] = [
-			'crudData' => $this->_crudData,
+			'_CrudData' => $this->_CrudData,
 			'actions' => [
-				'ModelActions' => $this->ModelActions,
-				'AssociationActions' => $this->AssociationActions,
-				'RecordActions' => $this->RecordActions
+				'_ModelActions' => $this->_ModelActions,
+				'_AssociationActions' => $this->_AssociationActions,
+				'_RecordActions' => $this->_RecordActions
 			]];
 
 	}

@@ -1,5 +1,5 @@
 <?php
-namespace App\View\Helper\CRUD;
+namespace App\Lib;
 
 /**
  * ToolParser gives simplified access to memebers of tool arrays

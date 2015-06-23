@@ -22,7 +22,8 @@ class ArticlesController extends AppController
     {
         $this->set('articles', $this->paginate($this->Articles));
         $this->set('_serialize', ['articles']);
-		$this->crudData->override(['text' => 'leadPlus', 'summary' => 'leadPlus']);
+		$this->articlesIndex();
+//		$this->_CrudData->override(['text' => 'leadPlus', 'summary' => 'leadPlus']);
 		$this->render('/CRUD/index');
     }
 

@@ -6,15 +6,14 @@ use App\View\Helper\CRUD\ToolPackage;
 use App\Lib\Collection;
 use Cake\Utility\Inflector;
 use App\Lib\NameConventions;
+use App\Lib\CrudConfig;
 
 class CrudHelper extends Helper
 {
 	
 	public $helpers = ['Html', 'Form', 'Text', 'RecordAction', 'ModelAction'];
-
-	protected $_ModelActions;
-	protected $_AssociationActions;
-	protected $_RecordActions;
+	
+	use CrudConfig;
 
 	public $ModelActions;
 	public $AssociationActions;
@@ -32,13 +31,6 @@ class CrudHelper extends Helper
 	 * @var string
 	 */
 	protected $_defaultAlias;
-	
-	/**
-	 * All the CrudData objects, indexed by the alias of the model that created them
-	 *
-	 * @var array
-	 */
-	public $_CrudData = [];
 	
 	/**
 	 * The current crud data object
@@ -84,6 +76,29 @@ class CrudHelper extends Helper
 
 
 	/**
+	 * Make the helper, possibly configuring with CrudData objects
+	 * 
+	 * @param \Cake\View\View $View
+	 * @param array $config An array of CrudData objects
+	 */
+	public function __construct(\Cake\View\View $View, array $config = array()) {
+		parent::__construct($View, $config);
+		
+		$config += ['_CrudData' => [], 'actions' =>[]];
+		$this->_defaultAlias = new NameConventions(Inflector::pluralize(Inflector::classify($this->request->controller)));
+		$this->_CrudData = $config['_CrudData'];
+		$this->_Field = new Collection();
+				
+		foreach ($config['actions'] as $name => $pattern) {
+			$this->{$name} = $pattern;
+		}   
+		
+		$this->useCrudData($this->_defaultAlias->name);
+		$this->FieldSetups = new CRUD\FieldSetups($this);
+
+	}
+	
+	/**
 	 * Get the tool list for the requested context
 	 * 
 	 * @param string $grouping 3 groups, 'model', 'associated', 'record'
@@ -121,34 +136,6 @@ class CrudHelper extends Helper
 			}
 		}
 		return $this->$target;
-	}
-	
-	/**
-	 * Make the helper, possibly configuring with CrudData objects
-	 * 
-	 * @param \Cake\View\View $View
-	 * @param array $config An array of CrudData objects
-	 */
-	public function __construct(\Cake\View\View $View, array $config = array()) {
-		parent::__construct($View, $config);
-		
-		$this->_defaultAlias = new NameConventions(Inflector::pluralize(Inflector::classify($this->request->controller)));
-		$this->_CrudData = new Collection();
-		$this->_Field = new Collection();
-		
-		$config += ['crudData' => [], 'actions' =>[]];
-		
-		foreach ($config['crudData'] as $crudData) {
-			$this->_CrudData->add($crudData->alias()->name, $crudData);
-		}
-		
-		foreach ($config['actions'] as $name => $pattern) {
-			$this->{"_$name"} = $pattern;
-		}   
-		
-		$this->useCrudData($this->_defaultAlias->name);
-		$this->FieldSetups = new CRUD\FieldSetups($this);
-
 	}
 	
 	/**

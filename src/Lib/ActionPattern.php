@@ -1,5 +1,5 @@
 <?php
-namespace App\View\Helper\CRUD;
+namespace App\Lib;
 
 use App\Lib\Collection;
 
