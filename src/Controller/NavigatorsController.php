@@ -34,7 +34,7 @@ class NavigatorsController extends AppController {
 		$this->set('filter_match', 'id');
 
 		$this->crudData->whitelist(['name']);
-		$this->crudData->overrideAction('index', 'liLink');
+		$this->crudData->overrideAction(['index' => 'liLink']);
 
 		$this->RecordActions->add('default.index', [], TRUE);
 		$this->ModelActions->add('default.index', [], TRUE);

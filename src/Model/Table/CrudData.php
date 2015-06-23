@@ -27,8 +27,9 @@ use Bake\Utility\Model\AssociationFilter;
  * @author dondrake
  */
 class CrudData {
-	
-use ConventionsTrait;
+
+	use ConventionsTrait;
+
 use InstanceConfigTrait;
 
 	/**
@@ -39,17 +40,16 @@ use InstanceConfigTrait;
 	 *
 	 * @var type 
 	 */
-	private $column_types = ['date', 'time', 'datetime', 'timestamp', 
-			'boolean',
-			'biginteger',
-			'integer',
-			'uuid',
-			'string',
-			'binary',
-			'float',
-			'decimal'
-			];
-
+	private $column_types = ['date', 'time', 'datetime', 'timestamp',
+		'boolean',
+		'biginteger',
+		'integer',
+		'uuid',
+		'string',
+		'binary',
+		'float',
+		'decimal'
+	];
 
 	/**
 	 * The AssociationCollection for this model
@@ -64,7 +64,7 @@ use InstanceConfigTrait;
 	 * @var array
 	 */
 	protected $_foreign_keys;
-	
+
 	/**
 	 * The associations in this table and info about them
 	 * 
@@ -83,14 +83,14 @@ use InstanceConfigTrait;
 	 * @var array
 	 */
 	protected $_associations;
-	
+
 	/**
 	 * An array of all the BelongsTo objects for this model 
 	 *
 	 * @var array
 	 */
 //	protected $_belongs_to;
-	
+
 	/**
 	 * fields to return in the columns list
 	 * 
@@ -100,7 +100,7 @@ use InstanceConfigTrait;
 	 * @var array
 	 */
 	protected $_whitelist;
-	
+
 	/**
 	 * fields to exclude from the columns list
 	 * 
@@ -109,13 +109,10 @@ use InstanceConfigTrait;
 	 * @var array
 	 */
 	protected $_blacklist;
-	
 	protected $_override;
-	
 	protected $_attributes;
-	
 	protected $_defaultConfig;
-	
+
 	/**
 	 * An alternate output setup name for a standard crud view
 	 * 
@@ -136,14 +133,14 @@ use InstanceConfigTrait;
 	protected $_columns;
 
 	/**
-     * AssociationFilter utility
-     *
-     * @var AssociationFilter
-     */
+	 * AssociationFilter utility
+	 *
+	 * @var AssociationFilter
+	 */
 //    protected $_associationFilter;
-	
+
 	protected $_table;
-	
+
 	/**
 	 * The output strategy to use if this is a secondary module
 	 * 
@@ -154,7 +151,6 @@ use InstanceConfigTrait;
 	 * @var string
 	 */
 	protected $_strategy;
-
 
 	/**
 	 * Create a fully populated information object for guiding abstracted output of table data
@@ -169,35 +165,33 @@ use InstanceConfigTrait;
 	 * @param array $options
 	 */
 	public function __construct(\Cake\ORM\Table $table, $options = []) {
-		
+
 		$this->_blacklist = (isset($options['blacklist'])) ? $options['blacklist'] : [];
 		$this->_whitelist = (isset($options['whitelist'])) ? $options['whitelist'] : [];
 		$this->_override = (isset($options['override'])) ? $options['override'] : [];
 		$this->_overrideAction = (isset($options['overrideAction'])) ? $options['overrideAction'] : [];
 		$this->_attributes = (isset($options['attributes'])) ? $options['attributes'] : [];
 		$this->_strategy = (isset($options['strategy'])) ? $options['strategy'] : 'index';
-			
+
 		$this->_table = $table;
 		$this->update();
 //		debug($this->_associationFilter);
 //		debug($this->AssociationCollection);
 //		debug($this->_foreignKeys());die;
 	}
-	
-	
+
 	public function primaryKey($as_array = FALSE) {
 		if ($as_array) {
 			return (array) $this->_table->primaryKey();
 		} else {
 			return $this->_table->primaryKey();
 		}
-			
 	}
-	
+
 	public function displayField() {
-			return $this->_table->displayField();
+		return $this->_table->displayField();
 	}
-	
+
 	public function alias($type = 'object') {
 		if ($type === 'string') {
 			return $this->_table->alias();
@@ -205,7 +199,7 @@ use InstanceConfigTrait;
 			return new NameConventions($this->_table->alias());
 		}
 	}
-	
+
 	public function strategy($name = NULL) {
 		if (!is_null($name)) {
 			$this->_strategy = $name;
@@ -213,49 +207,87 @@ use InstanceConfigTrait;
 		return $this->_strategy;
 	}
 
-
 	public function update() {
 		$this->AssociationCollection = $this->_associationCollection($this->_table);
 		$this->_foreignKeys = $this->_foreignKeys(TRUE);
 		$this->_columns = $this->_columns(TRUE);
 //		$this->_associationFilter = $this->_filteredAssociations();
 	}
-	
-	public function whitelist($allow = FALSE) {
-		if ($allow !== FALSE) {
+
+	public function whitelist(array $allow = [], $replace = FALSE) {
+		if ($replace) {
+			$this->_whitelist = [];
+		}
+		if (!empty($allow) || $replace) {
 			$this->_whitelist = array_merge($this->_whitelist, (array) $allow);
 			$this->update();
 		}
 		return $this->_whitelist;
 	}
 
-	public function blacklist($deny = []) {
-		if (!empty($deny)) {
-			$this->_blacklist = array_merge($this->_blacklist, (array) $deny);
-			$this->update();
-		} elseif ($deny === FALSE) {
+	public function blacklist($deny = [], $replace = FALSE) {
+		if ($replace) {
 			$this->_blacklist = [];
+		}
+		if (!empty($deny) || $replace) {
+			$this->_blacklist = array_merge($this->_blacklist, (array) $deny);
 			$this->update();
 		}
 		return $this->_blacklist;
 	}
 
-	public function override($types = FALSE) {
-		if ($types !== FALSE) {
+	public function override($types = [], $replace = FALSE) {
+		if ($replace) {
+			$this->_override = [];
+		}
+		if (!empty($types) || $replace) {
 			$this->_override += $types;
 			$this->update();
 		}
 		return $this->_override;
 	}
 
-	public function attributes($attributes = FALSE) {
-		if ($attributes !== FALSE) {
+	public function attributes($attributes = [], $replace = FALSE) {
+		if ($replace) {
+			$this->_attributes = [];
+		}
+		if (!empty($attributes) || $replace) {
 			$this->_attributes += $attributes;
 			$this->update();
 		}
 		return $this->_attributes;
 	}
-	
+
+	/**
+	 * Set and/or return override action
+	 * 
+	 * The action name will select a Field strategy in CrudHelper. And the 
+	 * four standard crud actions are hard-wired. This allows you to substitute 
+	 * a different strategy for one of the standards. Or, indeed, to substitute 
+	 * a strategy for one of your own views (though I'm not sure why you would).
+	 * 
+	 * @param string $action
+	 * @param string $alternate
+	 * @return string or BOOLEAN FALSE
+	 */
+	public function overrideAction($actionAlternates = [], $replace = FALSE) {
+		//pass only a string action to get the alternate back, if already set
+		if (is_string($actionAlternates) && isset($this->_overrideAction[$actionAlternates])) {
+			return $this->_overrideAction[$actionAlternates];
+		} elseif (is_string($actionAlternates) && !isset($this->_overrideAction[$actionAlternates])) {
+			return FALSE;
+		}
+		
+		if ($replace) {
+			$this->_overrideAction = [];
+		}
+		if (!empty($actionAlternates) || $replace) {
+			while (list($key, $val) = each($actionAlternates)) {
+				$this->_overrideAction[$key] = $val;
+			}
+		}
+	}
+
 	public function foreignKeys() {
 		return $this->_foreignKeys;
 	}
@@ -265,14 +297,14 @@ use InstanceConfigTrait;
 	}
 
 	public function columns() {
-			return $this->_columns;
+		return $this->_columns;
 //		if (isset($this->_columns)) {
 //			return $this->_columns;
 //		} else {
 //			return $this->_columns();
 //		}
 	}
-	
+
 	/**
 	 * get data about a column in the schema
 	 * 
@@ -293,10 +325,11 @@ use InstanceConfigTrait;
 			return NULL;
 		}
 	}
+
 	public function filteredAssociations() {
 		return $this->_associationFilter;
 	}
-	
+
 //	public function entityName($name = NULL) {
 //		if 
 //		return $this->_entityName($this->alias());
@@ -313,7 +346,7 @@ use InstanceConfigTrait;
 		}
 		return $this->AssociationCollection;
 	}
-	
+
 	/**
 	 * Get an array of the foreign keys in this table and information about the associations
 	 * 
@@ -331,12 +364,12 @@ use InstanceConfigTrait;
 					'owner' => $association->isOwningSide($this->_table),
 					'class' => get_class($association),
 					'association_type' => $association->type(), // oneToOne, oneToMany, manyToMany, manyToOne
-					'name' => new NameConventions($association->name()), 
+					'name' => new NameConventions($association->name()),
 					'property' => $association->property()
 				];
 				$this->_foreign_keys[$association->foreignKey()] = $association->foreignKey();
-            }
-        }
+			}
+		}
 		return $this->_foreign_keys;
 	}
 
@@ -377,48 +410,25 @@ use InstanceConfigTrait;
 //		debug($this->_columns);
 		return $this->_columns;
 	}
-	
-    /**
-     * Get filtered associations
-     * To be mocked...
-     *
-     * @param \Cake\ORM\Table $table Table
-     * @return array associations
-     */
-    protected function _filteredAssociations()
-    {
-        if (is_null($this->_associationFilter)) {
-            $this->_associationFilter = new AssociationFilter();
-        }
-        return $this->_associationFilter->filterAssociations($this->_table);
-    }
-	
+
 	/**
-	 * Set and/or return override action
-	 * 
-	 * The action name will select a Field strategy in CrudHelper. And the 
-	 * four standard crud actions are hard-wired. This allows you to substitute 
-	 * a different strategy for one of the standards. Or, indeed, to substitute 
-	 * a strategy for one of your own views (though I'm not sure why you would).
-	 * 
-	 * @param string $action
-	 * @param string $alternate
-	 * @return string or BOOLEAN FALSE
+	 * Get filtered associations
+	 * To be mocked...
+	 *
+	 * @param \Cake\ORM\Table $table Table
+	 * @return array associations
 	 */
-	public function overrideAction($action, $alternate = NULL) {
-		if (!is_null($alternate)) {
-			$this->_overrideAction = [$action => $alternate];
+	protected function _filteredAssociations() {
+		if (is_null($this->_associationFilter)) {
+			$this->_associationFilter = new AssociationFilter();
 		}
-		if(isset($this->_overrideAction[$action])){
-			return $this->_overrideAction[$action];
-		} else {
-			return FALSE;
-		}
+		return $this->_associationFilter->filterAssociations($this->_table);
 	}
-	
+
 	public function addAttributes($key = null, $value = null, $merge = true) {
 		$this->_defaultConfig = $this->_columns[$key]['attributes'];
 		$this->_columns[$key]['attributes'] = $this->config($key, $value, $merge)->config()[$key];
 //		$this->_columns[$key]['attributes'] += $value;
 	}
+
 }

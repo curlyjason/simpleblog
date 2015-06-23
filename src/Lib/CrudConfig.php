@@ -19,6 +19,8 @@ trait CrudConfig {
 	//Properties
 	protected $_CrudData;
 	
+	protected $_WorkingCrudData;
+	
 	protected $_ModelActions;
 	
 	protected $_AssociationActions;
@@ -80,8 +82,7 @@ trait CrudConfig {
 		$this->configIndex('Articles');
 		
 		//modify configurations
-		$crud_data = $this->_CrudData->load('Articles');
-		$crud_data->override(['text' => 'leadPlus', 'summary' => 'leadPlus']);
+		$this->configCrudDataOverrides('Articles', 'override', ['text' => 'leadPlus', 'summary' => 'leadPlus']);
 	}
 	
 	/**
@@ -92,9 +93,8 @@ trait CrudConfig {
 		$this->configIndex('Navigators');
 		
 		//modify configurations
-		$crud_data = $this->_CrudData->load('Navigators');
-		$crud_data->whitelist(['name']);
-		$crud_data->overrideAction(['index' => 'liLink']);
+		$this->configCrudDataOverrides('Navigators', 'whitelist', ['name']);
+		$this->configCrudDataOverrides('Navigators', 'overrideAction', ['index' => 'liLink']);
 		
 		//set viewVars
 		$this->set('filter_property', 'parent_id');
@@ -109,13 +109,31 @@ trait CrudConfig {
 		$this->configIndex('Menus');
 		
 		//modify configurations
-		$crud_data = $this->_CrudData->load('Menus');
-		$crud_data->blacklist(['lft', 'rght']);
-		$crud_data->override(['parent_id' => 'input']);
-		$crud_data->attributes(['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+		$this->configCrudDataOverrides('Menus', 'blacklist', ['lft', 'rght']);
+		$this->configCrudDataOverrides('Menus', 'override', ['parent_id' => 'input']);
+		$this->configCrudDataOverrides('Menus', 'attributes', ['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
 	}
 	
 // <editor-fold defaultstate="collapsed" desc="Decomposed Methods">
+	
+	/**
+	 * Common call point to all Crud Data attribute override methods
+	 * 
+	 * @param string $alias
+	 * @param string $property
+	 * @param array $override
+	 */
+	protected function configCrudDataOverrides($alias, $property, $override = [], $replace = FALSE) {
+		if(!$this->_WorkingCrudData || $this->_WorkingCrudData->alias('string') != $alias){
+			$this->_WorkingCrudData = $this->_CrudData->load($alias);
+//			debug($this->_WorkingCrudData);
+		}
+//		debug($property);
+//		debug($override);
+		$this->_WorkingCrudData->$property($override, $replace);
+//		debug($this->_WorkingCrudData);
+	}
+	
 	/**
 	 * Ensure configCrudData contains collection object and return it
 	 * 
