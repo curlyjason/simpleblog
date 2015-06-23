@@ -123,7 +123,6 @@ foreach ($associated as $assoc) :
 
 <?php
 	if ($$entityName->{$assoc['property']}) :
-		if (!isset($crudConfig)) { $crudConfig = new App\Lib\CrudConfig($this); }
 		// move the nested entity data for this association to its own variable
 		${$assoc['property']} = $$entityName->{$assoc['property']};
 		$this->set($assoc['property'], $$entityName->{$assoc['property']});
@@ -133,10 +132,7 @@ foreach ($associated as $assoc) :
 		// or called for through a method... possibly a view cell? (new feature)
 		// _CrudData was made public for this call. 
 		// we could also make a CrudHelper method to do this stuff
-		$this->Crud->_CrudData->add(
-				$assoc['name']->modelName, 
-				$crudConfig->vanilla(TableRegistry::get($assoc['name']->modelName), 'index'));
-		// move the new crud data object into place
+		$this->Crud->configIndex($assoc['name']->modelName);
 		$this->Crud->useCrudData($assoc['name']->modelName);
 		
 		// and make the table view
