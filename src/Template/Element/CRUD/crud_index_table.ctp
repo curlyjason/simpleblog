@@ -21,7 +21,7 @@
 				?>
 	            <td class="actions">
 					<?php
-					$tools = $this->Crud->useActionPattern('record', $this->Crud->alias('string'), $this->request->action);
+					$tools = $this->Crud->useActionPattern('record', $this->Crud->alias('string'), 'index');
 					foreach ($tools->content as $tool) {
 						echo $this->Crud->RecordAction->output($tools, $tool, $entity) . '               ';
 					}
