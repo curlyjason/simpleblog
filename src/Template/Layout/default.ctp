@@ -20,7 +20,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+	<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Unna' rel='stylesheet' type='text/css'>
+	<title>
         <?= 'Simpleblog' ?>:
         <?= $this->fetch('title') ?>
     </title>
@@ -28,6 +30,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('crud_root.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
