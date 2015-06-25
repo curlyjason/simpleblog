@@ -221,8 +221,7 @@ trait CrudConfig {
 	 * @return CrudData object
 	 */
 	public function buildCrudData($alias, $options = []) {
-		$table = $this->loadModelObject($alias);
-		return new CrudData($table, $options);
+		return new CrudData($this->loadModelObject($alias), $options);
 	}
 // </editor-fold>
 }

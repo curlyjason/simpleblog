@@ -356,21 +356,36 @@ class CrudHelper extends Helper
 		}
 	}
 	
+	/**
+	 * Get or set the attributes for a field
+	 * 
+	 * @param string $field
+	 * @param array $attributes
+	 */
 	public function addAttributes($field, $attributes) {
 		$this->CrudData->addAttributes($field, $attributes);
 	}
 	
-	public function crudState($mode) {
+	/**
+	 * Move CrudData on or off the stack
+	 * 
+	 * As the view is processed, we'll temporarily switch to a different crud data 
+	 * context to render an element, then when done we'll switch back to the previous 
+	 * context. This simple stack keeps track of the sequence of contexts
+	 * 
+	 * @param string $mode 'save' or 'restore'
+	 */
+	public function renderContextStack($mode) {
 		switch ($mode) {
 			case 'save':
-				$current_alias = (is_object($this->CrudData)) ? $this->CrudData->alias('string') : FALSE;
-				array_push($this->_aliasStack, $current_alias);
+				$alias = (is_object($this->CrudData)) ? $this->CrudData->alias('string') : FALSE;
+				array_push($this->_aliasStack, $alias);
 				break;
 			
 			case 'restore':
-				$restored_alias = array_pop($this->_aliasStack);
-				if($restored_alias){
-					$this->useCrudData($restored_alias);
+				$alias = array_pop($this->_aliasStack);
+				if($alias){
+					$this->useCrudData($alias);
 				} else {
 					unset($this->CrudData);
 				}
