@@ -3,7 +3,7 @@ namespace App\View\Helper\CRUD;
 
 use App\View\Helper\CRUD\FieldOutputInterface;
 use Cake\I18n\Number;
-use App\View\Helper\CRUD\FieldSetups;
+//use App\View\Helper\CRUD\FieldSetups;
 /**
  * CrudFields base class to establish output for the possible field types
  * 

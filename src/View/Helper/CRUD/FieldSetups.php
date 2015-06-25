@@ -2,7 +2,6 @@
 
 namespace App\View\Helper\CRUD;
 
-use App\View\Helper\CRUD\Decorator;
 use Cake\Utility\Text;
 
 /**
@@ -29,48 +28,7 @@ class FieldSetups {
 	public function __construct($helper) {
 		$this->helper = $helper;
 	}
-	
-	/**
-	 * Return the decorated output for the status method
-	 * 
-	 * This example method 'status' returns the same as the 'index' base action.
-	 * It is provided as an example of what you can do with alternate actions.
-	 * 
-	 * @param type $helper
-	 * @return \App\View\Helper\CRUD\Decorator\TableCellDecorator
-	 */
-	public function status($helper) {
-		return new Decorator\TableCellDecorator(
-//				new Decorator\LabelDecorator(
-				new Decorator\BelongsToDecorator(
-				new CrudFields($helper)
-		));
-	}
-
-	/**
-	 * Return the decorated output for the menuIndex method
-	 * 
-	 * This example method 'status' returns the same as the 'index' base action.
-	 * It is provided as an example of what you can do with alternate actions.
-	 * 
-	 * @param type $helper
-	 * @return \App\View\Helper\CRUD\Decorator\TableCellDecorator
-	 */
-	public function menuIndex($helper) {
-		return new Decorator\TableCellDecorator(
-//				new Decorator\LabelDecorator(
-				new Decorator\BelongsToSelectDecorator(
-				new CrudFields($helper)
-		));
-	}
-	
-	public function liLink($helper) {
-		return new Decorator\LiDecorator(
-				new Decorator\LinkDecorator(
-				new CrudFields($helper)
-				));
-	}
-	
+		
 	/**
 	 * Show some of long text and hide all for flyout
 	 * 

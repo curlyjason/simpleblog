@@ -2,11 +2,19 @@
 namespace App\View\Helper;
 
 use Cake\View\Helper;
+use Cake\View\View;
 use App\View\Helper\CRUD\ToolPackage;
 use App\Lib\Collection;
 use Cake\Utility\Inflector;
 use App\Lib\NameConventions;
 use App\Lib\CrudConfig;
+use App\View\Helper\CRUD\CrudFields;
+use App\View\Helper\CRUD\FieldSetups;
+use App\View\Helper\CRUD\Decorator\LabelDecorator;
+use App\View\Helper\CRUD\Decorator\BelongsToDecorator;
+use App\View\Helper\CRUD\Decorator\TableCellDecorator;
+use App\View\Helper\CRUD\FieldDecoratorSetups;
+
 
 class CrudHelper extends Helper
 {
@@ -83,7 +91,7 @@ class CrudHelper extends Helper
 	 * @param \Cake\View\View $View
 	 * @param array $config An array of CrudData objects
 	 */
-	public function __construct(\Cake\View\View $View, array $config = array()) {
+	public function __construct(View $View, array $config = array()) {
 		parent::__construct($View, $config);
 		
 		$config += ['_CrudData' => [], 'actions' =>[]];
@@ -96,7 +104,8 @@ class CrudHelper extends Helper
 		}   
 		
 		$this->useCrudData($this->_defaultAlias->name);
-		$this->FieldSetups = new CRUD\FieldSetups($this);
+		$this->FieldSetups = new FieldSetups($this);
+		$this->FieldDecoratorSetups = new FieldDecoratorSetups($this);
 
 	}
 	
@@ -330,28 +339,28 @@ class CrudHelper extends Helper
 			// the four cake-standard crud setups
 			case 'index':
 //				debug('setup index decoration');
-				return new CRUD\Decorator\TableCellDecorator(
-					new CRUD\Decorator\BelongsToDecorator(
-						new CRUD\CrudFields($this)
+				return new TableCellDecorator(
+					new BelongsToDecorator(
+						new CrudFields($this)
 					));
 				break;
 			case 'view':
 //				debug('setup view decoration');
-				return new CRUD\Decorator\BelongsToDecorator(
-						new CRUD\CrudFields($this)
+				return new BelongsToDecorator(
+						new CrudFields($this)
 					);
 				break;
 			case 'edit':
 			case 'add':
-				return new CRUD\CrudFields($this);
+				return new CrudFields($this);
 				break;
 
 			// your custom setups or the default result if your's isn't found
 			default:
-				if (method_exists($this->FieldSetups, $action)) {
-					return $this->FieldSetups->$action($this);
+				if (method_exists($this->FieldDecoratorSetups, $action)) {
+					return $this->FieldDecoratorSetups->$action($this);
 				} else {
-					return new CRUD\Decorator\LabelDecorator(new CRUD\CrudFields($this));
+					return new LabelDecorator(new CrudFields($this));
 				}
 		}
 	}
