@@ -15,20 +15,25 @@ namespace App\View\Helper\CRUD\Decorator;
 class EmptySelectorDecorator extends FieldDecorator {
 	
 	protected $belongsTo = NULL;
-
+	
 	public function output($field, $options = []) {
 		$data = $this->helper->column($field);
-		debug($data);
-		debug($this->helper->foreignKeys()[$field]);
+		
+		// Watch for belongsTo
+		// If NULL is allowed set an 'empty' attribute
 		if (isset($this->helper->foreignKeys()[$field]) && $data['null']) {
+//			debug($this->helper->CrudData);
 			$this->helper->addAttributes($field, ['input' => ['empty' => 'Choose one']]);
 		}
 
+		// Watch for Date/Time which Cake renders in select lists
+		// If NULL is allowed set an 'empty' attribute
 		if (preg_match('/date|time/', $data['type']) && $data['null']) {
-			$this->helper->addAttributes($field, ['input' => ['empty' => true, 'default' => '']]);
+			$this->helper->addAttributes($field, ['input' => ['empty' => '--', 'default' => '']]);
 		}
 			
-		return $this->base->output($field, $this->helper->column($field)['attributes']);
+//		return $this->base->output($field, $this->helper->column($field)['attributes']);
+		return $this->base->output($field);
 	}
 
 //	protected function fieldIsKey($field, $type) {

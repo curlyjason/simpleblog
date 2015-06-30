@@ -294,7 +294,8 @@ class CrudHelper extends Helper
 			$this->useCrudData($dot[0]);
 			// shouldn't this also check to see if there is a field output strategy for this $dot[0]?
 		}
-		return $this->Field->output($field, $this->columns()[$field]['attributes']);
+//		return $this->Field->output($field, $this->columns()[$field]['attributes']);
+		return $this->Field->output($field);
 	}
 	
 	/**
@@ -358,8 +359,8 @@ class CrudHelper extends Helper
 					$override[$key] = 'input';
 				};
 				$this->override($override, TRUE);
-//				return new EmptySelectorDecorator(new CrudFields($this));
-				return new CrudFields($this);
+				return new EmptySelectorDecorator(new CrudFields($this));
+//				return new CrudFields($this);
 				break;
 
 			// your custom setups or the default result if your's isn't found

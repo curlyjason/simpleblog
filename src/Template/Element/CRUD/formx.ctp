@@ -10,17 +10,8 @@ use Cake\Utility\Inflector;
         <legend><?= __(Inflector::humanize($this->request->action) . ' ' . $this->Crud->alias()->singularHumanName) ?></legend>
 
 		<?php
-		debug($this->Crud->foreignKeys());
 		foreach ($this->Crud->columns() as $field => $data) {
 
-			if (isset($this->Crud->foreignKeys()[$field]) && $data['null']) {
-				$this->Crud->addAttributes($field, ['input' => ['empty' => 'Choose one']]);
-			}
-			
-			if (preg_match('/date|time/', $data['type']) && $data['null']) {
-				$this->Crud->addAttributes($field, ['input' => ['empty' => true, 'default' => '']]);
-			}
-			
 			echo $this->Crud->output($field);
 		}
 

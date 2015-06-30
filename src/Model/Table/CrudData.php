@@ -316,7 +316,7 @@ use InstanceConfigTrait;
 	 * @return array
 	 */
 	public function column($name) {
-		return $this->_table->schema()->column($name);
+		return $this->_columns[$name];
 	}
 
 	public function columnType($field) {
@@ -330,9 +330,9 @@ use InstanceConfigTrait;
 		}
 	}
 
-	public function filteredAssociations() {
-		return $this->_associationFilter;
-	}
+//	public function filteredAssociations() {
+//		return $this->_associationFilter;
+//	}
 
 //	public function entityName($name = NULL) {
 //		if 
@@ -423,12 +423,12 @@ use InstanceConfigTrait;
 	 * @param \Cake\ORM\Table $table Table
 	 * @return array associations
 	 */
-	protected function _filteredAssociations() {
-		if (is_null($this->_associationFilter)) {
-			$this->_associationFilter = new AssociationFilter();
-		}
-		return $this->_associationFilter->filterAssociations($this->_table);
-	}
+//	protected function _filteredAssociations() {
+//		if (is_null($this->_associationFilter)) {
+//			$this->_associationFilter = new AssociationFilter();
+//		}
+//		return $this->_associationFilter->filterAssociations($this->_table);
+//	}
 
 	public function addAttributes($key = null, $value = null, $merge = true) {
 		$this->_defaultConfig = $this->_columns[$key]['attributes'];

@@ -125,9 +125,13 @@ class CrudFields implements FieldOutputInterface {
 	}
 
 	protected function input($field, $options = []){
-		
-		$attributes = isset($options['input']) ? $options['input'] : [];
-		return $this->helper->Form->input($field, $attributes);
+		return $this->helper->Form->input($field, $this->attribute($field, 'input'));
+	}
+	
+	protected function attribute($field, $tag){
+		return isset($this->helper->column($field)['attributes'][$tag]) ? 
+				$this->helper->column($field)['attributes'][$tag] :
+				[];
 	}
 	
 }
