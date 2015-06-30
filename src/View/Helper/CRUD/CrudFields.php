@@ -124,8 +124,10 @@ class CrudFields implements FieldOutputInterface {
 		return $this->helper->Text->autoParagraph(h($this->helper->entity->$field));
 	}
 
-	protected function input($field, $options){
-		return $this->helper->Form->input($field, $options);
+	protected function input($field, $options = []){
+		
+		$attributes = isset($options['input']) ? $options['input'] : [];
+		return $this->helper->Form->input($field, $attributes);
 	}
 	
 }
