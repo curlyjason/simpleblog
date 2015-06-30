@@ -14,6 +14,7 @@ use App\View\Helper\CRUD\Decorator\LabelDecorator;
 use App\View\Helper\CRUD\Decorator\BelongsToDecorator;
 use App\View\Helper\CRUD\Decorator\TableCellDecorator;
 use App\View\Helper\CRUD\FieldDecoratorSetups;
+use App\View\Helper\CRUD\Decorator\EmptySelectorDecorator;
 
 
 class CrudHelper extends Helper
@@ -199,8 +200,8 @@ class CrudHelper extends Helper
 		return $this->CrudData->column($name);
 	}
 	
-	public function override($types = FALSE) {
-		return $this->CrudData->override($types);
+	public function override($types = [], $replace = FALSE) {
+		return $this->CrudData->override($types, $replace);
 	}
 	
 	public function columnType($name) {
@@ -352,6 +353,12 @@ class CrudHelper extends Helper
 				break;
 			case 'edit':
 			case 'add':
+				$override = [];
+				foreach($this->columns() as $key => $value){
+					$override[$key] = 'input';
+				};
+				$this->override($override, TRUE);
+//				return new EmptySelectorDecorator(new CrudFields($this));
 				return new CrudFields($this);
 				break;
 
