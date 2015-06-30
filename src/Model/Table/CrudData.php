@@ -206,10 +206,6 @@ use InstanceConfigTrait;
 		}
 		return $this->_strategy;
 	}
-	
-	public function schema() {
-		return $this->_table->schema();
-	}
 
 	public function update() {
 		$this->AssociationCollection = $this->_associationCollection($this->_table);
@@ -407,7 +403,6 @@ use InstanceConfigTrait;
 				if (in_array($name, $foreign_keys)) {
 					$this->_columns[$name] = ['foreign_key' => TRUE];
 				}
-				$this->_columns[$name] = $schema->column($name);
 				$this->_columns[$name]['type'] = isset($this->type_override[$name]) ? $this->type_override[$name] : $schema->columnType($name);
 				$this->_columns[$name]['attributes'] = isset($this->_attributes[$name]) ? $this->_attributes[$name] : [];
 			}
