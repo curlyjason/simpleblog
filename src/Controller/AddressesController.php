@@ -69,6 +69,7 @@ class AddressesController extends AppController
         $this->set(compact('address', 'users', 'organizations'));
         $this->set('_serialize', ['address']);
 		$this->configAdd('Addresses');
+		$this->configCrudDataOverrides('Addresses', 'blacklist', [], TRUE);
 		$this->render('/CRUD/add');
     }
 
@@ -98,6 +99,7 @@ class AddressesController extends AppController
         $this->set(compact('address', 'users', 'organizations'));
         $this->set('_serialize', ['address']);
 		$this->configEdit('Addresses');
+		$this->configCrudDataOverrides('Addresses', 'blacklist', [], TRUE);
 		$this->render('/CRUD/edit');
     }
 
