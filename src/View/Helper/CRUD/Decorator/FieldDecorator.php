@@ -1,12 +1,12 @@
 <?php
 namespace App\View\Helper\CRUD\Decorator;
-use App\View\Helper\CRUD\FieldOutputInterface;
+use App\View\Helper\CRUD\ColumnOutputInterface;
 /**
  * FieldOutputDecorator
  *
  * @author dondrake
  */
-class FieldDecorator implements FieldOutputInterface {
+class FieldDecorator implements ColumnOutputInterface {
 	
 	public $base;
 	

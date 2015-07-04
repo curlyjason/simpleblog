@@ -48,7 +48,7 @@ class FieldDecoratorSetups {
 		return new TableCellDecorator(
 //				new Decorator\LabelDecorator(
 				new BelongsToDecorator(
-				new CrudFields($helper)
+				new CrudColumns($helper)
 		));
 	}
 
@@ -65,14 +65,14 @@ class FieldDecoratorSetups {
 		return new TableCellDecorator(
 //				new Decorator\LabelDecorator(
 				new BelongsToSelectDecorator(
-				new CrudFields($helper)
+				new CrudColumns($helper)
 		));
 	}
 	
 	public function liLink($helper) {
 		return new LiDecorator(
 				new LinkDecorator(
-				new CrudFields($helper)
+				new CrudColumns($helper)
 				));
 	}
 

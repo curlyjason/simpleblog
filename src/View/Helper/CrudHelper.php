@@ -8,7 +8,7 @@ use App\Lib\Collection;
 use Cake\Utility\Inflector;
 use App\Lib\NameConventions;
 use App\Lib\CrudConfig;
-use App\View\Helper\CRUD\CrudFields;
+use App\View\Helper\CRUD\CrudColumns;
 use App\View\Helper\CRUD\FieldSetups;
 use App\View\Helper\CRUD\Decorator\LabelDecorator;
 use App\View\Helper\CRUD\Decorator\BelongsToDecorator;
@@ -343,13 +343,13 @@ class CrudHelper extends Helper
 //				debug('setup index decoration');
 				return new TableCellDecorator(
 					new BelongsToDecorator(
-						new CrudFields($this)
+						new CrudColumns($this)
 					));
 				break;
 			case 'view':
 //				debug('setup view decoration');
 				return new BelongsToDecorator(
-						new CrudFields($this)
+						new CrudColumns($this)
 					);
 				break;
 			case 'edit':
@@ -359,7 +359,7 @@ class CrudHelper extends Helper
 					$override[$key] = 'input';
 				};
 				$this->override($override, TRUE);
-				return new EmptySelectorDecorator(new CrudFields($this));
+				return new EmptySelectorDecorator(new CrudColumns($this));
 //				return new CrudFields($this);
 				break;
 
@@ -368,7 +368,7 @@ class CrudHelper extends Helper
 				if (method_exists($this->FieldDecoratorSetups, $action)) {
 					return $this->FieldDecoratorSetups->$action($this);
 				} else {
-					return new LabelDecorator(new CrudFields($this));
+					return new LabelDecorator(new CrudColumns($this));
 				}
 		}
 	}

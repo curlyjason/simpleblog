@@ -38,7 +38,7 @@ class FieldSetups {
 	 * 
 	 * @param type $helper
 	 */
-	public function leadPlus($field, $options) {
+	public function leadPlus($field) {
 		$hidden = $this->helper->Html->div(
 				'full_text',
 				$this->helper->Html->para(

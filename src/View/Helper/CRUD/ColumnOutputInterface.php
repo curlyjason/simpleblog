@@ -10,8 +10,8 @@ namespace App\View\Helper\CRUD;
  *
  * @author dondrake
  */
-interface FieldOutputInterface {
+interface ColumnOutputInterface {
 		
-	public function output($field, $options = []);
+	public function output($column);
 
 }
