@@ -19,6 +19,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use App\Model\Table\CrudData;
 use App\Lib\CrudConfig;
+use Cake\Event\Event;
 
 /**
  * Application Controller
@@ -65,7 +66,7 @@ class AppController extends Controller {
 		$this->loadComponent('Flash');
 	}
 
-	public function beforeFilter(\Cake\Event\Event $event) {
+	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
 //		$current = strtolower($this->request->controller).ucfirst($this->request->action);
 ////		debug($current);die;
@@ -78,7 +79,7 @@ class AppController extends Controller {
 		$this->loadMainNavigation();
 	}
 	
-	public function beforeRender(\Cake\Event\Event $event) {
+	public function beforeRender(Event $event) {
 		parent::beforeRender($event);
 
 		$this->helpers['Crud'] = [
