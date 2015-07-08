@@ -1,17 +1,31 @@
-/*  Created on : Jun 5, 2015, 3:45:07 PM Author     : jasont
+/* 
+    Created on : Jun 5, 2015, 3:45:07 PM
+    Author     : jasont
 */
-* { font-family: 'Unna', serif; color: #0e3f11; }
+* {
+  font-family: 'Unna', serif;
+  color: #0e3f11; }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Titillium Web', sans-serif; font-weight: bold; color: #1b3d68; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: bold;
+  color: #1b3d68; }
 
-table.Menu { width: 100%; margin: 0; background: transparent; }
+table.Menu {
+  width: 100%;
+  margin: 0;
+  background: transparent; }
 
-table.Level-0 { margin-left: 5%; }
+table.Level-0 {
+  margin-left: 5%; }
 
-table.Level-1 { margin-left: 10%; }
+table.Level-1 {
+  margin-left: 10%; }
 
-table.Level-2 { margin-left: 15%; }
+table.Level-2 {
+  margin-left: 15%; }
 
-table.Level-3 { margin-left: 20%; }
+table.Level-3 {
+  margin-left: 20%; }
 
 /*# sourceMappingURL=crud_root.css.map */
