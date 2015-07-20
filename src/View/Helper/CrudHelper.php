@@ -16,7 +16,7 @@ use App\View\Helper\CRUD\Decorator\TableCellDecorator;
 use App\View\Helper\CRUD\FieldDecoratorSetups;
 
 
-class CrudHelper extends Helper
+class CrudHelperOld extends Helper
 {
 	
 	public $helpers = ['Html', 'Form', 'Text', 'RecordAction', 'ModelAction'];

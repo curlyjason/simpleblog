@@ -50,10 +50,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 		<style> nav li {  display: inline-block; padding: 0 10px; }	</style>
 		<nav id="cakephp-global-navigation">
 			<?php
-			$this->Crud->renderContextStack('save');
+			$this->Crud->crudState('save');
 			$this->Crud->useCrudData('Navigators');
 			echo $this->element('Navigators/li_link');
-			$this->Crud->renderContextStack('restore');
+			$this->Crud->crudState('restore');
 			?>
 		</nav>
 

@@ -17,8 +17,9 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-use App\Model\Table\CrudData;
-use App\Lib\CrudConfig;
+//use App\Model\Table\CrudData;
+//use App\Lib\CrudConfig;
+use CrudViews\Controller\AppController as BaseController;
 
 /**
  * Application Controller
@@ -28,11 +29,11 @@ use App\Lib\CrudConfig;
  *
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends BaseController {
 
-	public $helpers = ['Crud'];
+//	public $helpers = ['Crud'];
 
-	use CrudConfig;
+//	use CrudConfig;
 
 	public function simpleSearch($action) {
 		$this->request->action = $action;
@@ -81,13 +82,13 @@ class AppController extends Controller {
 	public function beforeRender(\Cake\Event\Event $event) {
 		parent::beforeRender($event);
 
-		$this->helpers['Crud'] = [
-			'_CrudData' => $this->_CrudData,
-			'actions' => [
-				'_ModelActions' => $this->_ModelActions,
-				'_AssociationActions' => $this->_AssociationActions,
-				'_RecordActions' => $this->_RecordActions
-			]];
+//		$this->helpers['Crud'] = [
+//			'_CrudData' => $this->_CrudData,
+//			'actions' => [
+//				'_ModelActions' => $this->_ModelActions,
+//				'_AssociationActions' => $this->_AssociationActions,
+//				'_RecordActions' => $this->_RecordActions
+//			]];
 
 	}
 
@@ -153,5 +154,44 @@ class AppController extends Controller {
 //		}
 //		return $cond;
 //	}
+	
+		//Customized Crud Setups
+	
+	public function articlesIndex() {
+		$this->configIndex('Articles');
+		
+		//modify configurations
+		$this->configCrudDataOverrides('Articles', 'override', ['text' => 'leadPlus', 'summary' => 'leadPlus']);
+	}
+	
+	/**
+	 * Setup custom Crud Config for navigators
+	 * 
+	 */
+	public function navigatorsIndex() {
+		$this->configIndex('Navigators');
+		
+		//modify configurations
+		$this->configCrudDataOverrides('Navigators', 'whitelist', ['name']);
+		$this->configCrudDataOverrides('Navigators', 'overrideAction', ['index' => 'liLink']);
+		
+		//set viewVars
+		$this->set('filter_property', 'parent_id');
+		$this->set('filter_match', 'id');
+	}
+	
+	/**
+	 * Setup custom Crud Config for menus
+	 * 
+	 */
+	public function menusIndex() {
+		$this->configIndex('Menus');
+		
+		//modify configurations
+		$this->configCrudDataOverrides('Menus', 'blacklist', ['lft', 'rght']);
+		$this->configCrudDataOverrides('Menus', 'override', ['parent_id' => 'input']);
+		$this->configCrudDataOverrides('Menus', 'attributes', ['parent_id' => [ 'empty' => 'Choose one', 'label' => FALSE ]]);
+	}
+
 
 }

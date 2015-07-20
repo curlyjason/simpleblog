@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\CrudData;
+//use App\Model\Table\CrudData;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -61,6 +61,7 @@ class MenusController extends AppController {
 		$this->set('menu', $menu);
 		$this->set('_serialize', ['menu']);
 		
+//		$crud_data = new \CrudViews\Model\Table\CrudData($this->Menus);
 		$crud_data = new CrudData($this->Menus);
 		$helper_config = [
 			'crudData' => [$crud_data]
